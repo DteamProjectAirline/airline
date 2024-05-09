@@ -18,15 +18,15 @@ public class AdminDAO {
 		// DB 접근
 		Connection conn = DBHelper.getConnection();
 
-		String sql = "select admin_id adminId, hire_date, hireDate, post where admin_id =? and password = password(?)";
+		String sql = "select admin_id adminId, hire_date hireDate, post from admin where admin_id =? and password = password(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, id);
 		stmt.setString(2, pw);
 		ResultSet rs = stmt.executeQuery();
 		if (rs.next()) {
 			SelectMemberLogin = new HashMap<String, Object>();
-			SelectMemberLogin.put("adminId", rs.getString("empId"));
-			SelectMemberLogin.put("hireDate", rs.getString("hireDate"));
+			SelectMemberLogin.put("adminId", rs.getString("admin_id"));
+			SelectMemberLogin.put("hireDate", rs.getString("hire_date"));
 			SelectMemberLogin.put("post", rs.getString("post"));
 		
 		}

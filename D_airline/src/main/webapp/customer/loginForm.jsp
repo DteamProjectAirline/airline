@@ -13,7 +13,7 @@ if(request.getParameter("msg")!=null){
 	msg = request.getParameter("msg");
 }
 
-System.out.println("로그인 액션에서 넘겨받은 msg값 : "+request.getParameter("msg"));
+System.out.println("[param]msg값 : "+request.getParameter("msg"));
 
 %>
 
@@ -24,14 +24,24 @@ System.out.println("로그인 액션에서 넘겨받은 msg값 : "+request.getPa
 	<title>loginForm</title>
 </head>
 	<body>
+		<form Action ="/D_airline/customer/loginAction.jsp" method = "post">
+			<div>
+				<label for ="customer">고객</label>
+				<input name = "type" type="radio" value="customer" required>
+				
+				<label for ="admin">관리자</label>
+				<input name = "type" type="radio" value="admin"  required>
+			</div>
+			<div>
+				<label for ="id">아이디</label>
+				<input name = "id" type="text" placeholder="Email address" required>
+				
+				<label for ="pw">비밀번호</label>
+				<input name = "pw" type="password" placeholder="password" required>
+			</div>
+			<button type="submit">제출하기</button>
 		
-			<label for ="id">아이디</label>
-			<input name = "id" type="text" placeholder="Email address" required>
-			
-			<label for ="pw">비밀번호</label>
-			<input name = "pw" type="password" required>
-		
-		
+		</form>
 		
 	
 	</body>
