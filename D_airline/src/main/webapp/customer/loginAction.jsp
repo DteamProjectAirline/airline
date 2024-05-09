@@ -51,13 +51,15 @@
 	
 	if(type.equals("admin")){
 		
-		HashMap<String, Object> SelectAdminLogin = AdminDAO.SelectAdminLogin(id, pw); 
+		HashMap<String, Object> selectAdminLogin = AdminDAO.selectAdminLogin(id, pw); 
 	
-		if(SelectAdminLogin!=null){
+		System.out.println("HashMap<String, Object> selectAdminLogin : "+selectAdminLogin);
+		
+		if(selectAdminLogin!=null){
 			System.out.println("관리자 로그인에 성공하였습니다.");
 			//하나의 세션변수 안에 여러개의 값을 저장하기 위해 HashMap타입을 사용
 			
-			session.setAttribute("loginAdmin",SelectAdminLogin);
+			session.setAttribute("loginAdmin",selectAdminLogin);
 			
 			HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginAdmin"));
 			
@@ -66,10 +68,10 @@
 			System.out.println("[세션에 주입한 type] - "+ m.get("type"));
 			System.out.println("[세션에 주입한 adminId] - "+(String)(m.get("adminId"))); 
 			System.out.println("[세션에 주입한 hireDate] - "+(String)(m.get("hireDate"))); 
-			System.out.println("[세션에 주입한 post] - "+(Integer)(m.get("post")));
+			System.out.println("[세션에 주입한 post] - "+(String)(m.get("post")));
 		
 
-			response.sendRedirect("/shop/emp/empMain.jsp?type=employee");
+			response.sendRedirect("/D_airline/customer/flightMain.jsp?type=admin");
 	
 		}else{
 			System.out.println("관리자 로그인에 실패하였습니다.");
@@ -77,13 +79,13 @@
 			response.sendRedirect("/D_airline/customer/loginForm.jsp?msg="+msg);
 		}
 	}else if(type.equals("customer")){
-		HashMap<String, Object> SelectMemberLogin = MemberDAO.SelectMemberLogin(id,pw); 
+		HashMap<String, Object> selectMemberLogin = MemberDAO.selectMemberLogin(id,pw); 
 		
-		if(SelectMemberLogin!=null){
+		if(selectMemberLogin!=null){
 			System.out.println("고객 로그인에 성공하였습니다.");
 			//하나의 세션변수 안에 여러개의 값을 저장하기 위해 HashMap타입을 사용
 			
-			session.setAttribute("loginCs",SelectMemberLogin);
+			session.setAttribute("loginCs",selectMemberLogin);
 			
 			HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginCs"));
 			m.put("type","customer");
@@ -95,11 +97,11 @@
 			System.out.println("[세션에서 할당한 HashMap - phone]"+(String)(m.get("phone"))); 
 			System.out.println("[세션에서 할당한 HashMap - nation]"+(String)(m.get("nation"))); 
 			System.out.println("[세션에서 할당한 HashMap - birthDate]"+(String)(m.get("birthDate")));
-			System.out.println("[세션에서 할당한 HashMap - mileage]"+(String)(m.get("mileage")));
+			System.out.println("[세션에서 할당한 HashMap - mileage]"+(Integer)(m.get("mileage")));
 			//msg = URLEncoder.encode((String)(m.get("empName"))+"님 반갑습니다.","UTF-8");
 				
 			
-			response.sendRedirect("/D_airline/customer/flightMain.jsp");
+			response.sendRedirect("/D_airline/customer/flightMain.jsp?type=customer");
 		}else{
 			System.out.println("고객 로그인에 실패하였습니다.");
 			msg = URLEncoder.encode("로그인에 실패하였습니다.","UTF-8");

@@ -11,9 +11,10 @@ public class AdminDAO {
 
 
 	// 호출코드 HashMap<String, Object> m = EmpDAO.empLogin("", "");
-	public static HashMap<String, Object> SelectAdminLogin(String id, String pw) throws Exception {
-			
-		HashMap<String, Object> SelectMemberLogin = null;
+	public static HashMap<String, Object> selectAdminLogin(String id, String pw) throws Exception {
+			System.out.println("[DAO진입]id : "+id);
+			//System.out.println("[DAO진입]pw : "+pw);
+		HashMap<String, Object> selectAdminLogin = null;
 
 		// DB 접근
 		Connection conn = DBHelper.getConnection();
@@ -24,14 +25,14 @@ public class AdminDAO {
 		stmt.setString(2, pw);
 		ResultSet rs = stmt.executeQuery();
 		if (rs.next()) {
-			SelectMemberLogin = new HashMap<String, Object>();
-			SelectMemberLogin.put("adminId", rs.getString("admin_id"));
-			SelectMemberLogin.put("hireDate", rs.getString("hire_date"));
-			SelectMemberLogin.put("post", rs.getString("post"));
+			selectAdminLogin = new HashMap<String, Object>();
+			selectAdminLogin.put("adminId", rs.getString("adminId"));
+			selectAdminLogin.put("hireDate", rs.getString("hireDate"));
+			selectAdminLogin.put("post", rs.getString("post"));
 		
 		}
 		conn.close();
-		return SelectMemberLogin;
+		return selectAdminLogin;
 	}
 
 
