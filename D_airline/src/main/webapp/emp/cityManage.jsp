@@ -23,6 +23,10 @@ System.out.println("[param]rowPerPage : " + request.getParameter("rowPerPage"));
 System.out.println("[param]currentPage : " + request.getParameter("currentPage"));
 System.out.println("[param]msg : " + request.getParameter("msg"));
 
+if (request.getParameter("msg") != null) {
+	msg = request.getParameter("msg");
+	System.out.println("msg : " + msg);
+}
 
 
 
@@ -58,6 +62,7 @@ System.out.println("startPage : " + startPage);
 
 
 ArrayList<HashMap<String, Object>> selectCityList = CityDAO.selectCityList(startPage, rowPerPage);
+ArrayList<HashMap<String, Object>> selectAllCityList = CityDAO.selectAllCityList();
 
 
 //디버깅 ArrayList는 문자열 디버깅 가능-주소가 아닌 값이 나오기 때문에
@@ -141,7 +146,34 @@ m.put("type","admin");
 	<title></title>
 </head>
 	<body>
+		<form action = "/D_airline/emp/cityManageAddAction.jsp" method="post">
+			<div>
+				<input type="text" name ="cityName" placeholder="city name" required>
+				<input type="text" name ="countryId" placeholder="country ID code" required>
+				<input type="text" name ="airport" placeholder="airport" required>
+				<button type="submit">도시입력</button>
+			</div>
+		</form>
 		
+		<form action = "/D_airline/emp/cityManageModifyAction.jsp" method="post">
+			<div>
+				<input type="text" name ="cityName" placeholder="city name" required>
+				<input type="text" name ="countryId" placeholder="country ID code" required>
+				<input type="text" name ="airport" placeholder="airport" required>
+				<input type="text" name ="keyCityName" placeholder="keyCityName" required>
+				<button type="submit">도시정보수정</button>
+			</div>
+		</form>
+		
+		<form action = "/D_airline/emp/cityManageDeleteAction.jsp" method="post">
+			<div>
+				<input type="text" name ="cityName" placeholder="city name" required>
+		
+				<button type="submit">도시삭제</button>
+			</div>
+		</form>
+			<div>
+				<%=msg %>
 				<table class="">
 					<thead class="" >
 						<tr>
@@ -149,12 +181,14 @@ m.put("type","admin");
 							<th>공항명</th>
 							<th>국가명</th>
 							<th>국가코드</th>
+							<th>변경일자</th>
+							<th>생성일자</th>
 					
 						</tr>
 					</thead>
 					<tbody>
 	<%					//rs.getString이 아닌 HashMap으로 값을 뿌림
-						for(HashMap<String, Object> m2 : selectCityList) {
+						for(HashMap<String, Object> m2 : selectAllCityList) {
 	%>
 							<tr>
 								<td><%=(String)(m2.get("cityName"))%></td>
@@ -168,7 +202,7 @@ m.put("type","admin");
 						}
 	%>
 				</table>
-				
+			</div>
 		
 		
 		
