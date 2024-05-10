@@ -59,9 +59,9 @@
 			System.out.println("관리자 로그인에 성공하였습니다.");
 			//하나의 세션변수 안에 여러개의 값을 저장하기 위해 HashMap타입을 사용
 			
-			session.setAttribute("loginAdmin",selectAdminLogin);
+			session.setAttribute("loginAd",selectAdminLogin);
 			
-			HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginAdmin"));
+			HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginAd"));
 			
 			m.put("type","admin");
 			
