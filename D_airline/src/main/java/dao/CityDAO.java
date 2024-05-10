@@ -56,9 +56,9 @@ public class CityDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql1 = "SELECT ct.city_name cityName, ct.country_id countryId, ct.airport airport, na.country_name countryName from city ct INNER JOIN country na ON ct.country_id = na.country_id";
+		String sql = "SELECT ct.city_name cityName, ct.country_id countryId, ct.airport airport, na.country_name countryName, ct.update_date updateDate, ct.create_date createDate from city ct INNER JOIN country na ON ct.country_id = na.country_id";
 
-		PreparedStatement stmt = conn.prepareStatement(sql1);
+		PreparedStatement stmt = conn.prepareStatement(sql);
 
 		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
@@ -68,6 +68,8 @@ public class CityDAO {
 			m.put("countryId", rs.getString("countryId"));
 			m.put("airport", rs.getString("airport"));
 			m.put("countryName", rs.getString("countryName"));
+			m.put("updateDate", rs.getString("updateDate"));
+			m.put("createDate", rs.getString("createDate"));
 
 			selectAllCityList.add(m);
 

@@ -195,6 +195,8 @@ m.put("type","admin");
 								<td><%=(String)(m2.get("airport"))%></td>
 								<td><%=(String)(m2.get("countryName"))%></td>
 								<td><%=(String)(m2.get("countryId"))%></td>
+								<td><%=(String)(m2.get("updateDate"))%></td>
+								<td><%=(String)(m2.get("createDate"))%></td>
 					
 							</tr>
 					</tbody>
