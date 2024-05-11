@@ -65,8 +65,6 @@ ArrayList<HashMap<String, Object>> selectCityList = CityDAO.selectCityList(start
 ArrayList<HashMap<String, Object>> selectAllCityList = CityDAO.selectAllCityList();
 
 
-//디버깅 ArrayList는 문자열 디버깅 가능-주소가 아닌 값이 나오기 때문에
-//System.out.println("selectGoodsList(리스트에 추가된 칼럼명 목록) : "+selectGoodsList);
 System.out.println("selectCityList(cityManage.jsp페이지) : "+selectCityList);
 
 

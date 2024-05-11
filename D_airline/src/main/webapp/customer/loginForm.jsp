@@ -15,6 +15,11 @@ if(request.getParameter("msg")!=null){
 
 System.out.println("[param]msg값 : "+request.getParameter("msg"));
 
+
+
+
+
+
 %>
 
 <!DOCTYPE html>
@@ -22,6 +27,7 @@ System.out.println("[param]msg값 : "+request.getParameter("msg"));
 <head>
 	<meta charset="UTF-8">
 	<title>loginForm</title>
+	
 </head>
 	<body>
 		<form Action ="/D_airline/customer/loginAction.jsp" method = "post">

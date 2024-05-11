@@ -65,13 +65,12 @@ ArrayList<HashMap<String, Object>> selectCountryList = CountryDAO.selectCountryL
 ArrayList<HashMap<String, Object>> selectAllCountryList = CountryDAO.selectAllCountryList();
 
 
-//디버깅 ArrayList는 문자열 디버깅 가능-주소가 아닌 값이 나오기 때문에
-//System.out.println("selectGoodsList(리스트에 추가된 칼럼명 목록) : "+selectGoodsList);
+
 System.out.println("selectCountryList(CountryManage.jsp페이지) : "+selectCountryList);
 
 
 int totalCountryCount = 0;
-//city테이블 전체 도시 행수 추출용 쿼리
+
 ArrayList<HashMap<String, Object>> selectTotalCountryList  = CountryDAO.selectTotalCountryList();
 
 for(HashMap<String, Object> a : selectTotalCountryList) {
@@ -144,11 +143,36 @@ m.put("type","admin");
 <head>
 	<meta charset="UTF-8">
 	<title>countryManage</title>
+	
+
+
+	<style>
+	.flight-time-input {
+  display: flex;
+  align-items: center;
+}
+
+.flight-time-input input {
+  width: 50px;
+  margin: 0 5px;
+}
+
+.flight-time-input button {
+  padding: 5px;
+  cursor: pointer;
+}
+	
+	
+	</style>
 </head>
 	<body>
 		<h1>국가DB관리</h1>
 		<form action = "/D_airline/emp/countryManageAddAction.jsp" method="post">
 			<div>
+			
+		
+			
+
 				<input type="text" name ="countryName" placeholder="country name" required>
 				<button type="submit">국가입력</button>
 			</div>
@@ -157,7 +181,7 @@ m.put("type","admin");
 		<form action = "/D_airline/emp/countryManageModifyAction.jsp" method="post">
 			<div>
 				<input type="text" name ="countryName" placeholder="country name" required>
-				<input type="text" name ="countryId" placeholder="country id" required>
+				<input type="number" name ="countryId" placeholder="country id(NA)" required>
 				<button type="submit">국가정보수정</button>
 			</div>
 		</form>

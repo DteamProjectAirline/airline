@@ -56,7 +56,8 @@ public class CityDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql = "SELECT ct.city_name cityName, ct.country_id countryId, ct.airport airport, na.country_name countryName, ct.update_date updateDate, ct.create_date createDate from city ct INNER JOIN country na ON ct.country_id = na.country_id";
+		String sql = "\r\n"
+				+ "SELECT ct.city_name cityName, ct.country_id countryId, ct.airport airport, na.country_name countryName, ct.update_date updateDate, ct.create_date createDate from city ct INNER JOIN country na ON ct.country_id = na.country_id ORDER BY (ct.city_name = '서울') desc, ct.country_id";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
