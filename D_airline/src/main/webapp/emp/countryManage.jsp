@@ -5,7 +5,7 @@
 <%@ page import="java.net.*" %>
 
 <%
-	System.out.println("----------cityManage.jsp----------");
+	System.out.println("----------countryManage.jsp----------");
 	System.out.println("세션 ID: " + session.getId());
 
 String msg = null;
@@ -61,28 +61,28 @@ startPage = (currentPage - 1) * rowPerPage;
 System.out.println("startPage : " + startPage);
 
 
-ArrayList<HashMap<String, Object>> selectCityList = CityDAO.selectCityList(startPage, rowPerPage);
-ArrayList<HashMap<String, Object>> selectAllCityList = CityDAO.selectAllCityList();
+ArrayList<HashMap<String, Object>> selectCountryList = CountryDAO.selectCountryList(startPage, rowPerPage);
+ArrayList<HashMap<String, Object>> selectAllCountryList = CountryDAO.selectAllCountryList();
 
 
 //디버깅 ArrayList는 문자열 디버깅 가능-주소가 아닌 값이 나오기 때문에
 //System.out.println("selectGoodsList(리스트에 추가된 칼럼명 목록) : "+selectGoodsList);
-System.out.println("selectCityList(cityManage.jsp페이지) : "+selectCityList);
+System.out.println("selectCountryList(CountryManage.jsp페이지) : "+selectCountryList);
 
 
-int totalCityCount = 0;
+int totalCountryCount = 0;
 //city테이블 전체 도시 행수 추출용 쿼리
-ArrayList<HashMap<String, Object>> selectTotalCityList  = CityDAO.selectTotalCityList();
+ArrayList<HashMap<String, Object>> selectTotalCountryList  = CountryDAO.selectTotalCountryList();
 
-for(HashMap<String, Object> a : selectTotalCityList) {
+for(HashMap<String, Object> a : selectTotalCountryList) {
 
-	totalCityCount = (Integer)(a.get("cnt"));
+	totalCountryCount = (Integer)(a.get("cnt"));
 	
 }
 
-System.out.println("totalCityCount :" +totalCityCount );
+System.out.println("totalCountryCount :" +totalCountryCount );
 
-		totalRow = totalCityCount;
+		totalRow = totalCountryCount;
 
 
 
@@ -143,34 +143,30 @@ m.put("type","admin");
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>cityManage</title>
+	<title>countryManage</title>
 </head>
 	<body>
-		<h1>도시DB관리</h1>
-		<form action = "/D_airline/emp/cityManageAddAction.jsp" method="post">
+		<h1>국가DB관리</h1>
+		<form action = "/D_airline/emp/countryManageAddAction.jsp" method="post">
 			<div>
-				<input type="text" name ="cityName" placeholder="city name" required>
-				<input type="text" name ="countryId" placeholder="country ID code" required>
-				<input type="text" name ="airport" placeholder="airport" required>
-				<button type="submit">도시입력</button>
+				<input type="text" name ="countryName" placeholder="country name" required>
+				<button type="submit">국가입력</button>
 			</div>
 		</form>
 		
-		<form action = "/D_airline/emp/cityManageModifyAction.jsp" method="post">
+		<form action = "/D_airline/emp/countryManageModifyAction.jsp" method="post">
 			<div>
-				<input type="text" name ="cityName" placeholder="city name" required>
-				<input type="text" name ="countryId" placeholder="country ID code" required>
-				<input type="text" name ="airport" placeholder="airport" required>
-				<input type="text" name ="keyCityName" placeholder="keyCityName" required>
-				<button type="submit">도시정보수정</button>
+				<input type="text" name ="countryName" placeholder="country name" required>
+				<input type="text" name ="countryId" placeholder="country id" required>
+				<button type="submit">국가정보수정</button>
 			</div>
 		</form>
 		
-		<form action = "/D_airline/emp/cityManageDeleteAction.jsp" method="post">
+		<form action = "/D_airline/emp/countryManageDeleteAction.jsp" method="post">
 			<div>
-				<input type="text" name ="cityName" placeholder="city name" required>
+				<input type="text" name ="countryId" placeholder="country id" required>
 		
-				<button type="submit">도시삭제</button>
+				<button type="submit">국가삭제</button>
 			</div>
 		</form>
 			<div>
@@ -178,10 +174,8 @@ m.put("type","admin");
 				<table class="">
 					<thead class="" >
 						<tr>
-							<th>도시명</th>
-							<th>공항명</th>
-							<th>국가명</th>
 							<th>국가코드</th>
+							<th>국가명</th>
 							<th>변경일자</th>
 							<th>생성일자</th>
 					
@@ -189,16 +183,14 @@ m.put("type","admin");
 					</thead>
 					<tbody>
 	<%					//rs.getString이 아닌 HashMap으로 값을 뿌림
-						for(HashMap<String, Object> m2 : selectAllCityList) {
+						for(HashMap<String, Object> m2 : selectAllCountryList) {
 	%>
 							<tr>
-								<td><%=(String)(m2.get("cityName"))%></td>
-								<td><%=(String)(m2.get("airport"))%></td>
-								<td><%=(String)(m2.get("countryName"))%></td>
 								<td><%=(String)(m2.get("countryId"))%></td>
+								<td><%=(String)(m2.get("countryName"))%></td>
 								<td><%=(String)(m2.get("updateDate"))%></td>
 								<td><%=(String)(m2.get("createDate"))%></td>
-					
+						
 							</tr>
 					</tbody>
 	<%		
