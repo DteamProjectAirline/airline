@@ -146,24 +146,7 @@ m.put("type","admin");
 	
 
 
-	<style>
-	.flight-time-input {
-  display: flex;
-  align-items: center;
-}
-
-.flight-time-input input {
-  width: 50px;
-  margin: 0 5px;
-}
-
-.flight-time-input button {
-  padding: 5px;
-  cursor: pointer;
-}
 	
-	
-	</style>
 </head>
 	<body>
 		<h1>국가DB관리</h1>
@@ -188,7 +171,7 @@ m.put("type","admin");
 		
 		<form action = "/D_airline/emp/countryManageDeleteAction.jsp" method="post">
 			<div>
-				<input type="text" name ="countryId" placeholder="country id" required>
+				<input type="number" name ="countryId" placeholder="country id(NA)" required>
 		
 				<button type="submit">국가삭제</button>
 			</div>

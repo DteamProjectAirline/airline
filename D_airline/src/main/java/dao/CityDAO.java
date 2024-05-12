@@ -56,8 +56,7 @@ public class CityDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql = "\r\n"
-				+ "SELECT ct.city_name cityName, ct.country_id countryId, ct.airport airport, na.country_name countryName, ct.update_date updateDate, ct.create_date createDate from city ct INNER JOIN country na ON ct.country_id = na.country_id ORDER BY (ct.city_name = '서울') desc, ct.country_id";
+		String sql = "SELECT ct.city_name cityName, ct.country_id countryId, ct.airport airport, na.country_name countryName, ct.update_date updateDate, ct.create_date createDate from city ct INNER JOIN country na ON ct.country_id = na.country_id ORDER BY (ct.city_name = '서울') desc, ct.country_id";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -121,7 +120,7 @@ public class CityDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql = "INSERT INTO city(city_name, country_id, airport) VALUES(?, ?, ?)";
+		String sql = "INSERT INTO city(city_name, country_id, airport, update_date, create_date) VALUES(?, ?, ?, now(), now())";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, cityName);
@@ -150,7 +149,7 @@ public class CityDAO {
 
 		Connection conn = DBHelper.getConnection();
 	
-		String sql = "update city set city_name = ? ,  country_id =  ? ,  airport= ?  WHERE city_name = ? "; 
+		String sql = "update city set city_name = ? ,  country_id =  ? ,  airport= ? , update_date = now()  WHERE city_name = ? "; 
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, cityName);

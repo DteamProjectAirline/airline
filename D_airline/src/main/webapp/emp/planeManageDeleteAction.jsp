@@ -8,11 +8,11 @@
 
 
 <%
-System.out.println("---------------routeManageDeleteAction.jsp---------------");
+System.out.println("---------------planeManageDeleteAction.jsp---------------");
 System.out.println("세션 ID: " + session.getId());
 
 String msg = null;
-String routeId = null;
+String planeId = null;
 
 
 
@@ -33,29 +33,29 @@ m = (HashMap<String, Object>) (session.getAttribute("loginAd"));
 String adminId = null;
 
 //해쉬맵 변수 스트링변수에 할당
-routeId = (String) (m.get("routeId"));
+adminId = (String) (m.get("adminId"));
 
-System.out.println("[param]routeId : "+request.getParameter("routeId"));
+System.out.println("[param]planeId : "+request.getParameter("planeId"));
 
 //
 
 
-routeId = request.getParameter("routeId");
+planeId = request.getParameter("planeId");
 
-System.out.println("routeId : " + routeId);
+System.out.println("planeId : " + planeId);
 
-int deleteRoute = RouteDAO.deleteRoute (routeId);
+int deletePlane = PlaneDAO.deletePlane(planeId);
 
-if (deleteRoute == 1) {
-	System.out.println("노선 삭제에 성공하였습니다.");
-	msg = URLEncoder.encode("노선 삭제에 성공하였습니다.", "UTF-8");
-	response.sendRedirect("/D_airline/emp/routeManage.jsp?msg=" + msg);
+if (deletePlane == 1) {
+	System.out.println("항공기 삭제에 성공하였습니다.");
+	msg = URLEncoder.encode("항공기 삭제에 성공하였습니다.", "UTF-8");
+	response.sendRedirect("/D_airline/emp/planeManage.jsp?msg=" + msg);
 	
 
 } else {
-	System.out.println("노선 삭제에 실패하였습니다.");
-	msg = URLEncoder.encode("노선 삭제에 실패하였습니다.", "UTF-8");
-	response.sendRedirect("/D_airline/emp/routeManage.jsp?msg=" + msg);
+	System.out.println("항공기 삭제에 실패하였습니다.");
+	msg = URLEncoder.encode("항공기 삭제에 실패하였습니다.", "UTF-8");
+	response.sendRedirect("/D_airline/emp/planeManage.jsp?msg=" + msg);
 	return;
 }
 %>

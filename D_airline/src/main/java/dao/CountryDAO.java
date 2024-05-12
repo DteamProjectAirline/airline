@@ -30,7 +30,7 @@ public class CountryDAO {
 		while (rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 
-			m.put("CountryId", rs.getString("CountryId"));
+			m.put("countryId", rs.getString("countryId"));
 			m.put("countryName", rs.getString("countryName"));
 			m.put("updateDate", rs.getString("updateDate"));
 			m.put("createDate", rs.getString("createDate"));
@@ -54,7 +54,7 @@ public class CountryDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql = "SELECT concat('NA' ,country_id) as countryId, country_name countryName, update_date updateDate, create_date createDate from country";
+		String sql = "SELECT concat('NA' ,country_id) as countryId, country_id countryIdNo, country_name countryName, update_date updateDate, create_date createDate from country";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -66,6 +66,7 @@ public class CountryDAO {
 			m.put("countryName", rs.getString("countryName"));
 			m.put("updateDate", rs.getString("updateDate"));
 			m.put("createDate", rs.getString("createDate"));
+			m.put("countryIdNo", rs.getString("countryIdNo"));
 
 			selectAllCountryList.add(m);
 
@@ -116,7 +117,7 @@ public class CountryDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql = "INSERT INTO country(country_name) VALUES(?)";
+		String sql = "INSERT INTO country(country_name, update_date, create_date) VALUES(? , now(), now())";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, countryName);
@@ -144,7 +145,7 @@ public class CountryDAO {
 
 		Connection conn = DBHelper.getConnection();
 	
-		String sql = "update country set country_name = ? WHERE country_id = ? "; 
+		String sql = "update country set country_name = ?, update_date = now() WHERE country_id = ? "; 
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, countryName);

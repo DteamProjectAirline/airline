@@ -71,6 +71,12 @@ System.out.println("selectCityList(cityManage.jsp페이지) : "+selectCityList);
 int totalCityCount = 0;
 //city테이블 전체 도시 행수 추출용 쿼리
 ArrayList<HashMap<String, Object>> selectTotalCityList  = CityDAO.selectTotalCityList();
+ArrayList<HashMap<String, Object>> selectAllCountryList = CountryDAO.selectAllCountryList();
+
+
+
+
+
 
 for(HashMap<String, Object> a : selectTotalCityList) {
 
@@ -148,7 +154,27 @@ m.put("type","admin");
 		<form action = "/D_airline/emp/cityManageAddAction.jsp" method="post">
 			<div>
 				<input type="text" name ="cityName" placeholder="city name" required>
-				<input type="text" name ="countryId" placeholder="country ID code" required>
+				<label for="nation">국가</label>
+				<select name ="countryId" id="nation">
+				<% 
+				for(HashMap<String, Object> a : selectAllCountryList) {
+
+					String countryName = null;
+					String countryId = null;
+					String countryIdNo = null;
+					
+					countryName = (String)(a.get("countryName"));
+					countryIdNo = (String)(a.get("countryIdNo"));
+					countryId = (String)(a.get("countryId"));
+					
+					%>
+					<option value="<%=countryIdNo%>"><%=countryName %>/<%=countryId %></option>
+					
+					
+				<%}
+				%>
+				</select>
+				
 				<input type="text" name ="airport" placeholder="airport" required>
 				<button type="submit">도시입력</button>
 			</div>
@@ -157,9 +183,37 @@ m.put("type","admin");
 		<form action = "/D_airline/emp/cityManageModifyAction.jsp" method="post">
 			<div>
 				<input type="text" name ="cityName" placeholder="city name" required>
-				<input type="text" name ="countryId" placeholder="country ID code" required>
+				<label for="nation">국가</label>
+				<select name ="countryId" id="nation">
+				<% 
+				for(HashMap<String, Object> a : selectAllCountryList) {
+
+					String countryName = null;
+					String countryId = null;
+					String countryIdNo = null;
+					
+					countryName = (String)(a.get("countryName"));
+					countryIdNo = (String)(a.get("countryIdNo"));
+					countryId = (String)(a.get("countryId"));
+					
+					%>
+					<option value="<%=countryIdNo%>"><%=countryName %>/<%=countryId %></option>
+					
+					
+				<%}
+				%>
+				</select>
 				<input type="text" name ="airport" placeholder="airport" required>
-				<input type="text" name ="keyCityName" placeholder="keyCityName" required>
+				<label for="city">변경도시이름</label>
+   				<input type="text" id="city" name="keyCityName" list="keyCityName" required>
+				<datalist id="keyCityName" >
+				<%					
+						for(HashMap<String, Object> m2 : selectAllCityList) {
+						
+						%><option value="<%=(String)(m2.get("cityName"))%>"><%=(String)(m2.get("cityName"))%></option>
+						<%}%>
+				</datalist>
+				
 				<button type="submit">도시정보수정</button>
 			</div>
 		</form>
@@ -186,7 +240,7 @@ m.put("type","admin");
 						</tr>
 					</thead>
 					<tbody>
-	<%					//rs.getString이 아닌 HashMap으로 값을 뿌림
+	<%					
 						for(HashMap<String, Object> m2 : selectAllCityList) {
 	%>
 							<tr>

@@ -193,7 +193,7 @@ m.put("type","admin");
 			
 			
 			
-			<input type="number" name ="basefare" placeholder="항공노선 기본 책정 운임" required>
+			<input type="number" name ="basefare" placeholder="항공노선 기본 책정 운임(원)" required>
 				<label>운항시간 : </label>
 				
 				
@@ -230,17 +230,97 @@ m.put("type","admin");
 			</div>
 		</form>
 		
+		
+		
 		<form action = "/D_airline/emp/routeManageModifyAction.jsp" method="post">
 			<div>
-				<input type="text" name ="countryName" placeholder="country name" required>
-				<input type="number" name ="countryId" placeholder="country id(NA)" required>
-				<button type="submit">노선정보수정</button>
+			
+			<select name="departureCity">
+			<%
+			for(HashMap<String, Object> m2 : selectAllCityList) {
+				
+				String cityName = null;
+				String countryName = null;
+				String airport = null;
+				
+				
+				cityName = (String)(m2.get("cityName"));
+				countryName = (String)(m2.get("countryName"));
+				airport = (String)(m2.get("airport"));
+				
+				
+				%>
+				<option value="<%= cityName%>"><%= cityName%>/<%=countryName %>/<%=airport %></option>
+				
+			<%	} %>
+			</select>
+			
+				<select name="arrivalCity">
+			<%
+			for(HashMap<String, Object> m2 : selectAllCityList) {
+				
+				String cityName = null;
+				String countryName = null;
+				String airport = null;
+				
+				
+				cityName = (String)(m2.get("cityName"));
+				countryName = (String)(m2.get("countryName"));
+				airport = (String)(m2.get("airport"));
+				
+				
+				%>
+				<option value="<%= cityName%>"><%= cityName%>/<%=countryName %>/<%=airport %></option>
+				
+			<%	} %>
+			</select>
+			
+			
+			
+			<input type="number" name ="basefare" placeholder="항공노선 기본 책정 운임(원)" required>
+				<label>운항시간 : </label>
+				
+				
+				<select id="hour" name = "hour">
+		<% 
+		for(int i=0; i <24; i++){
+		%>
+		<option value="<%=i%>"><%=i %></option>
+		<% }%>
+	</select>
+		<label for ="hour">시간&nbsp;</label>
+		
+		
+	<select id="minute" name="minute">
+		
+		<%
+		for(int i=0; i<12; i++){
+			String e = Integer.toString(i*5);
+			if(e.length() !=2){
+				e = "0"+e;
+			}
+		%>
+		
+		<option value="<%=e%>"><%=e %></option>
+		<%} %>
+
+	
+		
+		
+		
+	</select>
+	<label for ="minute">분</label>
+	<input type="number" name ="routeId" placeholder="노선코드번호(RT)" required>
+				<button type="submit">노선정보변경</button>
 			</div>
 		</form>
 		
+		
+		
+		
 		<form action = "/D_airline/emp/routeManageDeleteAction.jsp" method="post">
 			<div>
-				<input type="text" name ="routeId" placeholder="route id" required>
+				<input type="number" name ="routeId" placeholder="노선코드번호(RT)" required>
 		
 				<button type="submit">노선삭제</button>
 			</div>
@@ -264,6 +344,8 @@ m.put("type","admin");
 							<th>운항시간</th>
 							<th>변경일자</th>
 							<th>생성일자</th>
+							<th>출발국가코드</th>
+							<th>도착국가코드</th>
 					
 						</tr>
 					</thead>

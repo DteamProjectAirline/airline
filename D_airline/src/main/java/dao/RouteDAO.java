@@ -170,7 +170,7 @@ public class RouteDAO {
 		Connection conn = DBHelper.getConnection();
 	
 		
-		String sql = "INSERT INTO route (departure_city, arrival_city, basefare, flight_duration ) VALUES (?, ?, ?, CAST(CONCAT(?, ':', ?) AS TIME))";
+		String sql = "INSERT INTO route (departure_city, arrival_city, basefare, flight_duration, update_date, create_date ) VALUES (?, ?, ?, CAST(CONCAT(?, ':', ?) AS TIME), now(), now())";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
@@ -203,7 +203,7 @@ public class RouteDAO {
 
 		Connection conn = DBHelper.getConnection();
 	
-		String sql = "update country set departure_city = ?, arrival_city = ?, basefare = ?, flight_duration = TO_DATE(CONCAT(?, ':', ?), HH:MM) WHERE route_id = ? "; 
+		String sql = "update route set departure_city = ?, arrival_city = ?, basefare = ?, flight_duration = CAST(CONCAT(?, ':', ?) AS TIME), update_date = now() WHERE route_id = ? "; 
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, departureCity);
