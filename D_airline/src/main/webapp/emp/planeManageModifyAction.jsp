@@ -51,7 +51,7 @@ System.out.println("airline : " + airline);
 System.out.println("status : " + status);
 System.out.println("planeId : " + planeId);
 
-int updatePlane = PlaneDAO.updatePlane (planeName, airline, status, planeId);
+int updatePlane = PlaneDAO.updatePlane(planeName, airline, status, planeId);
 
 if (updatePlane == 1) {
 	System.out.println("항공기 정보변경에 성공하였습니다.");

@@ -11,7 +11,7 @@ public class CityDAO {
 	
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectCityList (int startPage, int rowPerPage)
+	public static ArrayList<HashMap<String, Object>> selectCityList(int startPage, int rowPerPage)
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectCityList = new ArrayList<HashMap<String, Object>>();
@@ -47,7 +47,7 @@ public class CityDAO {
 	}
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectAllCityList ()
+	public static ArrayList<HashMap<String, Object>> selectAllCityList()
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectAllCityList = new ArrayList<HashMap<String, Object>>();
@@ -82,7 +82,7 @@ public class CityDAO {
 	
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectTotalCityList ()
+	public static ArrayList<HashMap<String, Object>> selectTotalCityList()
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectTotalCityList = new ArrayList<HashMap<String, Object>>();
@@ -111,7 +111,7 @@ public class CityDAO {
 	}
 	
 	
-	public static int insertCity (String cityName, String countryId, String airport)
+	public static int insertCity(String cityName, String countryId, String airport)
 			throws Exception {
 
 		int insertCity = 0;
@@ -142,7 +142,7 @@ public class CityDAO {
 	
 	
 
-	public static int updateCity (String cityName, String countryId, String airport, String keyCityName)
+	public static int updateCity(String cityName, String countryId, String airport, String keyCityName)
 			throws Exception {
 
 		int updateCity = 0;
@@ -172,7 +172,7 @@ public class CityDAO {
 	
 	
 
-	public static int deleteCity (String cityName)
+	public static int deleteCity(String cityName)
 			throws Exception {
 
 		int deleteCity = 0;

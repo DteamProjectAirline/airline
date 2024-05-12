@@ -49,7 +49,7 @@ System.out.println("cityName : " + cityName);
 System.out.println("countryId : " + countryId);
 System.out.println("airport : " + airport);
 
-int insertCity = CityDAO.insertCity (cityName, countryId, airport);
+int insertCity = CityDAO.insertCity(cityName, countryId, airport);
 
 if (insertCity == 1) {
 	System.out.println("도시 신규등록에 성공하였습니다.");

@@ -11,7 +11,7 @@ public class CountryDAO {
 	
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectCountryList (int startPage, int rowPerPage)
+	public static ArrayList<HashMap<String, Object>> selectCountryList(int startPage, int rowPerPage)
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectCountryList = new ArrayList<HashMap<String, Object>>();
@@ -45,7 +45,7 @@ public class CountryDAO {
 	}
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectAllCountryList ()
+	public static ArrayList<HashMap<String, Object>> selectAllCountryList()
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectAllCountryList = new ArrayList<HashMap<String, Object>>();
@@ -79,7 +79,7 @@ public class CountryDAO {
 	
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectTotalCountryList ()
+	public static ArrayList<HashMap<String, Object>> selectTotalCountryList()
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectTotalCountryList = new ArrayList<HashMap<String, Object>>();
@@ -108,7 +108,7 @@ public class CountryDAO {
 	}
 	
 	
-	public static int insertCountry (String countryName)
+	public static int insertCountry(String countryName)
 			throws Exception {
 
 		int insertCountry = 0;
@@ -138,7 +138,7 @@ public class CountryDAO {
 	
 	
 
-	public static int updateCountry (String countryName, String countryId)
+	public static int updateCountry(String countryName, String countryId)
 			throws Exception {
 
 		int updateCountry = 0;
@@ -167,7 +167,7 @@ public class CountryDAO {
 	
 	
 
-	public static int deleteCountry (String countryId)
+	public static int deleteCountry(String countryId)
 			throws Exception {
 
 		int deleteCountry = 0;

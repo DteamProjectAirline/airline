@@ -49,7 +49,7 @@ System.out.println("countryName : " + countryName);
 System.out.println("countryId : " + countryId);
 
 
-int updateCountry = CountryDAO.updateCountry (countryName, countryId);
+int updateCountry = CountryDAO.updateCountry(countryName, countryId);
 
 if (updateCountry == 1) {
 	System.out.println("국가 정보변경에 성공하였습니다.");

@@ -52,7 +52,7 @@ System.out.println("countryId : " + countryId);
 System.out.println("airport : " + airport);
 System.out.println("keyCityName : " + keyCityName);
 
-int updateCity = CityDAO.updateCity (cityName, countryId, airport, keyCityName);
+int updateCity = CityDAO.updateCity(cityName, countryId, airport, keyCityName);
 
 if (updateCity == 1) {
 	System.out.println("도시 정보변경에 성공하였습니다.");

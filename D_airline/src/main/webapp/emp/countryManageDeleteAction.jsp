@@ -44,7 +44,7 @@ countryId = request.getParameter("countryId");
 
 System.out.println("countryId : " + countryId);
 
-int deleteCountry = CountryDAO.deleteCountry (countryId);
+int deleteCountry = CountryDAO.deleteCountry(countryId);
 
 if (deleteCountry == 1) {
 	System.out.println("국가 삭제에 성공하였습니다.");

@@ -11,7 +11,7 @@ public class PlaneDAO {
 	
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectPlaneList (int startPage, int rowPerPage)
+	public static ArrayList<HashMap<String, Object>> selectPlaneList(int startPage, int rowPerPage)
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectPlaneList = new ArrayList<HashMap<String, Object>>();
@@ -47,7 +47,7 @@ public class PlaneDAO {
 	}
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectAllPlaneList ()
+	public static ArrayList<HashMap<String, Object>> selectAllPlaneList()
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectAllPlaneList = new ArrayList<HashMap<String, Object>>();
@@ -82,7 +82,7 @@ public class PlaneDAO {
 	
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectTotalPlaneList ()
+	public static ArrayList<HashMap<String, Object>> selectTotalPlaneList()
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectTotalPlaneList = new ArrayList<HashMap<String, Object>>();
@@ -111,7 +111,7 @@ public class PlaneDAO {
 	}
 	
 	
-	public static int insertPlane (String planeName, String airline, String status)
+	public static int insertPlane(String planeName, String airline, String status)
 			throws Exception {
 
 		int insertPlane = 0;
@@ -143,7 +143,7 @@ public class PlaneDAO {
 	
 	
 
-	public static int updatePlane (String planeName, String airline, String status, String planeId)
+	public static int updatePlane(String planeName, String airline, String status, String planeId)
 			throws Exception {
 
 		int updatePlane = 0;
@@ -174,7 +174,7 @@ public class PlaneDAO {
 	
 	
 
-	public static int deletePlane (String planeId)
+	public static int deletePlane(String planeId)
 			throws Exception {
 
 		int deletePlane = 0;

@@ -44,7 +44,7 @@ routeId = request.getParameter("routeId");
 
 System.out.println("routeId : " + routeId);
 
-int deleteRoute = RouteDAO.deleteRoute (routeId);
+int deleteRoute = RouteDAO.deleteRoute(routeId);
 
 if (deleteRoute == 1) {
 	System.out.println("노선 삭제에 성공하였습니다.");

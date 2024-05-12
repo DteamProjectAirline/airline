@@ -44,7 +44,7 @@ cityName = request.getParameter("cityName");
 
 System.out.println("cityName : " + cityName);
 
-int deleteCity = CityDAO.deleteCity (cityName);
+int deleteCity = CityDAO.deleteCity(cityName);
 
 if (deleteCity == 1) {
 	System.out.println("도시 삭제에 성공하였습니다.");
