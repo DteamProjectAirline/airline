@@ -5,11 +5,11 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.sql.*" %>
 <%
-	System.out.println("----------------------flightMain.jsp");
+	//System.out.println("----------------------flightMain.jsp");
     Connection conn = DBHelper.getConnection() ;
 	ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>> ();
 	
-	String sql = "SELECT city.city_name , city.airport , country.country_name FROM city LEFT OUTER JOIN country ON city.country_id = country.country_id;";
+	String sql = "SELECT city.city_name , city.airport , country.country_name FROM city LEFT OUTER JOIN country ON city.country_id = country.country_id order by country.country_id asc";
 	PreparedStatement stmt = conn.prepareStatement(sql);
 	ResultSet rs = stmt.executeQuery();
 	
@@ -39,7 +39,7 @@
 <title>Insert title here</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<link rel="styleseet" type="text/css" href="/D_airline/css/main.css">
+<link rel="stylesheet" type="text/css" href="../css/css_main.css">
 </head>
 <body>
 	<nav class="navbar bg-body-tertiary">
@@ -54,24 +54,30 @@
 
 	
 	
-	<div class="container" style="  align-items: flex-start; width: 100% ;">
+	<div class="container" style="margin-top: 3em; align-items: flex-start; width: 100% ;">
 		
-		<div class="container">
-		<ul style="display: flex; position: relative; list-style: none; background-color:transparent ;">
-			<li style = "position: relative;"><button class="rounded" style="border-color: #000; background-color: #fff;" onclick = 'displayFlightReservation()'>항공권예매</button></li>
-			<li style = "position: relative; border-color: #000; background-color: #fff; "><button onclick = 'displayReservationInquiry()'>예약조회</button></li>
-			<li style = "position: relative; border-color: #000; background-color: #fff; "><button onclick = 'displayDepartureArrivalInquiry()'>출도착 조회</button></li>
-		</ul>
+		<div style="padding-left:0px; padding-right:0px;" class="container">
+			<ul class="mainBtnUl">
+				<li style ="width:100%; position: relative;">
+					<button id="btn1" class ="mainBtn" onclick = "displayFlightReservation();changeColor(this)">항공권예매</button>
+				</li>
+				<li style = "width:100%; position: relative;">
+					<button id="btn2" class ="subBtn" onclick = "displayReservationInquiry();changeColor(this)">예약조회</button>
+				</li>
+				<li style = "width:100%; position: relative;">
+					<button id="btn3" class ="subBtn" onclick = "displayDepartureArrivalInquiry();changeColor(this)">출도착 조회</button>
+				</li>
+			</ul>
 		</div>
 		
 		
 		<!-- 자바 스크립트 or 부트스트랩 찾아서 구현할거임 -->
-		<div id ="main" style = "display : block;"> 
+		<div id ="main" class="mainFlight"> 
+			
 			<form action = "/D_airline/customer/flightMain.jsp">
-				<button name="type" value="왕복">왕복</button>
-				<button name="type" value="편도">편도</button>
+				<button name="type" value="왕복" style="border: none; background-color:#d3d3d3">왕복</button>
+				<button name="type" value="편도" style="border: none; background-color:#d3d3d3">편도</button>
 			</form>
-			<h1>항공권 예매</h1>
 			<form action="#"> <!-- 항공편리스트 조회 -->
 				<!-- 출발지 , 도착지 입력   -->
 				<input list="airport" name="departureLocation" placeholder="출발지">
@@ -102,9 +108,8 @@
 	
 	
 	<!-- 예약번호 조회 -->
-		<div id="main2" style="display: none;">
+		<div id="main2" class="subFlight">
 			<form>	
-				<h1>예약번호 조회</h1>
 				<span>예약번호</span>
 				<input type="text">
 				<br>
@@ -117,8 +122,7 @@
 			</form>
 		</div>
 	
-		<div id = "main3" style="display :none;">
-		<h1>출도착 조회</h1>
+		<div id = "main3" class="subFlight">
 			<form>
 				<input list="airport" name="departureLocation" placeholder="출발지">
 				<input list="airport" name="arrivalLocation" placeholder="도착지">
@@ -134,7 +138,9 @@
 	    document.getElementById('main2').style.display = 'none';
 	    document.getElementById('main3').style.display = 'none'; // 항공권조회 표시하고 나머지 숨김
 	  }
-	
+		
+		
+	  
 	  function displayReservationInquiry() {
 	    document.getElementById('main').style.display = 'none';
 	    document.getElementById('main2').style.display = 'block';
@@ -146,7 +152,18 @@
 	    document.getElementById('main2').style.display = 'none';
 	    document.getElementById('main3').style.display = 'block'; // 출도착지 표시하고 나머지 숨김 
 	  }
-	</script>
+	  function changeColor(button) {
+		  // Get all buttons on the page
+		  const buttons = document.querySelectorAll('button');
+
+		  // Set the background color of all buttons to blue (default)
+		  for (const otherButton of buttons) {
+		    otherButton.style.backgroundColor = '#007bff'; // Set default color to blue
+		  }
+
+		  // Set the background color of the currently selected button to white
+		  button.style.backgroundColor = '#ffffff'; // Set selected color to white
+		}	</script>
 
 
 	
