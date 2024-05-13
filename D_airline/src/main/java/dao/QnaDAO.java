@@ -10,18 +10,19 @@ import dao.DBHelper;
 
 public class QnaDAO {
 	//QnA생성
-	public static int qaInsert(String qna_id, String title, String content, String empId) throws Exception{
+	public static int qaInsert(String qnaId, String title, String content, String empId) throws Exception{
 		int QaRow = 0;
 		
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String sql = "INSERT INTO q&a(title, content, create_date, update_date)VALUES(?,?,now(),now())";
+		String sql = "INSERT INTO q&a(qna_id, title, content, create_date, update_date)VALUES(?,?,?,now(),now())";
 		stmt = conn.prepareStatement(sql);
 		
-		stmt.setString(1, title);
-		stmt.setString(2, content);
+		stmt.setString(1, qnaId);
+		stmt.setString(2, title);
+		stmt.setString(3, content);
 		rs = stmt.executeQuery();
 		System.out.println(stmt+"<--qna생성");
 		QaRow = stmt.executeUpdate();
@@ -38,7 +39,7 @@ public class QnaDAO {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String sql = "UPDATE q&a SET title=?, content=?, update_date=now() WHERE qna_id";
+		String sql = "UPDATE q&a SET title=?, content=?, update date=now() WHERE qna_id";
 		stmt = conn.prepareStatement(sql);
 		
 		stmt.setString(1, title);
@@ -80,7 +81,7 @@ public class QnaDAO {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT qna_id qnaId, title, content, create_date createDate, update_date updateDate FROM q&a LIMIT ?, ?";
+		String sql = "SELECT qna_id qnaId, title, content, create_date createDate, update_date updateDate FROM `q&a` LIMIT ?, ?";
 		stmt = conn.prepareStatement(sql);
 		
 		stmt.setInt(1, startRow);

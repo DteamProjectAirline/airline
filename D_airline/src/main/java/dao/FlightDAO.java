@@ -132,48 +132,47 @@ public class FlightDAO {
 	
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectAvailablePlaneList(int startPage, int rowPerPage)
+	public static ArrayList<HashMap<String, Object>> selectAvailablePlaneList(String date, String hour, String minute, String flightDuration)
 			throws Exception {
 
-		ArrayList<HashMap<String, Object>> selectFlightList = new ArrayList<HashMap<String, Object>>();
+		ArrayList<HashMap<String, Object>> selectAvailablePlaneList = new ArrayList<HashMap<String, Object>>();
 
 		Connection conn = DBHelper.getConnection();
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql = "SELECT fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN( SELECT excluded_planeId FROM SELECT fl.plane_id excluded_planeId FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.departure_time BETWEEN ? AND ? OR fl.arrival_time BETWEEN ? AND ?) AS exclude) AND pl.state = '운영가능' ORDER BY pl.plane_id";
-				
+		//String sql = "SELECT fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN( SELECT excluded_planeId FROM( SELECT fl.plane_id excluded_planeId FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.departure_time BETWEEN DATETIME_FORMAT(CONCAT(?, ' ', ?, ':', ?), '%Y-%m-%d %H:%i') AND ADDTIME(fl.departure_time, ?) OR fl.arrival_time BETWEEN DATETIME_FORMAT(CONCAT(?, ' ', ?, ':', ?), '%Y-%m-%d %H:%i') AND ADDTIME(fl.departure_time, ?)) AS exclude) AND pl.state = '운영가능' ORDER BY pl.plane_id";
+		
+		String sql = "SELECT fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN ( SELECT excluded_plane_id FROM( SELECT fl.plane_id AS excluded_plane_id FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE STR_TO_TIME(CONCAT(?, ' ', ?, ':'), '%Y-%m-%d %H:%i') BETWEEN fl.departure_time AND ADDTIME(fl.departure_time, INTERVAL ? MINUTE) OR STR_TO_TIME(CONCAT(?, ' ', ?, ':'), '%Y-%m-%d %H:%i') BETWEEN fl.arrival_time AND ADDTIME(fl.departure_time, INTERVAL ? MINUTE) ) AS excluded_planes) AND pl.state = '운영가능' ORDER BY pl.plane_id";
+		
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, startPage);
-		stmt.setInt(2, rowPerPage);
+		stmt.setString(1, date);
+		stmt.setString(2, hour);
+		stmt.setString(3, minute);
+		stmt.setString(4, flightDuration);
+		stmt.setString(5, date);
+		stmt.setString(6, hour);
+		stmt.setString(7, minute);
+		stmt.setString(8, flightDuration);
+
 
 		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 
-			m.put("flightId", rs.getString("flightId"));
-			m.put("routeId", rs.getString("routeId"));
-			m.put("departureTime", rs.getString("departureTime"));
-			m.put("arrivalTime1", rs.getString("arrivalTime1"));
-			m.put("arrivalTime2", rs.getString("arrivalTime2"));
 			m.put("planeId", rs.getString("planeId"));
-			m.put("status", rs.getString("status"));
-			m.put("updateDate", rs.getString("updateDate"));
-			m.put("createDate", rs.getString("createDate"));		
 			m.put("planeName", rs.getString("planeName"));
-			m.put("departureCity", rs.getString("departureCity"));
-			m.put("arrivalCity", rs.getString("arrivalCity"));
-			m.put("flightDuration", rs.getString("flightDuration"));
-			m.put("departureCountryName", rs.getString("departureCountryName"));
-			m.put("arrivalCountryName", rs.getString("arrivalCountryName"));
+			m.put("airline", rs.getString("airline"));
+			m.put("state", rs.getString("state"));
 
-			selectFlightList.add(m);
+
+			selectAvailablePlaneList.add(m);
 
 		}
-		System.out.println("selectFlightList(flight테이블 리스트) : " + selectFlightList);
+		System.out.println("selectAvailablePlaneList(입력 가능한 항공기 테이블 항공기 리스트) : " + selectAvailablePlaneList);
 		conn.close();
 
-		return selectFlightList;
+		return selectAvailablePlaneList;
 	}
 	
 	
