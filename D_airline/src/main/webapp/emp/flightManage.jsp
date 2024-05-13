@@ -145,7 +145,32 @@ m.put("type","admin");
 	<body>
 		<h1>항공편DB관리</h1>
 		
+		<form action = "/D_airline/emp/flightManageAddAction.jsp" method="post">
+			<div>
+			
 		
+			
+
+				<input type="text" name ="countryName" placeholder="country name" required>
+				<button type="submit">항공편입력</button>
+			</div>
+		</form>
+		
+		<form action = "/D_airline/emp/flightManageModifyAction.jsp" method="post">
+			<div>
+				<input type="text" name ="countryName" placeholder="country name" required>
+				<input type="number" name ="countryId" placeholder="country id(NA)" required>
+				<button type="submit">항공편수정</button>
+			</div>
+		</form>
+		
+		<form action = "/D_airline/emp/flightManageDeleteAction.jsp" method="post">
+			<div>
+				<input type="number" name ="countryId" placeholder="country id(NA)" required>
+		
+				<button type="submit">항공편삭제</button>
+			</div>
+		</form>
 		
 		
 			<div>

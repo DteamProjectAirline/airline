@@ -132,6 +132,52 @@ public class FlightDAO {
 	
 	
 	
+	public static ArrayList<HashMap<String, Object>> selectAvailablePlaneList(int startPage, int rowPerPage)
+			throws Exception {
+
+		ArrayList<HashMap<String, Object>> selectFlightList = new ArrayList<HashMap<String, Object>>();
+
+		Connection conn = DBHelper.getConnection();
+		// 긴 문자열 자동 줄바꿈 ctrl + enter
+
+		//
+		String sql = "SELECT fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN( SELECT excluded_planeId FROM SELECT fl.plane_id excluded_planeId FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.departure_time BETWEEN ? AND ? OR fl.arrival_time BETWEEN ? AND ?) AS exclude) AND pl.state = '운영가능' ORDER BY pl.plane_id";
+				
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, startPage);
+		stmt.setInt(2, rowPerPage);
+
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+
+			m.put("flightId", rs.getString("flightId"));
+			m.put("routeId", rs.getString("routeId"));
+			m.put("departureTime", rs.getString("departureTime"));
+			m.put("arrivalTime1", rs.getString("arrivalTime1"));
+			m.put("arrivalTime2", rs.getString("arrivalTime2"));
+			m.put("planeId", rs.getString("planeId"));
+			m.put("status", rs.getString("status"));
+			m.put("updateDate", rs.getString("updateDate"));
+			m.put("createDate", rs.getString("createDate"));		
+			m.put("planeName", rs.getString("planeName"));
+			m.put("departureCity", rs.getString("departureCity"));
+			m.put("arrivalCity", rs.getString("arrivalCity"));
+			m.put("flightDuration", rs.getString("flightDuration"));
+			m.put("departureCountryName", rs.getString("departureCountryName"));
+			m.put("arrivalCountryName", rs.getString("arrivalCountryName"));
+
+			selectFlightList.add(m);
+
+		}
+		System.out.println("selectFlightList(flight테이블 리스트) : " + selectFlightList);
+		conn.close();
+
+		return selectFlightList;
+	}
+	
+	
+
 	
 	
 

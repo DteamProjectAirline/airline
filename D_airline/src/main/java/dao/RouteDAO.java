@@ -82,6 +82,46 @@ public class RouteDAO {
 	}
 	
 	
+	public static ArrayList<HashMap<String, Object>> selectSearchRouteList(String routeId)
+			throws Exception {
+
+		ArrayList<HashMap<String, Object>> selectAllRouteList = new ArrayList<HashMap<String, Object>>();
+
+		Connection conn = DBHelper.getConnection();
+		// 긴 문자열 자동 줄바꿈 ctrl + enter
+
+		//
+		String sql = "SELECT concat('RT' ,route_id) as routeId, departure_city departureCity, arrival_city arrivalCity, format(basefare,0) as basefare, hour(flight_duration) hour, minute(flight_duration) minute , update_date updateDate, create_date createDate from route where route_id = ? order by route_id";
+
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, routeId);	
+		
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+
+			m.put("routeId", rs.getString("routeId"));
+			m.put("departureCity", rs.getString("departureCity"));
+			m.put("arrivalCity", rs.getString("arrivalCity"));
+			m.put("basefare", rs.getString("basefare"));
+			m.put("flightDuration", rs.getString("flightDuration"));
+			m.put("hour", rs.getString("hour"));
+			m.put("minute", rs.getString("minute"));
+			m.put("updateDate", rs.getString("updateDate"));
+			m.put("createDate", rs.getString("createDate"));
+
+			selectAllRouteList.add(m);
+
+		}
+		System.out.println("selectAllRouteList(route테이블 전체도시 리스트) : " + selectAllRouteList);
+		conn.close();
+
+		return selectAllRouteList;
+	}
+	
+	
+	
+	
 	public static ArrayList<HashMap<String, Object>> selectAllRouteCityCountryList()
 			throws Exception {
 
@@ -142,7 +182,7 @@ public class RouteDAO {
 		
 
 		//
-		String sql1 = "select count(*) cnt from country order by country_id";
+		String sql1 = "select count(*) cnt from route order by route_id";
 
 		PreparedStatement stmt = conn.prepareStatement(sql1);
 
