@@ -4,7 +4,14 @@
     pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.sql.*" %>
+<%@ page import = "java.time.*" %>
 <%
+
+%>
+<%
+	// 오늘날짜 받아오는 코드. input date 에서 날짜제한 시키기 위함
+	LocalDate now = LocalDate.now();
+	//System.out.println(now);
 	//System.out.println("----------------------flightMain.jsp");
     Connection conn = DBHelper.getConnection() ;
 	ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>> ();
@@ -28,7 +35,14 @@
 		type = request.getParameter("type");
 	}
 %>    
-    
+<%
+	// 표시할 사용자명 받아오는코드
+	String empId = null;
+	if(session.getAttribute("loginCs") != null){
+	HashMap<String,Object> loginMember = (HashMap<String,Object>) (session.getAttribute("loginCs"));
+	empId = (String) loginMember.get("memberId"); 
+	}
+%>    
     
     
     
@@ -43,13 +57,26 @@
 </head>
 <body>
 	<nav class="navbar bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand">코리아나항공</a>
-    <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-  </div>
+	  <div class="container-fluid">
+		  <div>
+		    <a class="navbar-brand">코리아나항공</a>
+		  </div>
+		  <div>
+		    	<!-- 로그인 상태면 고객아이디 , 로그인상태가 아니면 로그인버튼 -->
+		    	<%if(session.getAttribute("loginCs") != null){	    	
+		    	%>
+		    	  		<!-- 세션에서 사용자  id 값 꺼내와서 표현할거임 -->
+		    	  		<%=empId%>
+		    	<% 
+		    	} else{
+		    	%>
+				<a href="/D_airline/customer/loginForm.jsp">로그인</a>
+				<%
+		    		}
+				%>
+				<a href="/D_airline/customer/addMembership.jsp">회원가입</a>   
+		  </div>	
+	  </div>
 	</nav>
 
 	
@@ -58,13 +85,13 @@
 		
 		<div style="padding-left:0px; padding-right:0px;" class="container">
 			<ul class="mainBtnUl">
-				<li style ="width:100%; position: relative;">
+				<li class="mainLi">
 					<button id="btn1" class ="mainBtn" onclick = "displayFlightReservation();changeColor(this)">항공권예매</button>
 				</li>
-				<li style = "width:100%; position: relative;">
+				<li class="mainLi">
 					<button id="btn2" class ="subBtn" onclick = "displayReservationInquiry();changeColor(this)">예약조회</button>
 				</li>
-				<li style = "width:100%; position: relative;">
+				<li class="mainLi">
 					<button id="btn3" class ="subBtn" onclick = "displayDepartureArrivalInquiry();changeColor(this)">출도착 조회</button>
 				</li>
 			</ul>
@@ -78,8 +105,9 @@
 				<button name="type" value="왕복" style="border: none; background-color:#d3d3d3">왕복</button>
 				<button name="type" value="편도" style="border: none; background-color:#d3d3d3">편도</button>
 			</form>
-			<form action="#"> <!-- 항공편리스트 조회 -->
+			<form action="/D_airline/customer/flightList1.jsp"> <!-- 항공편리스트 조회 -->
 				<!-- 출발지 , 도착지 입력   -->
+				<input type="hidden" name="type" value="<%=type%>">
 				<input list="airport" name="departureLocation" placeholder="출발지">
 				<input list="airport" name="arrivalLocation" placeholder="도착지">
 				<!-- 출,도착지에 나타날 리스트 데이터 뿌리기  -->
@@ -94,7 +122,7 @@
 				</datalist>
 				
 				<!-- 출발일 받아오는 값 -->
-				<input type="date" name="departDate">
+				<input type="date" name="departDate" min="<%=now%>">
 				
 				<!--  타입에따라 왕복 , 편도 구분 -->
 				<%if( type != "왕복"){ %>
@@ -102,6 +130,7 @@
 				<%} else{%>
 					<input type="date" name="comeBackDate">
 					<%} %>
+					<%System.out.println(); %>
 					<button type="submit"> 조회 </button>
 			</form>
 		</div>
@@ -111,7 +140,7 @@
 		<div id="main2" class="subFlight">
 			<form>	
 				<span>예약번호</span>
-				<input type="text">
+				<input type="text" name="bookingId">
 				<br>
 				<span>출발일</span>
 				<input type="date" name="departDate">
@@ -158,11 +187,11 @@
 
 		  // Set the background color of all buttons to blue (default)
 		  for (const otherButton of buttons) {
-		    otherButton.style.backgroundColor = '#007bff'; // Set default color to blue
+		    otherButton.style.backgroundColor = '#5f9ea0'; // Set default color to blue
 		  }
 
 		  // Set the background color of the currently selected button to white
-		  button.style.backgroundColor = '#ffffff'; // Set selected color to white
+		  button.style.backgroundColor = '#d3d3d3'; // Set selected color to white
 		}	</script>
 
 
