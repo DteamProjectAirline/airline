@@ -53,6 +53,7 @@
 <title>Insert title here</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" type="text/css" href="../css/css_main.css">
 </head>
 <body>
@@ -80,10 +81,10 @@
 	</nav>
 
 	
-	
-	<div class="container" style="margin-top: 3em; align-items: flex-start; width: 100% ;">
+	<div style="height:400px; background-image: url('/D_airline/img/mainImg.jpg');background-size:auto ;">
+	<div  style="margin-bottom:80px; margin-right:320px; ; margin-left:320px; margin-top: 48px; align-items: flex-start;  ">
 		
-		<div style="padding-left:0px; padding-right:0px;" class="container">
+		<div style="padding-left:0px; padding-right:0px;" >
 			<ul class="mainBtnUl">
 				<li class="mainLi">
 					<button id="btn1" class ="mainBtn" onclick = "displayFlightReservation();changeColor(this)">항공권예매</button>
@@ -97,22 +98,25 @@
 			</ul>
 		</div>
 		
-		
+
 		<!-- 자바 스크립트 or 부트스트랩 찾아서 구현할거임 -->
 		<div id ="main" class="mainFlight"> 
 			
-			<form action = "/D_airline/customer/flightMain.jsp">
-				<button name="type" value="왕복" style="border: none; background-color:#d3d3d3">왕복</button>
-				<button name="type" value="편도" style="border: none; background-color:#d3d3d3">편도</button>
+			<form action = "/D_airline/customer/flightMain.jsp" style="margin-left: 48px ; ">
+				<button name="type" value="왕복" style="margin-top: 16px; margin-bottom: 16px; color:white;border-radius:10px 10px 10px 10px;background-color:#00256c">왕복</button>
+				<button name="type" value="편도" style="color:white; border-radius:10px 10px 10px 10px; background-color:#00256c">편도</button>
 			</form>
 			<form action="/D_airline/customer/flightList1.jsp"> <!-- 항공편리스트 조회 -->
 				<!-- 출발지 , 도착지 입력   -->
 				<input type="hidden" name="type" value="<%=type%>">
-				<input list="airport" name="departureLocation" placeholder="출발지">
-				<input list="airport" name="arrivalLocation" placeholder="도착지">
+			
+				<input class="wrap" style="margin-left: 48px;" list="airport" name="departureLocation" placeholder="출발지">
+				<input class="wrap" style="margin-left: 16px;"list="airport" name="arrivalLocation" placeholder="도착지">
+			
+
 				<!-- 출,도착지에 나타날 리스트 데이터 뿌리기  -->
 				<datalist id="airport">
-				
+					
 				<%for(HashMap<String,Object> b : list){ %>
 					<option value="<%=(String)(b.get("cityName"))%>" >
 					<%=(String) (b.get("countryName"))%>
@@ -122,16 +126,17 @@
 				</datalist>
 				
 				<!-- 출발일 받아오는 값 -->
-				<input type="date" name="departDate" min="<%=now%>">
+				
+				<input style="margin-left: 48px; margin-right: 16px;" class="wrap" type="date" name="departDate" min="<%=now%>">
 				
 				<!--  타입에따라 왕복 , 편도 구분 -->
 				<%if( type != "왕복"){ %>
-					<input type="date" name="comeBackDate" disabled="disabled">
+					<input class="wrap" type="date" name="comeBackDate" disabled="disabled">
 				<%} else{%>
-					<input type="date" name="comeBackDate">
+					<input class="wrap" type="date" name="comeBackDate">
 					<%} %>
 					<%System.out.println(); %>
-					<button type="submit"> 조회 </button>
+					<button type="submit" style="background-color: #00256c "class="btn btn-primary">조회</button>
 			</form>
 		</div>
 	
@@ -159,8 +164,9 @@
 				<button type="submit"> 조회 </button>
 			</form>
 		</div>
-	
 	</div>
+	</div>
+	
 	<script>
 	  function displayFlightReservation() {
 	    document.getElementById('main').style.display = 'block';
@@ -187,7 +193,7 @@
 
 		  // Set the background color of all buttons to blue (default)
 		  for (const otherButton of buttons) {
-		    otherButton.style.backgroundColor = '#5f9ea0'; // Set default color to blue
+		    otherButton.style.backgroundColor = '#00256c'; // Set default color to blue
 		  }
 
 		  // Set the background color of the currently selected button to white
