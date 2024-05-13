@@ -6,7 +6,6 @@
 		background-color: #d3d3d3; 
 		border-radius:0px 0px 15px 15px;
 }
-
 .subFlight {	
 		height: 20em; 
 		display : none; 
@@ -35,4 +34,8 @@
 	height:5em;  
 	background-color: #5f9ea0; 
 	border:none;
+}
+.mainLi {
+	width:100%; 
+	position: relative;
 }
