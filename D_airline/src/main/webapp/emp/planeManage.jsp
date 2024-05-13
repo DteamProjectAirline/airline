@@ -154,7 +154,7 @@ m.put("type","admin");
 			<div>
 				<input type="text" name ="planeName" placeholder="plane name" required>
 				<input type="text" name ="airline" placeholder="항공사" required>
-				<select name="status">
+				<select name="state">
 					<option value="운영가능">운영가능</option>
 					<option value="수리중">수리중</option>
 					<option value="사용중단">사용중단</option>
@@ -167,7 +167,7 @@ m.put("type","admin");
 			<div>
 				<input type="text" name ="planeName" placeholder="plane name" required>
 				<input type="text" name ="airline" placeholder="항공사" required>
-				<select name="status">
+				<select name="state">
 					<option value="운영가능">운영가능</option>
 					<option value="수리중">수리중</option>
 					<option value="사용중단">사용중단</option>
@@ -206,7 +206,7 @@ m.put("type","admin");
 								<td><%=(String)(m2.get("planeId"))%></td>
 								<td><%=(String)(m2.get("planeName"))%></td>
 								<td><%=(String)(m2.get("airline"))%></td>
-								<td><%=(String)(m2.get("status"))%></td>
+								<td><%=(String)(m2.get("state"))%></td>
 								<td><%=(String)(m2.get("updateDate"))%></td>
 								<td><%=(String)(m2.get("createDate"))%></td>
 						

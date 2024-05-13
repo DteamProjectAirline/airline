@@ -20,7 +20,7 @@ public class PlaneDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql = "SELECT plane_id planeId, plane_name planeName, airline, status ,update_date updateDate, create_date createDate from plane limit ?,?";
+		String sql = "SELECT plane_id planeId, plane_name planeName, airline, state ,update_date updateDate, create_date createDate from plane limit ?,?";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, startPage);
@@ -33,7 +33,7 @@ public class PlaneDAO {
 			m.put("planeId", rs.getString("planeId"));
 			m.put("planeName", rs.getString("planeName"));
 			m.put("airline", rs.getString("airline"));
-			m.put("status", rs.getString("status"));
+			m.put("state", rs.getString("state"));
 			m.put("updateDate", rs.getString("updateDate"));
 			m.put("createDate", rs.getString("createDate"));
 
@@ -56,7 +56,7 @@ public class PlaneDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql = "SELECT concat('PL' ,plane_id) as planeId, plane_name planeName, airline, status, update_date updateDate, create_date createDate from plane";
+		String sql = "SELECT concat('PL' ,plane_id) as planeId, plane_name planeName, airline, state, update_date updateDate, create_date createDate from plane";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -67,7 +67,7 @@ public class PlaneDAO {
 			m.put("planeId", rs.getString("planeId"));
 			m.put("planeName", rs.getString("planeName"));
 			m.put("airline", rs.getString("airline"));
-			m.put("status", rs.getString("status"));
+			m.put("state", rs.getString("state"));
 			m.put("updateDate", rs.getString("updateDate"));
 			m.put("createDate", rs.getString("createDate"));
 
@@ -111,7 +111,7 @@ public class PlaneDAO {
 	}
 	
 	
-	public static int insertPlane(String planeName, String airline, String status)
+	public static int insertPlane(String planeName, String airline, String state)
 			throws Exception {
 
 		int insertPlane = 0;
@@ -120,12 +120,12 @@ public class PlaneDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql = "INSERT INTO plane(plane_name, airline, status, update_date, create_date) VALUES(?, ?, ?, now(), now())";
+		String sql = "INSERT INTO plane(plane_name, airline, state, update_date, create_date) VALUES(?, ?, ?, now(), now())";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, planeName);
 		stmt.setString(2, airline);
-		stmt.setString(3, status);
+		stmt.setString(3, state);
 		
 		
 		insertPlane = stmt.executeUpdate();
@@ -143,19 +143,19 @@ public class PlaneDAO {
 	
 	
 
-	public static int updatePlane(String planeName, String airline, String status, String planeId)
+	public static int updatePlane(String planeName, String airline, String state, String planeId)
 			throws Exception {
 
 		int updatePlane = 0;
 
 		Connection conn = DBHelper.getConnection();
 	
-		String sql = "update plane set plane_name = ?, airline = ?, status = ?, update_date = now() WHERE plane_id = ? "; 
+		String sql = "update plane set plane_name = ?, airline = ?, state = ?, update_date = now() WHERE plane_id = ? "; 
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, planeName);
 		stmt.setString(2, airline);
-		stmt.setString(3, status);
+		stmt.setString(3, state);
 		stmt.setString(4, planeId);
 	
 		

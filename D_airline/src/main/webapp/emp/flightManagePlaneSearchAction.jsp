@@ -12,8 +12,11 @@ System.out.println("---------------flightManagePlaneSearchAction.jsp------------
 System.out.println("세션 ID: " + session.getId());
 
 String msg = null;
+int intRouteId = 0;
 String routeId = null;
-String departureTime = null;
+String date = null;
+String hour = null;
+String minute = null;
 String flightDuration = null;
 
 
@@ -37,20 +40,26 @@ String adminId = null;
 //해쉬맵 변수 스트링변수에 할당
 adminId = (String) (m.get("adminId"));
 
+System.out.println("[param]intRouteId : "+request.getParameter("intRouteId"));
 System.out.println("[param]routeId : "+request.getParameter("routeId"));
-System.out.println("[param]departureTime : "+request.getParameter("departureTime"));
+System.out.println("[param]date : "+request.getParameter("date"));
+System.out.println("[param]hour : "+request.getParameter("hour"));
+System.out.println("[param]minute : "+request.getParameter("minute"));
 
 
-
+intRouteId = Integer.parseInt(request.getParameter("intRouteId"));
 routeId = request.getParameter("routeId");
-departureTime = request.getParameter("departureTime");
+hour = request.getParameter("hour");
+minute = request.getParameter("minute");
+date = request.getParameter("date");
 
-
+System.out.println("intRouteId : " + intRouteId);
 System.out.println("routeId : " + routeId);
-System.out.println("departureTime : " + departureTime);
+System.out.println("hour : " + hour);
+System.out.println("minute : " + minute);
+System.out.println("date : " + date);
 
-
-ArrayList<HashMap<String, Object>> selectAllRouteList = RouteDAO.selectSearchRouteList(routeId);
+ArrayList<HashMap<String, Object>> selectAllRouteList = RouteDAO.selectSearchRouteList(intRouteId);
 
 
 if (selectAllRouteList != null && !(selectAllRouteList.isEmpty()) ) {
@@ -69,8 +78,21 @@ for(HashMap<String, Object> a : selectAllRouteList) {
 }
 
 
+ArrayList<HashMap<String, Object>> selectAvailablePlaneList = FlightDAO.selectAvailablePlaneList(date, hour, minute, flightDuration);
 
 
+
+if (selectAvailablePlaneList != null && !(selectAvailablePlaneList.isEmpty()) ) {
+	System.out.println("사용가능한 항공기 조회에 성공하였습니다.");
+	msg = URLEncoder.encode("사용가능한 항공기조회에 성공하였습니다.", "UTF-8");
+	response.sendRedirect("/D_airline/emp/flightManage.jsp?msg=" + msg+"&selectAvailablePlaneList="+selectAvailablePlaneList);
+
+} else {
+	System.out.println("사용가능한 항공기 조회에 실패하였습니다.");
+	msg = URLEncoder.encode("사용가능한 항공기조회에 실패하였습니다.", "UTF-8");
+	response.sendRedirect("/D_airline/emp/flightManage.jsp?msg=" + msg);
+	return;
+}
 
 
 

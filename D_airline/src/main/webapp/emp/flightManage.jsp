@@ -9,6 +9,11 @@
 	System.out.println("세션 ID: " + session.getId());
 
 String msg = null;
+String date = null;
+String hour = null;
+String minute = null;
+String flightDuration = null;
+
 
 
 	if (session.getAttribute("loginAd") == null){
@@ -27,6 +32,28 @@ if (request.getParameter("msg") != null) {
 	msg = request.getParameter("msg");
 	System.out.println("msg : " + msg);
 }
+
+if (request.getParameter("date") != null) {
+	date = request.getParameter("date");
+	System.out.println("date : " + date);
+}
+
+if (request.getParameter("hour") != null) {
+	hour = request.getParameter("hour");
+	System.out.println("hour : " + hour);
+}
+
+if (request.getParameter("minute") != null) {
+	minute = request.getParameter("minute");
+	System.out.println("minute : " + minute);
+}
+
+if (request.getParameter("flightDuration") != null) {
+	flightDuration = request.getParameter("flightDuration");
+	System.out.println("flightDuration : " + flightDuration);
+}
+
+
 
 
 
@@ -61,11 +88,22 @@ startPage = (currentPage - 1) * rowPerPage;
 System.out.println("startPage : " + startPage);
 
 
+//ArrayList<HashMap<String, Object>> selectAllCityList = CityDAO.selectAllCityList();
+ArrayList<HashMap<String, Object>> selectAvailablePlaneList = null;
 
 ArrayList<HashMap<String, Object>> selectAllFlightList = FlightDAO.selectAllFlightList();
 
+ArrayList<HashMap<String, Object>> selectAllRouteCityCountryList = RouteDAO.selectAllRouteCityCountryList();
+
+if(request.getParameter("date") != null||request.getParameter("hour") != null||request.getParameter("minute") != null||request.getParameter("flightDuration") != null){
+	selectAvailablePlaneList =  FlightDAO.selectAvailablePlaneList(date, hour, minute, flightDuration);
+}
+
+
 
 System.out.println("selectAllFlightList : "+selectAllFlightList);
+System.out.println(" selectAllRouteCityCountryList : "+ selectAllRouteCityCountryList);
+
 
 int totalRouteCount = 0;
 
@@ -144,18 +182,114 @@ m.put("type","admin");
 </head>
 	<body>
 		<h1>항공편DB관리</h1>
-		
-		<form action = "/D_airline/emp/flightManageAddAction.jsp" method="post">
-			<div>
+		<div>
+		<form action = "/D_airline/emp/flightManagePlaneSearchAction.jsp" method="post">
 			
-		
 			
+			<select name="routeId">
+			<%
+			
+			
+			
+			for(HashMap<String, Object> m3 : selectAllRouteCityCountryList) {
+				
+				String routeId = null;
+				String departureCity = null;
+				String arrivalCity = null;
+				String departureCountry = null;
+				String arrivalCountry = null;
+				String departureAirport = null;
+				String arrivalAirport = null;
+				int intRouteId = 0;
+				
+				intRouteId = (Integer)(m3.get("intRouteId"));
+				routeId = (String)(m3.get("routeId"));
+				departureCity = (String)(m3.get("departureCity"));
+				arrivalCity = (String)(m3.get("arrivalCity"));
+				departureCountry = (String)(m3.get("departureCountry"));
+				arrivalCountry = (String)(m3.get("arrivalCountry"));
+				departureAirport = (String)(m3.get("departureAirport"));
+				arrivalAirport = (String)(m3.get("arrivalAirport"));
+					
+					
+%>
+					
+						
+						<option value="<%=intRouteId%>"><%=routeId%>///<%=departureCity%>/<%=departureCountry%>/<%=departureAirport%>---<%=arrivalCity%>/<%=arrivalCountry%>/<%=arrivalAirport%></option>
+			
+			
+			
+			
+			
+				
+			<%	} %>
+			</select>
+				<input type="date" name ="date">
+				<label>운항시간 : </label>
+				
+				
+				<select id="hour" name = "hour">
+		<% 
+		for(int i=0; i <24; i++){
+		%>
+		<option value="<%=i%>"><%=i %></option>
+		<% }%>
+	</select>
+		<label for ="hour">시간&nbsp;</label>
+		
+		
+	<select id="minute" name="minute">
+		
+		<%
+		for(int i=0; i<12; i++){
+			String e = Integer.toString(i*5);
+			if(e.length() !=2){
+				e = "0"+e;
+			}
+		%>
+		
+		<option value="<%=e%>"><%=e %></option>
+		<%} %>
 
-				<input type="text" name ="countryName" placeholder="country name" required>
-				<button type="submit">항공편입력</button>
-			</div>
-		</form>
+	
 		
+		
+		
+	</select>
+	<label for ="minute">분</label>
+	<button>항공기 조회</button>
+	</form>
+	<form method="post" action="/D_airline/emp/flightManageAddAction.jsp">
+		<select>
+	<%
+	if (selectAvailablePlaneList != null && !(selectAvailablePlaneList.isEmpty()) ) {
+			
+	
+		for(HashMap<String, Object> m2 : selectAvailablePlaneList) {
+			
+			String planeId = null;
+			String planeName = null;
+		
+			
+			
+			planeId = (String)(m2.get("planeId"));
+			planeName = (String)(m2.get("planeName"));
+	
+			
+			%>
+			<option value="<%=planeId%>"><%=planeId%>/<%=planeName%></option>
+			
+		<%	}} %>
+		
+		
+		
+		
+	
+	</select>
+				<button type="submit">항공편입력</button>
+			
+		</form>
+		</div>
 		<form action = "/D_airline/emp/flightManageModifyAction.jsp" method="post">
 			<div>
 				<input type="text" name ="countryName" placeholder="country name" required>
