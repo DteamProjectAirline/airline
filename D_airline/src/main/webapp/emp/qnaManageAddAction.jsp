@@ -15,21 +15,17 @@
 }
 %>
 <%
-
-	HashMap<String, Object> m = new HashMap<>();
 	
-	//변수할당
-	m = (HashMap<String, Object>) (session.getAttribute("loginAd"));
-	
-	String adminId=null;
-	
-	//해쉬맵 변수 스트링변수에 할당
-	adminId = (String) (m.get("adminId"));	
-	
+	String adminId = request.getParameter("adminId");
 	String title = request.getParameter("title");
 	String content = request.getParameter("content");
+	//디버깅 코드
+	System.out.println(adminId+"<--adminId");
+	System.out.println(title+"<--title");
+	System.out.println(content+"<--content");
 	
-	int QaRow = QnaDAO.qaInsert(title, content);
+	//모델 호출 코드
+	int QaRow = QnaDAO.qaInsert(adminId, title, content);
 	
 	if(QaRow==1){ 
 		System.out.println("질문 등록에 성공하였습니다.");

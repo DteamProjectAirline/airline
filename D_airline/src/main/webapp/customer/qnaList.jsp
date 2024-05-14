@@ -37,8 +37,8 @@
 		<%
 			for(HashMap<String, Object> m : qaList){
 		%>
-			<div><%=m.get("title")%></div>
-			<div><%=m.get("content")%></div>
+			<div>제목: <%=m.get("title")%></div>
+			<div>내용: <%=m.get("content")%></div>
 		<%
 			}
 		%>
