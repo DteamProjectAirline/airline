@@ -6,18 +6,41 @@
 <%
 	System.out.println("----------qnaManageAddAction.jsp----------");
 	System.out.println("세션 ID: " + session.getId());
-	
-	String msg = null;
 
 	if (session.getAttribute("loginAd") == null){
 	System.out.println("관리자만 접근 가능한 페이지입니다.");
-	msg = URLEncoder.encode("관리자만 접근 가능한 페이지입니다.","UTF-8");
+	String msg = URLEncoder.encode("관리자만 접근 가능한 페이지입니다.","UTF-8");
 		response.sendRedirect("/D_airline/customer/flightMain.jsp?msg="+msg);
 	return;
 }
 %>
 <%
-	String qnaId = request.getParameter("qnaId");
+
+	HashMap<String, Object> m = new HashMap<>();
+	
+	//변수할당
+	m = (HashMap<String, Object>) (session.getAttribute("loginAd"));
+	
+	String adminId=null;
+	
+	//해쉬맵 변수 스트링변수에 할당
+	adminId = (String) (m.get("adminId"));	
+	
+	String title = request.getParameter("title");
+	String content = request.getParameter("content");
+	
+	int QaRow = QnaDAO.qaInsert(title, content);
+	
+	if(QaRow==1){ 
+		System.out.println("질문 등록에 성공하였습니다.");
+		String msg = URLEncoder.encode("질문 등록에 성공하였습니다.", "UTF-8");
+		response.sendRedirect("/D_airline/emp/qnaManage.jsp?msg="+msg);
+	}else{
+		System.out.println("질문 등록에 실패하였습니다.");
+		String msg = URLEncoder.encode("질문 등록에 실패하였습니다.", "UTF-8");
+		response.sendRedirect("/D_airline/emp/qnaManageAddForm.jsp?msg="+msg);
+	}
+	
 %>
 <!DOCTYPE html>
 <html>
