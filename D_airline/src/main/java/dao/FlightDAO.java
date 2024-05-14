@@ -138,12 +138,24 @@ public class FlightDAO {
 		ArrayList<HashMap<String, Object>> selectAvailablePlaneList = new ArrayList<HashMap<String, Object>>();
 
 		Connection conn = DBHelper.getConnection();
-		// 긴 문자열 자동 줄바꿈 ctrl + enter
-
-		//
-		//String sql = "SELECT fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN( SELECT excluded_planeId FROM( SELECT fl.plane_id excluded_planeId FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.departure_time BETWEEN DATETIME_FORMAT(CONCAT(?, ' ', ?, ':', ?), '%Y-%m-%d %H:%i') AND ADDTIME(fl.departure_time, ?) OR fl.arrival_time BETWEEN DATETIME_FORMAT(CONCAT(?, ' ', ?, ':', ?), '%Y-%m-%d %H:%i') AND ADDTIME(fl.departure_time, ?)) AS exclude) AND pl.state = '운영가능' ORDER BY pl.plane_id";
+	
 		
-		String sql = "SELECT  concat('PL',fl.plane_id) AS stringPlaneId,  fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN ( SELECT excluded_plane_id FROM( SELECT fl.plane_id AS excluded_plane_id FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE CONCAT( ?, ' ', ?, ':00') BETWEEN fl.departure_time AND fl.arrival_time OR ADDTIME(CONCAT( ?, ' ', ?, ':00'), ?) BETWEEN fl.departure_time AND fl.arrival_time OR fl.departure_time BETWEEN CONCAT( ?, ' ', ? , ':00') AND  ADDTIME(CONCAT( ?, ' ', ?, ':00'), ?) OR fl.arrival_time BETWEEN CONCAT( ?, ' ', ?, ':00') AND  ADDTIME(CONCAT( ?, ' ', ?, ':00'), ?) )AS excluded_planes) AND pl.state = '운영가능' GROUP BY pl.plane_id ORDER BY pl.plane_id";
+		String sql = "SELECT  concat('PL',fl.plane_id) AS stringPlaneId,  \r\n"
+				+ "fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state \r\n"
+				+ "FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id \r\n"
+				+ "WHERE fl.plane_id NOT IN ( \r\n"
+				+ "SELECT excluded_plane_id FROM\r\n"
+				+ "( SELECT fl.plane_id AS excluded_plane_id \r\n"
+				+ "FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id \r\n"
+				+ "WHERE CONCAT( ?, ' ', ?, ':00') BETWEEN DATE_SUB(fl.departure_time, INTERVAL 1 DAY) AND DATE_ADD(fl.arrival_time, INTERVAL 1 DAY)\r\n"
+				+ "OR ADDTIME(CONCAT( ?, ' ', ?, ':00'), ?) BETWEEN DATE_SUB(fl.departure_time, INTERVAL 1 DAY) AND DATE_ADD(fl.arrival_time, INTERVAL 1 DAY)\r\n"
+				+ "OR fl.departure_time BETWEEN DATE_SUB(CONCAT( ?, ' ', ? , ':00'), INTERVAL 1 DAY) AND  DATE_ADD(ADDTIME(CONCAT( ?, ' ', ?, ':00'), ?), INTERVAL 1 DAY) \r\n"
+				+ "OR fl.arrival_time BETWEEN DATE_SUB(CONCAT( ?, ' ', ?, ':00'), INTERVAL 1 DAY) AND  DATE_ADD(ADDTIME(CONCAT( ?, ' ', ?, ':00'), ?), INTERVAL 1 DAY) \r\n"
+				+ ")AS excluded_planes) \r\n"
+				+ "AND pl.state = '운영가능' \r\n"
+				+ "GROUP BY pl.plane_id \r\n"
+				+ "ORDER BY pl.plane_id";
+		
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, date);
