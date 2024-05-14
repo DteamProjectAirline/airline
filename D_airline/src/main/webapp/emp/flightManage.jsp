@@ -10,8 +10,6 @@
 
 String msg = null;
 String date = null;
-String hour = null;
-String minute = null;
 String flightDuration = null;
 String time = null;
 String planeList = null;
@@ -30,9 +28,6 @@ String datetimeString = null;
 
 System.out.println("[param]rowPerPage : " + request.getParameter("rowPerPage"));
 System.out.println("[param]currentPage : " + request.getParameter("currentPage"));
-System.out.println("[param]date : " + request.getParameter("date"));
-System.out.println("[param]hour : " + request.getParameter("hour"));
-System.out.println("[param]minute : " + request.getParameter("minute"));
 System.out.println("[param]flightDuration : " + request.getParameter("flightDuration"));
 System.out.println("[param]intRouteid : " + request.getParameter("intRouteId"));
 System.out.println("[param]datetimeString : " + request.getParameter("datetimeString"));
@@ -49,15 +44,7 @@ if (request.getParameter("date") != null) {
 	System.out.println("date : " + date);
 }
 
-if (request.getParameter("hour") != null) {
-	hour = request.getParameter("hour");
-	System.out.println("hour : " + hour);
-}
 
-if (request.getParameter("minute") != null) {
-	minute = request.getParameter("minute");
-	System.out.println("minute : " + minute);
-}
 
 if (request.getParameter("flightDuration") != null) {
 	flightDuration = request.getParameter("flightDuration");
@@ -72,14 +59,19 @@ if (request.getParameter("intRouteId") != null) {
 if (request.getParameter("datetimeString") != null) {
 	datetimeString = request.getParameter("datetimeString");
 	System.out.println("datetimeString : " + datetimeString);
+	
+	String[] dateParts = datetimeString.split("T");
+	date = dateParts[0];
+	time = dateParts[1];
+
+	System.out.println("date : " + date);
+	System.out.println("time : " + time);
 }
 
 if (request.getParameter("planeList") != null) {
 	planeList = request.getParameter("planeList");
 	System.out.println("planeList : " + planeList);
 }
-
-
 
 
 
@@ -139,6 +131,7 @@ if(request.getParameter("planeList") != null){
 System.out.println("selectAllFlightList : "+selectAllFlightList);
 System.out.println(" selectAllRouteCityCountryList : "+ selectAllRouteCityCountryList);
 System.out.println(" selectOneRouteCityCountryList : "+ selectOneRouteCityCountryList);
+System.out.println(" selectAvailablePlaneList : "+ selectAvailablePlaneList);
 
 int totalRouteCount = 0;
 

@@ -143,15 +143,25 @@ public class FlightDAO {
 		//
 		//String sql = "SELECT fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN( SELECT excluded_planeId FROM( SELECT fl.plane_id excluded_planeId FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.departure_time BETWEEN DATETIME_FORMAT(CONCAT(?, ' ', ?, ':', ?), '%Y-%m-%d %H:%i') AND ADDTIME(fl.departure_time, ?) OR fl.arrival_time BETWEEN DATETIME_FORMAT(CONCAT(?, ' ', ?, ':', ?), '%Y-%m-%d %H:%i') AND ADDTIME(fl.departure_time, ?)) AS exclude) AND pl.state = '운영가능' ORDER BY pl.plane_id";
 		
-		String sql = "SELECT  concat('PL',fl.plane_id) as stringPlaneId,  fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN ( SELECT excluded_plane_id FROM( SELECT fl.plane_id AS excluded_plane_id FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE CONCAT(?, ' ', ?, ':00') BETWEEN fl.departure_time AND ADDTIME(fl.departure_time, ?) OR CONCAT(?, ' ', ?, ':00') BETWEEN fl.arrival_time AND ADDTIME(fl.departure_time, ?) ) AS excluded_planes) AND pl.state = '운영가능' ORDER BY pl.plane_id";
+		String sql = "SELECT  concat('PL',fl.plane_id) AS stringPlaneId,  fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN ( SELECT excluded_plane_id FROM( SELECT fl.plane_id AS excluded_plane_id FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE CONCAT( ?, ' ', ?, ':00') BETWEEN fl.departure_time AND fl.arrival_time OR ADDTIME(CONCAT( ?, ' ', ?, ':00'), ?) BETWEEN fl.departure_time AND fl.arrival_time OR fl.departure_time BETWEEN CONCAT( ?, ' ', ? , ':00') AND  ADDTIME(CONCAT( ?, ' ', ?, ':00'), ?) OR fl.arrival_time BETWEEN CONCAT( ?, ' ', ?, ':00') AND  ADDTIME(CONCAT( ?, ' ', ?, ':00'), ?) )AS excluded_planes) AND pl.state = '운영가능' GROUP BY pl.plane_id ORDER BY pl.plane_id";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, date);
 		stmt.setString(2, time);
-		stmt.setString(3, flightDuration);
-		stmt.setString(4, date);
-		stmt.setString(5, time);
-		stmt.setString(6, flightDuration);
+		stmt.setString(3, date);
+		stmt.setString(4, time);
+		stmt.setString(5, flightDuration);
+		stmt.setString(6, date);
+		stmt.setString(7, time);
+		stmt.setString(8, date);
+		stmt.setString(9, time);
+		stmt.setString(10, flightDuration);
+		stmt.setString(11, date);
+		stmt.setString(12, time);
+		stmt.setString(13, date);
+		stmt.setString(14, time);
+		stmt.setString(15, flightDuration);
+		
 
 
 		ResultSet rs = stmt.executeQuery();
