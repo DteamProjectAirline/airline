@@ -82,7 +82,7 @@ public class RouteDAO {
 	}
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectSearchRouteList(int intRouteId)
+	public static ArrayList<HashMap<String, Object>> selectSearchRouteList(String intRouteId)
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectAllRouteList = new ArrayList<HashMap<String, Object>>();
@@ -94,12 +94,13 @@ public class RouteDAO {
 		String sql = "SELECT concat('RT' ,route_id) as routeId, departure_city departureCity, arrival_city arrivalCity, format(basefare,0) as basefare, flight_duration flightDuration, hour(flight_duration) hour, minute(flight_duration) minute , update_date updateDate, create_date createDate from route where route_id = ? order by route_id";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, intRouteId);	
+		stmt.setString(1, intRouteId);	
 		
 		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 
+			
 			m.put("routeId", rs.getString("routeId"));
 			m.put("departureCity", rs.getString("departureCity"));
 			m.put("arrivalCity", rs.getString("arrivalCity"));
@@ -168,6 +169,55 @@ public class RouteDAO {
 		conn.close();
 
 		return selectAllRouteCityCountryList;
+	}
+	
+	
+	public static ArrayList<HashMap<String, Object>> selectOneRouteCityCountryList(int intRouteId)
+			throws Exception {
+
+		ArrayList<HashMap<String, Object>> selectOneRouteCityCountryList = new ArrayList<HashMap<String, Object>>();
+
+		Connection conn = DBHelper.getConnection();
+		// 긴 문자열 자동 줄바꿈 ctrl + enter
+
+		//
+		String sql =  "SELECT CONCAT('NA',depNA.country_id) AS departureCountryId, CONCAT('NA',arrNA.country_id) AS arrivalCountryId, depCT.airport departureAirport, arrCT.airport arrivalAirport, depNA.country_name departureCountryName, arrNA.country_name arrivalCountryName, ct.update_date cityUpdateDate, ct.create_date cityCreateDate, CONCAT('RT', route_id) AS routeId, rt.route_id intRouteId, rt.departure_city departureCity, rt.arrival_city arrivalCity, FORMAT(basefare, 0) AS basefare, HOUR(flight_duration) AS hour, MINUTE(flight_duration) AS minute, rt.update_date routeUpdateDate, rt.create_date routeCreateDate FROM city ct INNER JOIN country na ON ct.country_id = na.country_id LEFT OUTER JOIN route rt ON ct.city_name IN (rt.departure_city, rt.arrival_city) LEFT JOIN city depCT ON rt.departure_city = depCT.city_name LEFT JOIN country depNA ON depCT.country_id = depNA.country_id LEFT JOIN city arrCT ON rt.arrival_city = arrCT.city_name LEFT JOIN country arrNA ON arrCT.country_id = arrNA.country_id GROUP BY rt.route_id HAVING rt.route_id IS NOT null AND rt.route_id = ? ORDER BY rt.route_id";
+
+
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, intRouteId);
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			
+			m.put("intRouteId", rs.getInt("intRouteId"));
+			m.put("routeId", rs.getString("routeId"));
+			m.put("departureCity", rs.getString("departureCity"));
+			m.put("arrivalCity", rs.getString("arrivalCity"));
+			m.put("basefare", rs.getString("basefare"));
+			m.put("hour", rs.getString("hour"));
+			m.put("minute", rs.getString("minute"));
+			m.put("updateDate", rs.getString("routeUpdateDate"));
+			m.put("createDate", rs.getString("routeCreateDate"));
+			m.put("departureCity", rs.getString("departureCity"));
+			m.put("arrivalCity", rs.getString("arrivalCity"));
+			m.put("departureAirport", rs.getString("departureAirport"));
+			m.put("arrivalAirport", rs.getString("arrivalAirport"));
+			m.put("departureCountry", rs.getString("departureCountryName"));
+			m.put("arrivalCountry", rs.getString("arrivalCountryName"));
+			m.put("departureCountryId", rs.getString("departureCountryId"));
+			m.put("arrivalCountryId", rs.getString("arrivalCountryId"));
+			
+			
+			
+
+			selectOneRouteCityCountryList.add(m);
+
+		}
+		System.out.println("selectOneRouteCityCountryList(route,city,country 조인 테이블 리스트-하나 노선 특정) : " + selectOneRouteCityCountryList);
+		conn.close();
+
+		return selectOneRouteCityCountryList;
 	}
 	
 	

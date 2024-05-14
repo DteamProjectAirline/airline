@@ -132,7 +132,7 @@ public class FlightDAO {
 	
 	
 	
-	public static ArrayList<HashMap<String, Object>> selectAvailablePlaneList(String date, String hour, String minute, String flightDuration)
+	public static ArrayList<HashMap<String, Object>> selectAvailablePlaneList(String date, String time, String flightDuration)
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectAvailablePlaneList = new ArrayList<HashMap<String, Object>>();
@@ -143,17 +143,15 @@ public class FlightDAO {
 		//
 		//String sql = "SELECT fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN( SELECT excluded_planeId FROM( SELECT fl.plane_id excluded_planeId FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.departure_time BETWEEN DATETIME_FORMAT(CONCAT(?, ' ', ?, ':', ?), '%Y-%m-%d %H:%i') AND ADDTIME(fl.departure_time, ?) OR fl.arrival_time BETWEEN DATETIME_FORMAT(CONCAT(?, ' ', ?, ':', ?), '%Y-%m-%d %H:%i') AND ADDTIME(fl.departure_time, ?)) AS exclude) AND pl.state = '운영가능' ORDER BY pl.plane_id";
 		
-		String sql = "SELECT fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN ( SELECT excluded_plane_id FROM( SELECT fl.plane_id AS excluded_plane_id FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE STR_TO_TIME(CONCAT(?, ' ', ?, ':'), '%Y-%m-%d %H:%i') BETWEEN fl.departure_time AND ADDTIME(fl.departure_time, INTERVAL ? MINUTE) OR STR_TO_TIME(CONCAT(?, ' ', ?, ':'), '%Y-%m-%d %H:%i') BETWEEN fl.arrival_time AND ADDTIME(fl.departure_time, INTERVAL ? MINUTE) ) AS excluded_planes) AND pl.state = '운영가능' ORDER BY pl.plane_id";
+		String sql = "SELECT fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN ( SELECT excluded_plane_id FROM( SELECT fl.plane_id AS excluded_plane_id FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE CONCAT(?, ' ', ?, ':00') BETWEEN fl.departure_time AND ADDTIME(fl.departure_time, ?) OR CONCAT(?, ' ', ?, ':00') BETWEEN fl.arrival_time AND ADDTIME(fl.departure_time, ?) ) AS excluded_planes) AND pl.state = '운영가능' ORDER BY pl.plane_id";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, date);
-		stmt.setString(2, hour);
-		stmt.setString(3, minute);
-		stmt.setString(4, flightDuration);
-		stmt.setString(5, date);
-		stmt.setString(6, hour);
-		stmt.setString(7, minute);
-		stmt.setString(8, flightDuration);
+		stmt.setString(2, time);
+		stmt.setString(3, flightDuration);
+		stmt.setString(4, date);
+		stmt.setString(5, time);
+		stmt.setString(6, flightDuration);
 
 
 		ResultSet rs = stmt.executeQuery();

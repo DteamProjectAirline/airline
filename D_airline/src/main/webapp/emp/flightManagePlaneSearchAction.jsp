@@ -11,13 +11,23 @@
 System.out.println("---------------flightManagePlaneSearchAction.jsp---------------");
 System.out.println("세션 ID: " + session.getId());
 
-String msg = null;
-int intRouteId = 0;
-String routeId = null;
+
+
+
+
+//1. 문자열 분리
+
+String datetimeString = null;
 String date = null;
-String hour = null;
-String minute = null;
+String time = null;
+String msg = null;
+String intRouteId = null;
+String planeList = null;
+//String routeId = null;
+
+
 String flightDuration = null;
+
 
 
 
@@ -42,22 +52,32 @@ adminId = (String) (m.get("adminId"));
 
 System.out.println("[param]intRouteId : "+request.getParameter("intRouteId"));
 System.out.println("[param]routeId : "+request.getParameter("routeId"));
-System.out.println("[param]date : "+request.getParameter("date"));
-System.out.println("[param]hour : "+request.getParameter("hour"));
-System.out.println("[param]minute : "+request.getParameter("minute"));
+System.out.println("[param]datetimeString : "+request.getParameter("datetimeString"));
+
+if(request.getParameter("datetimeString")!=null){
+	datetimeString = request.getParameter("datetimeString");
+	System.out.println("datetimeString : "+datetimeString);
+	
+}
+
+String[] dateParts = datetimeString.split("T");
+date = dateParts[0];
+time = dateParts[1];
 
 
-intRouteId = Integer.parseInt(request.getParameter("intRouteId"));
-routeId = request.getParameter("routeId");
-hour = request.getParameter("hour");
-minute = request.getParameter("minute");
-date = request.getParameter("date");
+
+intRouteId = request.getParameter("intRouteId");
+//routeId = request.getParameter("routeId");
+
+
+
 
 System.out.println("intRouteId : " + intRouteId);
-System.out.println("routeId : " + routeId);
-System.out.println("hour : " + hour);
-System.out.println("minute : " + minute);
+//System.out.println("routeId : " + routeId);
+//System.out.println("hour : " + hour);
+//System.out.println("minute : " + minute);
 System.out.println("date : " + date);
+System.out.println("time : " + time);
 
 ArrayList<HashMap<String, Object>> selectAllRouteList = RouteDAO.selectSearchRouteList(intRouteId);
 
@@ -75,17 +95,22 @@ if (selectAllRouteList != null && !(selectAllRouteList.isEmpty()) ) {
 
 for(HashMap<String, Object> a : selectAllRouteList) {
 	flightDuration = (String)(a.get("flightDuration"));
+	
+	
+	System.out.println("flightDuration : "+flightDuration );
 }
 
 
-ArrayList<HashMap<String, Object>> selectAvailablePlaneList = FlightDAO.selectAvailablePlaneList(date, hour, minute, flightDuration);
+ArrayList<HashMap<String, Object>> selectAvailablePlaneList = FlightDAO.selectAvailablePlaneList(date, time, flightDuration);
 
 
 
 if (selectAvailablePlaneList != null && !(selectAvailablePlaneList.isEmpty()) ) {
 	System.out.println("사용가능한 항공기 조회에 성공하였습니다.");
 	msg = URLEncoder.encode("사용가능한 항공기조회에 성공하였습니다.", "UTF-8");
-	response.sendRedirect("/D_airline/emp/flightManage.jsp?msg=" + msg+"&selectAvailablePlaneList="+selectAvailablePlaneList);
+	planeList = "1";
+	response.sendRedirect("/D_airline/emp/flightManage.jsp?msg=" + msg+"&planeList="+planeList+"&intRouteId="+intRouteId+"&datetimeString="+datetimeString);
+	
 
 } else {
 	System.out.println("사용가능한 항공기 조회에 실패하였습니다.");
@@ -93,6 +118,7 @@ if (selectAvailablePlaneList != null && !(selectAvailablePlaneList.isEmpty()) ) 
 	response.sendRedirect("/D_airline/emp/flightManage.jsp?msg=" + msg);
 	return;
 }
+
 
 
 
