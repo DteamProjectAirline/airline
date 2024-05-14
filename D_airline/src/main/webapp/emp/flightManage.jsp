@@ -130,7 +130,7 @@ if(planeList.equals("1")){
 selectOneRouteCityCountryList = RouteDAO.selectOneRouteCityCountryList(intRouteId);
 }
 }
-if(request.getParameter("date") != null||request.getParameter("hour") != null||request.getParameter("minute") != null||request.getParameter("flightDuration") != null){
+if(request.getParameter("planeList") != null){
 	selectAvailablePlaneList =  FlightDAO.selectAvailablePlaneList(date, time, flightDuration);
 }
 
@@ -222,7 +222,7 @@ m.put("type","admin");
 		<%
 			
 			if(request.getParameter("planeList")!=null && planeList.equals("1") ){
-				System.out.println("테스트성공");
+				
 				%>
 				
 				<form action = "/D_airline/emp/flightManageAddAction.jsp" method="post">
@@ -322,62 +322,32 @@ m.put("type","admin");
 		%>
 		
 				
+				<form method="post" action="/D_airline/emp/flightManageAddAction.jsp">
 				
-				<label>운항시간 : </label>
-				
-				
-				<select id="hour" name = "hour">
-		<% 
-		for(int i=0; i <24; i++){
-		%>
-		<option value="<%=i%>"><%=i %></option>
-		<% }%>
-	</select>
-		<label for ="hour">시간&nbsp;</label>
-		
-		
-	<select id="minute" name="minute">
-		
-		<%
-		for(int i=0; i<12; i++){
-			String e = Integer.toString(i*5);
-			if(e.length() !=2){
-				e = "0"+e;
-			}
-		%>
-		
-		<option value="<%=e%>"><%=e %></option>
-		<%} %>
-
-	
-		
-		
-		
-	</select>
-	<label for ="minute">분</label>
 	
 
 	
 	
-	<form method="post" action="/D_airline/emp/flightManageAddAction.jsp">
-		<select>
+	
+		<select name="planeId">
 	<%
 	if (selectAvailablePlaneList != null && !(selectAvailablePlaneList.isEmpty()) ) {
 			
+		
 	
 		for(HashMap<String, Object> m2 : selectAvailablePlaneList) {
 			
-			String planeId = null;
+			int planeId = 0;
 			String planeName = null;
-		
+			String stringPlaneId = null;
 			
-			
-			planeId = (String)(m2.get("planeId"));
+			stringPlaneId = (String)(m2.get("stringPlaneId"));
+			planeId = (int)(m2.get("planeId"));
 			planeName = (String)(m2.get("planeName"));
 	
 			
 			%>
-			<option value="<%=planeId%>"><%=planeId%>/<%=planeName%></option>
+			<option value="<%=planeId%>"><%=stringPlaneId%>/<%=planeName%></option>
 			
 		<%	}} %>
 		
@@ -386,9 +356,13 @@ m.put("type","admin");
 		
 	
 	</select>
+				<input type="hidden" name="intRouteId" value="<%=intRouteId%>">
+				<input type="hidden" name="datetimeString" value="<%=datetimeString%>">
+				<input type="hidden" name="flightDuration" value="<%=flightDuration%>">
 				<button type="submit">항공편입력</button>
 			
 		</form>
+		
 		</div>
 		<form action = "/D_airline/emp/flightManageModifyAction.jsp" method="post">
 			<div>

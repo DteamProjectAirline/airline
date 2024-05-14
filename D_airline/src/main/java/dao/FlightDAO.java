@@ -143,7 +143,7 @@ public class FlightDAO {
 		//
 		//String sql = "SELECT fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN( SELECT excluded_planeId FROM( SELECT fl.plane_id excluded_planeId FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.departure_time BETWEEN DATETIME_FORMAT(CONCAT(?, ' ', ?, ':', ?), '%Y-%m-%d %H:%i') AND ADDTIME(fl.departure_time, ?) OR fl.arrival_time BETWEEN DATETIME_FORMAT(CONCAT(?, ' ', ?, ':', ?), '%Y-%m-%d %H:%i') AND ADDTIME(fl.departure_time, ?)) AS exclude) AND pl.state = '운영가능' ORDER BY pl.plane_id";
 		
-		String sql = "SELECT fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN ( SELECT excluded_plane_id FROM( SELECT fl.plane_id AS excluded_plane_id FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE CONCAT(?, ' ', ?, ':00') BETWEEN fl.departure_time AND ADDTIME(fl.departure_time, ?) OR CONCAT(?, ' ', ?, ':00') BETWEEN fl.arrival_time AND ADDTIME(fl.departure_time, ?) ) AS excluded_planes) AND pl.state = '운영가능' ORDER BY pl.plane_id";
+		String sql = "SELECT  concat('PL',fl.plane_id) as stringPlaneId,  fl.plane_id planeId, pl.plane_name planeName, pl.airline airline, pl.state state FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE fl.plane_id NOT IN ( SELECT excluded_plane_id FROM( SELECT fl.plane_id AS excluded_plane_id FROM flight fl INNER JOIN plane pl ON fl.plane_id = pl.plane_id WHERE CONCAT(?, ' ', ?, ':00') BETWEEN fl.departure_time AND ADDTIME(fl.departure_time, ?) OR CONCAT(?, ' ', ?, ':00') BETWEEN fl.arrival_time AND ADDTIME(fl.departure_time, ?) ) AS excluded_planes) AND pl.state = '운영가능' ORDER BY pl.plane_id";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, date);
@@ -158,7 +158,8 @@ public class FlightDAO {
 		while (rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 
-			m.put("planeId", rs.getString("planeId"));
+			m.put("stringPlaneId", rs.getString("stringPlaneId"));
+			m.put("planeId", rs.getInt("planeId"));
 			m.put("planeName", rs.getString("planeName"));
 			m.put("airline", rs.getString("airline"));
 			m.put("state", rs.getString("state"));
@@ -173,6 +174,41 @@ public class FlightDAO {
 		return selectAvailablePlaneList;
 	}
 	
+	
+	
+
+	public static int insertFlight(int intRouteId, int planeId, String date, String time, String flightDuration)
+			throws Exception {
+
+		int insertFlight = 0;
+
+		Connection conn = DBHelper.getConnection();
+	
+		
+		String sql = " INSERT INTO flight(route_id, plane_id, departure_time, arrival_time, STATUS, update_date, create_date ) VALUES (?, ?, CONCAT(?, ' ', ?, ':00'), ADDTIME(CONCAT(?, ' ', ?, ':00'),?), '이륙전', now(), now())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setInt(1, intRouteId);
+		stmt.setInt(2, planeId);
+		stmt.setString(3, date);
+		stmt.setString(4, time);
+		stmt.setString(5, date);
+		stmt.setString(6, time);
+		stmt.setString(7, flightDuration);
+		
+		
+		insertFlight = stmt.executeUpdate();
+		
+		if (insertFlight == 1) {
+
+			System.out.println("항공편 신규 등록에 성공하였습니다.");
+
+		} else {
+			System.out.println("항공편 신규등록에 실패하였습니다");
+		}
+
+		return insertFlight;
+	}
 	
 
 	
