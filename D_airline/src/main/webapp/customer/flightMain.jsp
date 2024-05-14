@@ -82,7 +82,7 @@
 
 	
 	<div style="width:100%; height:400px; background-image: url('/D_airline/img/mainImg.jpg');background-size:auto ;">
-	<div  style=" width:1000px; margin-bottom:80px; margin-right:320px; ; margin-left:450px; margin-top: 48px; align-items: flex-start;  ">
+	<div  style=" width:1000px; margin-bottom:80px; margin-right:320px; ; margin-left:475px; margin-top: 48px; align-items: flex-start;  ">
 		
 		<div style="padding-left:0px; padding-right:0px;" >
 			<ul class="mainBtnUl">
@@ -103,16 +103,37 @@
 		<div id ="main" class="mainFlight" style="width: 100%;"> 
 			
 			<form action = "/D_airline/customer/flightMain.jsp" style="margin-left: 48px ; ">
-				<button name="type" value="왕복" style="margin-top: 16px; margin-bottom: 16px; color:white;border-radius:10px 10px 10px 10px;background-color:#00256c">왕복</button>
+				<button name="type" value="왕복" style=" margin-top: 16px; margin-bottom: 16px; color:white;border-radius:10px 10px 10px 10px;background-color:#00256c">왕복</button>
 				<button name="type" value="편도" style="color:white; border-radius:10px 10px 10px 10px; background-color:#00256c">편도</button>
 			</form>
 			<form action="/D_airline/customer/flightList1.jsp"> <!-- 항공편리스트 조회 -->
 				<!-- 출발지 , 도착지 입력   -->
 				<input type="hidden" name="type" value="<%=type%>">
-			
-				<input class="wrap" style="width:100; margin-left: 48px;" list="airport" name="departureLocation" placeholder="출발지">
-				<input class="wrap" style="width:100; margin-left: 16px;"list="airport" name="arrivalLocation" placeholder="도착지">
-			
+			<div class="inputdiv">
+				<div>
+					<input class="wrap" style="margin-left:12px;" list="airport" name="departureLocation" placeholder="출발지">
+				</div>
+				
+				<div>
+					<input class="wrap" style=""list="airport" name="arrivalLocation" placeholder="도착지">
+				</div>
+				
+				<div>
+					<input class="wrap" type="date" name="departDate" min="<%=now%>">
+				</div>
+				
+				<div>
+					<%if( type != "왕복"){ %>
+						<input class="wrap" type="date" name="comeBackDate" disabled="disabled">
+					<%} else{%>
+						<input class="wrap" type="date" name="comeBackDate">
+						<%} %>
+						<%System.out.println(); %>
+						<button type="submit" style="margin-left:10px; margin-top:15px; background-color: #00256c "class="btn btn-primary">조회</button>
+				</div>
+
+
+			</div>
 
 				<!-- 출,도착지에 나타날 리스트 데이터 뿌리기  -->
 				<datalist id="airport">
@@ -127,16 +148,10 @@
 				
 				<!-- 출발일 받아오는 값 -->
 				
-				<input style="margin-left: 48px; margin-right: 16px;" class="wrap" type="date" name="departDate" min="<%=now%>">
+				
 				
 				<!--  타입에따라 왕복 , 편도 구분 -->
-				<%if( type != "왕복"){ %>
-					<input class="wrap" type="date" name="comeBackDate" disabled="disabled">
-				<%} else{%>
-					<input class="wrap" type="date" name="comeBackDate">
-					<%} %>
-					<%System.out.println(); %>
-					<button type="submit" style="background-color: #00256c "class="btn btn-primary">조회</button>
+				
 			</form>
 		</div>
 	
