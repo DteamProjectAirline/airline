@@ -81,8 +81,8 @@
 	</nav>
 
 	
-	<div style="height:400px; background-image: url('/D_airline/img/mainImg.jpg');background-size:auto ;">
-	<div  style="margin-bottom:80px; margin-right:320px; ; margin-left:320px; margin-top: 48px; align-items: flex-start;  ">
+	<div style="width:100%; height:400px; background-image: url('/D_airline/img/mainImg.jpg');background-size:auto ;">
+	<div  style=" width:1000px; margin-bottom:80px; margin-right:320px; ; margin-left:450px; margin-top: 48px; align-items: flex-start;  ">
 		
 		<div style="padding-left:0px; padding-right:0px;" >
 			<ul class="mainBtnUl">
@@ -100,7 +100,7 @@
 		
 
 		<!-- 자바 스크립트 or 부트스트랩 찾아서 구현할거임 -->
-		<div id ="main" class="mainFlight"> 
+		<div id ="main" class="mainFlight" style="width: 100%;"> 
 			
 			<form action = "/D_airline/customer/flightMain.jsp" style="margin-left: 48px ; ">
 				<button name="type" value="왕복" style="margin-top: 16px; margin-bottom: 16px; color:white;border-radius:10px 10px 10px 10px;background-color:#00256c">왕복</button>
@@ -110,8 +110,8 @@
 				<!-- 출발지 , 도착지 입력   -->
 				<input type="hidden" name="type" value="<%=type%>">
 			
-				<input class="wrap" style="margin-left: 48px;" list="airport" name="departureLocation" placeholder="출발지">
-				<input class="wrap" style="margin-left: 16px;"list="airport" name="arrivalLocation" placeholder="도착지">
+				<input class="wrap" style="width:100; margin-left: 48px;" list="airport" name="departureLocation" placeholder="출발지">
+				<input class="wrap" style="width:100; margin-left: 16px;"list="airport" name="arrivalLocation" placeholder="도착지">
 			
 
 				<!-- 출,도착지에 나타날 리스트 데이터 뿌리기  -->

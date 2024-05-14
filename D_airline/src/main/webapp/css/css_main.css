@@ -5,7 +5,7 @@
 		display : block; 
 		background-color: #fff; 
 		border-radius:0px 0px 15px 15px;
-		
+		width: 100%;
 }
 .subFlight {	
 		height: 160px; 
