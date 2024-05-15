@@ -58,11 +58,13 @@ if(request.getParameter("datetimeString")!=null){
 	datetimeString = request.getParameter("datetimeString");
 	System.out.println("datetimeString : "+datetimeString);
 	
+	String[] dateParts = datetimeString.split("T");
+	date = dateParts[0];
+	time = dateParts[1];
+	
 }
 
-String[] dateParts = datetimeString.split("T");
-date = dateParts[0];
-time = dateParts[1];
+
 
 
 

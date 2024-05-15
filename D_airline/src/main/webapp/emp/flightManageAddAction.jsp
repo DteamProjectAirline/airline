@@ -60,7 +60,6 @@ intRouteId = Integer.parseInt(request.getParameter("intRouteId"));
 datetimeString = request.getParameter("datetimeString");
 planeId = Integer.parseInt(request.getParameter("planeId"));
 flightDuration = request.getParameter("flightDuration");
-
 System.out.println("date : " + date);
 System.out.println("time : " + time);
 System.out.println("intRouteid : " + intRouteId);
@@ -71,7 +70,7 @@ System.out.println("flightDuration : " + flightDuration);
 int insertFlight = FlightDAO.insertFlight(intRouteId, planeId, date, time, flightDuration);
 
 if (insertFlight == 1) {
-	System.out.println("항곤편 신규등록에 성공하였습니다.");
+	System.out.println("항공편 신규등록에 성공하였습니다.");
 	msg = URLEncoder.encode("항공편 신규등록에 성공하였습니다.", "UTF-8");
 	response.sendRedirect("/D_airline/emp/flightManage.jsp?msg=" + msg);
 	
