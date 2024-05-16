@@ -13,7 +13,7 @@
 
 .flightBorder {
 	
-	padding:48px 32px 48px; 
+	padding:60px 32px 48px; 
 	background-color: fff; 
 	border-radius: 16px 0px 0px 16px; 
 	border-bottom: 1px solid #d9dbe1 ; 
@@ -26,7 +26,7 @@
 }
 .flightContent{
 	height:100%; 
-	padding:3.2rem 2.4rem 3rem; 
+	padding: 30px 45px 100px; 
 	background-color: fff;
 	height:100%;
 	width: 100%;  
@@ -38,6 +38,7 @@
 	border-right: 1px solid #d9dbe1;
 	height: 100%;
 	background-color: #f3f4f8;
+	
 }
 .flightRightBorder{
 	width: 100%; 
@@ -47,10 +48,7 @@
 	border-top-right-radius:20px;
 	background-color: #f3f4f8;
 }
-.test {
-        top: 2.4rem;
-        left: 0;
-        height: .8rem;
-        background: url(flight__direction-medium.svg) no-repeat right 50%;
-        background-size: cover;
-    }
+.priceBorder{
+	margin-top: 40px;
+	text-align: center;
+} 

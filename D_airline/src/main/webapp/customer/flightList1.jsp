@@ -20,7 +20,7 @@ System.out.println(departDate+"출발일");
 System.out.println(comeBackDate+"복귀일 편도면 null임."); */ 
 
 // 항공편 리스트 불러오는 메소드;
-//ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocation, arrivalLocation, departDate);
+ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocation, arrivalLocation, departDate);
 
 %>    
     
@@ -39,18 +39,18 @@ System.out.println(comeBackDate+"복귀일 편도면 null임."); */
 	가는 편 <%=departureLocation%> -> <%=arrivalLocation %> 
 </div>
 
-<%-- 		<table border=1>
+ 	<table>
 		<%for(HashMap<String,Object> e : list) {
 		
 		%>
-		<tr>		
-	<td><%=(String) (e.get("routeId"       ))%> </td>
+		<tr>
+	<td><%=(int) (e.get("routeId"))%> </td>
 	<td><%=(String) (e.get("departureCity" ))%> </td>
 	<td><%=(String) (e.get("arrivalCity"   ))%> </td>
-	<td><%=(String) (e.get("baseFare"      ))%> </td>
+	<td><%=(int) (e.get("baseFare"      ))%> </td>
 	<td><%=(String) (e.get("flightDuration"))%> </td>
-	<td><%=(String) (e.get("flight_id"     ))%> </td>
-	<td><%=(String) (e.get("planeId"       ))%> </td>
+	<td><%=(int) (e.get("flight_id"     ))%> </td>
+	<td><%=(int) (e.get("planeId"       ))%> </td>
 	<td><%=(String) (e.get("planeName"     ))%> </td>
 	<td><%=(String) (e.get("airLine"       ))%> </td>
 	<td><%=(String) (e.get("departureTime" ))%> </td>
@@ -58,35 +58,87 @@ System.out.println(comeBackDate+"복귀일 편도면 null임."); */
 		</tr>
 		<%} %>
 		</table>
- --%>
+
  	<div style="width: 1300px; margin-left:300px; ">	
 	<ul style="list-style: none; width: 100%; height: 160px;">
-		<li style="display: flex ;margin: 2rem 0 4rem; border: 10px; border-radius: 2rem;height: 160px;">
+		<%for(HashMap<String,Object> e : list) {
+			
+		String a = (String) (e.get("departureTime"));
+		String b = (String) (e.get("arrivalTime"));
+		String c = (String) (e.get("flightDuration")); 
+		%>
+		<li style="display: flex ;margin: 32px 0 64px; border: 10px; border-radius: 2rem;height: 180px;">
 			<div class="flightBorder">
 				<div class="flightContent">
-					<span style="font-size: 24px;line-height: 1.5;">07:55</span>
-					<div class="test">흠</div>
+				<div style="text-align: center;">비행시간:<%=c.substring(0,2)%>시간<%=c.substring(3,5)%>분</div>
+				<div style="text-align: center;">-------------></div>
+					<div style="display: flex;">
+						<div style="flex:1; display: flex; flex-direction: column; align-items: start;">
+							<span style="font-size: 24px;line-height: 1.5;">
+							<%=a.substring(10,16)%>
+							</span>
+						<div><%=(String) (e.get("departureCity" ))%></div>
+						
+						</div>
+						<div style="flex:1; display: flex; flex-direction: column; align-items: end" >
+							<span style="font-size: 24px;line-height: 1.5;">
+							
+							<%=b.substring(10,16)%>
+							</span>
+							<div><%=(String) (e.get("arrivalCity"))%></div>
+						</div>
+								
+					</div>
+					
+					
+ 									
+					
+					<div style="margin-top: 5px;">
+					<%=(String) (e.get("planeName"     ))%>
+					<%=(String) (e.get("airLine"       ))%>
+					</div>
 				</div>
 			</div>
 			
 			<div style="display:flex; border: 1px solid #d9dbe1; border-bottom-right-radius:20px;border-top-right-radius:20px; width: 100%; margin-right: 100px;">
-				<div style="width: 100%; border-right: 1px solid #d9dbe1;height: 100%">
+				
 					<div class="flightTopBorder">
-					
+						<div class="priceBorder">
+							<div>
+							일반석
+							</div>
+							<div style="font-size: 24px;line-height: 1.5;">
+							<%=(int) (e.get("baseFare"      ))%>원	
+							</div>
+							<div>잔여좌석:</div>
+						</div>					
 					</div>
-				</div>
+				
 				
 				<div class="flightTopBorder">
-				
+					<div class="priceBorder">
+						<div>
+						비지니스
+						</div>
+						<div style="font-size: 24px;line-height: 1.5;">
+						<%=(int) (e.get("baseFare"      ))%>원	
+						</div>
+						<div>잔여좌석:</div>
+					</div>		
 				</div>
 				
 				<div class="flightRightBorder">
-				
+					<div class="priceBorder">
+						<div>퍼스트</div>
+						<div style="font-size: 24px;line-height: 1.5;">
+						<%=(int) (e.get("baseFare"      ))%>원
+						</div>
+						<div>잔여좌석:</div>
+					</div>		
 				</div>
-			</div>
-			
-			
+			</div>	
 		</li>
+		<%} %>
 	</ul>
 	</div>
 </body>

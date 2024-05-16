@@ -27,12 +27,12 @@ public class FlightListDAO {
 		stmt.setString(1,departureLocation);
 		stmt.setString(2,arrivalLocation);
 		stmt.setString(3,departDate);
-
+		//System.out.println(stmt);
 		ResultSet rs = stmt.executeQuery();
-		System.out.println(rs);                                                                                         
+		                                                                                         
 			while(rs.next()){                                                                                           
 				HashMap<String,Object> a = new HashMap<String,Object>();                                                
-					System.out.println(rs.getString("route_id")+"routeid");                                             
+					//System.out.println(rs.getString("route_id")+"routeid");                                             
 					a.put("routeId"        , 		rs.getInt("route_id"));                                          
 					a.put("departureCity"  , 	rs.getString("departure_city"));                                        
 					a.put("arrivalCity"    , 	rs.getString("arrival_city"));                                          
