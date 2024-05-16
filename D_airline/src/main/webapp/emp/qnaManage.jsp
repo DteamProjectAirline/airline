@@ -47,10 +47,12 @@
 			for(HashMap<String, Object> m : qaList){
 		%>
 			<div>
-				<a href="/D_airline/emp/qnaManageOne.jsp?title="<%=m.get("title")%>"></a>
-				<%=m.get("content")%>
+				<a href="/D_airline/emp/qnaManageOne.jsp?title="<%=m.get("title")%>">
+					<%=m.get("title")%>
+				</a>
+				<div><%=m.get("content")%></div>
 				<form action="qnaManageDeleteAction.jsp" method="post">
-					<input type="hidden" name="qnaId" value="<%="m.qnaId"%>">
+					<input type="hidden" name="qnaId" value="<%=m.get("qnaId")%>">
 					<button type="submit">삭제</button>
 				</form>
 				

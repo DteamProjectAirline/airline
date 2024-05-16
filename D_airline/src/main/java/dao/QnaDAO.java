@@ -9,6 +9,31 @@ import java.util.*;
 import dao.DBHelper;
 
 public class QnaDAO {
+	//QnA상세보기
+	public static ArrayList<HashMap<String, Object>> qaInfo(String title) throws Exception{
+		ArrayList<HashMap<String, Object>> qaInfo = new ArrayList<HashMap<String, Object>>();
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT title FROM `q&a` WHERE title=?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, title);
+		rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("title", rs.getString("title"));
+			m.put("content", rs.getString("content"));
+			
+			qaInfo.add(m);
+		}
+		
+		conn.close();
+		return qaInfo;
+	}
+	
 	//QnA생성
 	public static int qaInsert(String adminId, String title, String content) throws Exception{
 		int QaRow = 0;
@@ -22,7 +47,6 @@ public class QnaDAO {
 		stmt.setString(1, adminId);
 		stmt.setString(2, title);
 		stmt.setString(3, content);
-		rs = stmt.executeQuery();
 		System.out.println(stmt+"<--qna생성");
 		QaRow = stmt.executeUpdate();
 		
@@ -65,7 +89,7 @@ public class QnaDAO {
 	}
 	
 	//QnA삭제
-	public static int qaDelete(int qnaId) throws Exception{
+	public static int qaDelete(String qnaId) throws Exception{
 		int QaRow = 0;
 		
 		Connection conn = DBHelper.getConnection();
@@ -74,10 +98,9 @@ public class QnaDAO {
 		
 		String sql = "DELETE FROM `q&a` WHERE qna_id=?";
 		stmt = conn.prepareStatement(sql);
-		
-		stmt.setInt(1, qnaId);
-		System.out.println(stmt+"<--qna삭제");
+		stmt.setString(1, qnaId);
 		QaRow = stmt.executeUpdate();
+		System.out.println(stmt+"<--qna삭제");
 		
 		if(QaRow==1) {
 			System.out.println("질문을 삭제하는데 성공하였습니다.");

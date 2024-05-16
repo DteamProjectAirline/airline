@@ -12,7 +12,7 @@
 	String msg = URLEncoder.encode("관리자만 접근 가능한 페이지입니다.","UTF-8");
 		response.sendRedirect("/D_airline/customer/flightMain.jsp?msg="+msg);
 	return;
-}
+	}
 %>
 <%
 	

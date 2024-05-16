@@ -14,16 +14,17 @@
 	return;
 	}
 %>
-<%	
-	String qnaId = request.getParameter("qnaId");
+<%
+	String qnaId = request.getParameter("qnaId");	
+	System.out.println(qnaId+"<--qnaId");
+
 	//String title = request.getParameter("title");
 	//String content = request.getParameter("content");
 	//디버깅 코드
-	System.out.println(qnaId+"<--qnaId");
 	//System.out.println(title+"<--title");
 	//System.out.println(content+"<--content");
 	
-	int QaRow = QnaDAO.qaDelete((Integer.parseInt(qnaId)));
+	int QaRow = QnaDAO.qaDelete(qnaId);
 	System.out.println(QaRow+"<--QaRow");
 	
 	if(QaRow==1){
