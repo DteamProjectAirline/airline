@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+.ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 16px;
+    margin-block-end: 16px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+    unicode-bidi: isolate;
+}
+
+.flightBorder {
+	
+	padding:48px 32px 48px; 
+	background-color: fff; 
+	border-radius: 16px 0px 0px 16px; 
+	border-bottom: 1px solid #d9dbe1 ; 
+	border-top:1px solid #d9dbe1 ;
+	border-left: 1px solid #d9dbe1;
+	min-height: 100%;
+	width: 600px; 
+	padding: 0;
+	
+}
+.flightContent{
+	height:100%; 
+	padding:3.2rem 2.4rem 3rem; 
+	background-color: fff;
+	height:100%;
+	width: 100%;  
+}
+.flightTopBorder{
+	width: 100%; 
+	border-top-color:black; 
+	border-top: 2px solid #00256c;
+	border-right: 1px solid #d9dbe1;
+	height: 100%;
+	background-color: #f3f4f8;
+}
+.flightRightBorder{
+	width: 100%; 
+	border-top-color:black; 
+	border-top: 2px solid #00256c;
+	height: 100%;
+	border-top-right-radius:20px;
+	background-color: #f3f4f8;
+}
+.test {
+        top: 2.4rem;
+        left: 0;
+        height: .8rem;
+        background: url(flight__direction-medium.svg) no-repeat right 50%;
+        background-size: cover;
+    }
