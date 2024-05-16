@@ -6,17 +6,24 @@
 <%
 	System.out.println("----------qnaManageAddForm.jsp----------");
 	System.out.println("세션 ID: " + session.getId());
-	
-	//인증분기: 세션변수 이름
+		
 	if (session.getAttribute("loginAd") == null){
 	System.out.println("관리자만 접근 가능한 페이지입니다.");
 	String msg = URLEncoder.encode("관리자만 접근 가능한 페이지입니다.","UTF-8");
 		response.sendRedirect("/D_airline/customer/flightMain.jsp?msg="+msg);
 	return;
-}
+	}
 %>
 <%
+	HashMap<String, Object> m = new HashMap<>();
 	
+	//변수할당
+	m = (HashMap<String, Object>) (session.getAttribute("loginAd"));
+	
+	String adminId = null;
+	
+	//해쉬맵 변수 스트링변수에 할당
+	adminId = (String) (m.get("adminId"));
 %>
 <!DOCTYPE html>
 <html>
@@ -29,7 +36,7 @@
 	<form action="/D_airline/emp/qnaManageAddAction.jsp" method="post">
 		<div>
 			관리자ID:
-			<input type="text" name="adminId">
+			<input type="text" name="adminId" value=<%=adminId%> readonly>
 		</div>
 		<div>
 			제목:

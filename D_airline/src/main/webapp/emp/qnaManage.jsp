@@ -39,7 +39,7 @@
 		
 	<!-- QnA등록 -->
 	<div>
-		<a href="/D_airline/emp/qnaManageAddForm.jsp">QnA등록</a>
+		<a href="/D_airline/emp/qnaManageAddForm.jsp?adminId=">QnA등록</a>
 	</div>
 	
 	<!-- QnA리스트 출력 -->
@@ -47,7 +47,7 @@
 			for(HashMap<String, Object> m : qaList){
 		%>
 			<div>
-				<a href="/D_airline/emp/qnaManageOne.jsp?title="<%=m.get("title")%>">
+				<a href="/D_airline/emp/qnaManageOne.jsp?qnaId=<%=m.get("qnaId")%>">
 					<%=m.get("title")%>
 				</a>
 				<div><%=m.get("content")%></div>

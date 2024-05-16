@@ -9,9 +9,33 @@ import java.util.*;
 import dao.DBHelper;
 
 public class QnaDAO {
-	//QnA상세보기
-	public static ArrayList<HashMap<String, Object>> qaInfo(String title) throws Exception{
+	
+	//QnA상세보기(제목,리스트)출력
+	public static ArrayList<HashMap<String, Object>> qaInfo(String qnaId, String title, String content) throws Exception {
 		ArrayList<HashMap<String, Object>> qaInfo = new ArrayList<HashMap<String, Object>>();
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT qna_id qnaId, title, content FROM `q&a`";
+		stmt = conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("qnaId", rs.getString("qnaId"));
+			m.put("title", rs.getString("title"));
+			m.put("content", rs.getString("content"));
+			
+			qaInfo.add(m);
+		}
+		conn.close();
+		return qaInfo;
+	}
+	//QnA상세보기
+	public static ArrayList<HashMap<String, Object>> qaSelect(String title) throws Exception{
+		ArrayList<HashMap<String, Object>> qaSelect = new ArrayList<HashMap<String, Object>>();
 		
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
@@ -25,13 +49,12 @@ public class QnaDAO {
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 			m.put("title", rs.getString("title"));
-			m.put("content", rs.getString("content"));
 			
-			qaInfo.add(m);
+			qaSelect.add(m);
 		}
 		
 		conn.close();
-		return qaInfo;
+		return qaSelect;
 	}
 	
 	//QnA생성
@@ -61,24 +84,23 @@ public class QnaDAO {
 	}
 	
 	//QnA수정
-	public static int qaModify(String qnaId, String title, String content) throws Exception{
+	public static int qaModify(String title ,String content, String qnaId) throws Exception{
 		int QaRow = 0;
 		
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String sql = "UPDATE `q&a` SET title=?, content=?, update date=now() WHERE qna_id=?";
+		String sql = "UPDATE `q&a` SET title=?, content=?, update_date=now() WHERE qna_id=?";
 		stmt = conn.prepareStatement(sql);
 		
 		stmt.setString(1, title);
 		stmt.setString(2, content);
 		stmt.setString(3, qnaId);
-		rs = stmt.executeQuery();
 		System.out.println(stmt+"<--qna수정");
 		QaRow = stmt.executeUpdate();
 		
-		if(QaRow ==1) {
+		if(QaRow==1) {
 			System.out.println("질문을 변경하는데 성공하였습니다.");
 		} else {
 			System.out.println("질문을 변경하는데 실패하였습니다.");
