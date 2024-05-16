@@ -18,6 +18,7 @@ int planeId = 0;
 String flightDuration = null;
 String date = null;
 String time = null;
+int flightId = 0;
 
 if (session.getAttribute("loginAd") == null){
 	System.out.println("관리자만 접근 가능한 페이지입니다.");
@@ -68,11 +69,17 @@ System.out.println("planeId : " + planeId);
 System.out.println("flightDuration : " + flightDuration);
 
 int insertFlight = FlightDAO.insertFlight(intRouteId, planeId, date, time, flightDuration);
+ArrayList<HashMap<String, Object>> selectInsertedFlightLatest = null;
+
 
 if (insertFlight == 1) {
 	System.out.println("항공편 신규등록에 성공하였습니다.");
-	msg = URLEncoder.encode("항공편 신규등록에 성공하였습니다.", "UTF-8");
-	response.sendRedirect("/D_airline/emp/flightManage.jsp?msg=" + msg);
+	selectInsertedFlightLatest = FlightDAO.selectInsertedFlightLatest();
+	for(HashMap<String, Object> m1 : selectInsertedFlightLatest ){
+		flightId = (int)(m1.get("flightId"));
+	}
+	
+	response.sendRedirect("/D_airline/emp/seatManageAddAction.jsp?flightId="+flightId);
 	
 
 } else {

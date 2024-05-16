@@ -249,6 +249,39 @@ public class FlightDAO {
 	
 	
 
+	public static ArrayList<HashMap<String, Object>> selectInsertedFlightLatest()
+			throws Exception {
+
+		ArrayList<HashMap<String, Object>> selectInsertedFlightLatest = new ArrayList<HashMap<String, Object>>();
+
+		Connection conn = DBHelper.getConnection();
+	
+		
+		String sql = "SELECT max(flight_id) flightId FROM flight ORDER BY create_date";
+		
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+
+			m.put("flightId", rs.getInt("flightId"));
+
+
+			selectInsertedFlightLatest.add(m);
+
+		}
+		System.out.println("selectInsertedFlightLatest(직전에 생성된 간단 항공편ID정보) : " + selectInsertedFlightLatest);
+		conn.close();
+
+		return selectInsertedFlightLatest;
+	}
+	
+	
+	
+	
+
 	public static int insertFlight(int intRouteId, int planeId, String date, String time, String flightDuration)
 			throws Exception {
 
