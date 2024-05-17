@@ -1,6 +1,9 @@
 package sjwdao;
 import dao.*;
 import java.util.*;
+
+import org.apache.tomcat.util.security.KeyStoreUtil;
+
 import java.sql.*;
 
 public class FlightListDAO {
@@ -50,7 +53,24 @@ public class FlightListDAO {
 		
 	}
 	
-	
+	public static ArrayList<HashMap<String,Object>> asdas(int flightId) throws Exception{
+		ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT COUNT(*) as cnt , seat.seat_grade , seatprice.seat_price FROM seat INNER JOIN seatprice ON seat.seat_grade = seatprice.seat_grade"
+				+ " WHERE seat.flight_id = ? and seat.seat_state = 1 GROUP BY seat.seat_grade ORDER BY seatprice.seat_price";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, flightId);
+		ResultSet rs = stmt.executeQuery();
+		
+			while(rs.next()) {
+				HashMap<String,Object> a = new HashMap<String,Object>();
+					a.put("cnt", rs.getInt("cnt"));
+					a.put("seatGrade",rs.getString("seat_grade"));
+					a.put("seatPrice",rs.getDouble("seat_price"));
+					list.add(a);
+			}
+		return list;
+	}
 	
 	
 	
