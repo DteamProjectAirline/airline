@@ -11,15 +11,16 @@ import dao.DBHelper;
 public class QnaDAO {
 	
 	//QnA상세보기(제목,리스트)출력
-	public static ArrayList<HashMap<String, Object>> qaInfo(String qnaId, String title, String content) throws Exception {
+	public static ArrayList<HashMap<String, Object>> qaInfo(String qnaId, String title, String content, String createDate, String updateDate) throws Exception {
 		ArrayList<HashMap<String, Object>> qaInfo = new ArrayList<HashMap<String, Object>>();
 		
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT qna_id qnaId, title, content FROM `q&a`";
+		String sql = "SELECT qna_id qnaId, title, content, create_date createDate, update_date updateDate FROM `q&a` WHERE qna_id=?";
 		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, qnaId);
 		rs = stmt.executeQuery();
 		
 		while(rs.next()) {
@@ -27,6 +28,8 @@ public class QnaDAO {
 			m.put("qnaId", rs.getString("qnaId"));
 			m.put("title", rs.getString("title"));
 			m.put("content", rs.getString("content"));
+			m.put("createDate", rs.getString("createDate"));
+			m.put("updateDate", rs.getString("updateDate"));
 			
 			qaInfo.add(m);
 		}
@@ -142,12 +145,12 @@ public class QnaDAO {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT qna_id qnaId, title, content, create_date createDate, update_date updateDate FROM `q&a` LIMIT ?, ?";
-		stmt = conn.prepareStatement(sql);
-		
-		stmt.setInt(1, startRow);
-		stmt.setInt(2, rowPerPage);
-		rs = stmt.executeQuery();
+			String sql = "SELECT qna_id qnaId, title, content, create_date createDate, update_date updateDate FROM `q&a` LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			
+			stmt.setInt(1, startRow);
+			stmt.setInt(2, rowPerPage);
+			rs = stmt.executeQuery();
 		
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();

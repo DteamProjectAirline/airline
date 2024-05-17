@@ -29,7 +29,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>Insert title here</title>	
 </head>
 <body>
 
@@ -47,10 +47,15 @@
 			for(HashMap<String, Object> m : qaList){
 		%>
 			<div>
-				<a href="/D_airline/emp/qnaManageOne.jsp?qnaId=<%=m.get("qnaId")%>">
-					<%=m.get("title")%>
-				</a>
-				<div><%=m.get("content")%></div>
+				<div>
+					<a href="/D_airline/emp/qnaManageOne.jsp?qnaId=<%=m.get("qnaId")%>">
+						<%=m.get("title")%>
+					</a>
+				</div>	
+				<!-- 출력시 줄바꿈 기능 -->
+				<div style="white-space:pre-line">
+					<%=m.get("content")%>
+				</div>
 				<form action="qnaManageDeleteAction.jsp" method="post">
 					<input type="hidden" name="qnaId" value="<%=m.get("qnaId")%>">
 					<button type="submit">삭제</button>
@@ -61,7 +66,7 @@
 			}
 		%>
 		
-		
 	</div>
+	
 </body>
 </html>
