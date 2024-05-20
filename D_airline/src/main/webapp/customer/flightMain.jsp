@@ -81,7 +81,7 @@
 	</nav>
 
 	
-	<div style="width:100%; height:400px; background-image: url('/D_airline/img/mainImg.jpg');background-size:auto ;">
+	<div style="width:100%; height:500px; background-image: url('/D_airline/img/mainImg.jpg');background-size: cover;">
 	<div  style=" width:1000px; margin-bottom:80px; margin-right:320px; ; margin-left:475px; margin-top: 48px; align-items: flex-start;  ">
 		
 		<div style="padding-left:0px; padding-right:0px;" >
@@ -157,8 +157,8 @@
 	
 	
 	<!-- 예약번호 조회 -->
-		<div id="main2" class="subFlight">
-			<form>	
+		<div id="main2" class="subFlight" >
+			<form action="/d_airline/customer/ckReservation.jsp">	
 				<span>예약번호</span>
 				<input type="text" name="bookingId">
 				<br>
@@ -171,8 +171,8 @@
 			</form>
 		</div>
 	
-		<div id = "main3" class="subFlight">
-			<form>
+		<div id ="main3" class="subFlight" >
+			<form action="/d_airline/customer/ckAirplane.jsp">
 				<input list="airport" name="departureLocation" placeholder="출발지">
 				<input list="airport" name="arrivalLocation" placeholder="도착지">
 				<input type="date" name="departDate">
