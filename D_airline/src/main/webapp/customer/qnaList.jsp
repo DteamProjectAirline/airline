@@ -15,14 +15,21 @@
 	
 	int totalRow = 0;
 	
+	//마지막 페이지 계산
 	int lastPage = totalRow / rowPerPage;
 	if(totalRow % rowPerPage !=0){
 		lastPage = lastPage +1;
 	}
+	
+	//검색기능
+	String searchWord = ""; 
+	if(request.getParameter("searchWord") != null){
+		searchWord = request.getParameter("searchWord");
+	}
 %>
 <%
 	//QnaDAO에서 qaList불러오기(리스트 출력)
-	ArrayList<HashMap<String, Object>> qaList = QnaDAO.qaList(startRow, rowPerPage);
+	ArrayList<HashMap<String, Object>> qaList = QnaDAO.qaList(searchWord, startRow, rowPerPage);
 %>
 <!DOCTYPE html>
 <html>
@@ -40,11 +47,30 @@
 	/*활성화된 accordion 내용의 배경색을 나타냄*/
 	.accordion-collapse.collapse {
     	background-color: #f3f4f8;  
+    	text-align: left;
     }
     .flex-container {
 	  display: flex;
 	  justify-content: center;
 	}
+	 /* 검색 바 스타일링 */
+    form {
+        margin-bottom: 20px;
+    }
+    form input[type="text"] {
+        width: 200px;
+        padding: 5px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    form button {
+        padding: 5px 10px;
+        background-color: #004b87;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
 </style>
 </head>
 <body>
@@ -74,6 +100,13 @@
 	<!-- QnA리스트 출력 -->
     <div class="container content-container">
 		<h2>자주 묻는 질문</h2>
+			<form method="get" action="/D_airline/customer/qnaList.jsp?searchWord=<%=request.getParameter(searchWord)%>">
+				<div>
+					검색:
+					<input type="text" name="searchWord" value="<%=searchWord%>">
+					<button type="submit">검색</button>
+				</div>
+			</form>
 		<div class="flex-container">
 			<div class="container-fluid text-center">
 			<div class="accordion" id="accordionExample">
@@ -95,7 +128,7 @@
 						</h2>
 		   			 <div id="<%=collapseId%>" class="accordion-collapse collapse" aria-labelledby="<%=headingId%>" data-bs-parent="#accordionExample" style="border:thin;">
 		     			 <!-- 출력시 줄바꿈 기능 -->
-		     			 <div class="accordion-body" style="white-space:pre-line">
+		     			 <div class="accordion-body" style="white-space:pre-line;">
 		     		 		<%=m.get("content")%>
 		      			</div>
 		    		</div>	
@@ -107,6 +140,53 @@
 		</div>				
 		</div>
 		</div>
+			
+	<nav aria-label="Page navigation example">
+  	<ul class="pagination justify-content-center">
+  	
+		<%
+			if(currentPage > 1){
+		%>
+			<li class="page-item">
+				<a class ="page-link" href="/D_airline/customer/qnaList.jsp?currentPage=1"> << </a>
+			</li>
+			<li class="page-item">
+				<a class ="page-link" href="/D_airline/customer/qnaList.jsp?currentPage=<%=currentPage-1%>&searchWord=<%=searchWord%>">이전</a>
+			</li>
+		<%		
+			} else{
+		%>
+			<li class="page-item disabled">
+				<a class ="page-link" href="/D_airline/customer/qnaList.jsp?currentPage=1"> << </a>
+			<li class="page-item disabled">
+				<a class ="page-link" href="/D_airline/customer/qnaList.jsp?currentPage=<%=currentPage-1%>">이전</a>
+			</li>
+		<%
+			}
+		%>
+			&nbsp;
+			<div>
+				<span class="btn btn-outline-secondary">
+						<%=currentPage%> 
+				</span>
+			</div>
+			&nbsp;
+		<%		
+			
+			if(currentPage < lastPage) {
+		%>
+			<li class="page-item">
+				<a class ="page-link" href="/D_airline/customer/qnaList.jsp?currentPage=<%=currentPage+1%>">다음</a>
+			</li>
+			<li class="page-item">
+				<a class ="page-link" href="/D_airline/customer/qnaList.jsp?currentPage=<%=lastPage%>">>></a>
+			</li>
+			
+		<%		
+			}
+		%>
+	</ul>
+	</nav>
 	</div>
 </body>
 </html>
