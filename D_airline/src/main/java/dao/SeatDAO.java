@@ -166,7 +166,7 @@ public class SeatDAO {
 			m.put("departureTime", rs.getString("departureTime"));
 			m.put("arrivalTime", rs.getString("arrivalTime"));
 			m.put("flightStatus", rs.getString("flightStatus"));
-			m.put("seatPrice", rs.getInt("seatPrice"));
+			m.put("seatPrice", rs.getDouble("seatPrice"));
 			
 			
 			

@@ -13,9 +13,9 @@ String departureLocation = request.getParameter("departureLocation"); //출발�
 String arrivalLocation = request.getParameter("arrivalLocation"); // 도착지 or 복귀공항
 String departDate = request.getParameter("departDate");  //출발일
 String comeBackDate = request.getParameter("comeBackDate"); // 돌아오는날
-String selectedSeatGrade = request.getParameter("selectedSeatGrade");
-String flightId1 = request.getParameter("flightId");
-String selectedSeatGrade1 = request.getParameter("selectedSeatGrade");
+String selectedSeatGrade1 = request.getParameter("selectedSeatGrade1");
+String flightId1 = request.getParameter("flightId1");
+
 /* System.out.println(type+"왕복,편도");
 System.out.println(departureLocation+"출발지");
 System.out.println(arrivalLocation+"도착지");
@@ -161,7 +161,7 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(arrivalLocatio
 				<!-- 도착지에서 출발하는 항공편 아이디값 arrival -->
 				<input type="hidden" name="flightId2" value="<%=flightId%>">
 				<!-- 출발지 항공편 좌석 등급.  -->
-				<input type="hidden" name="selectedSeatGrade1" value="<%=selectedSeatGrade%>">
+				<input type="hidden" name="selectedSeatGrade1" value="<%=selectedSeatGrade1%>">
 				<!-- 도착지 항공편 좌석 등급.-->
 				<input type="hidden" name="selectedSeatGrade2" id="selectedSeatGrade<%=i%>">
 				<input type="hidden" name="type" value="<%=type%>">
