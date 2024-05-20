@@ -15,7 +15,8 @@ String departDate = request.getParameter("departDate");  //출발일
 String comeBackDate = request.getParameter("comeBackDate"); // 돌아오는날
 String selectedSeatGrade1 = request.getParameter("selectedSeatGrade1");
 String flightId1 = request.getParameter("flightId1");
-
+// grade 아님 grade별 가격임
+String flight_grade = request.getParameter("flight_grade");
 /* System.out.println(type+"왕복,편도");
 System.out.println(departureLocation+"출발지");
 System.out.println(arrivalLocation+"도착지");
@@ -68,7 +69,15 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(arrivalLocatio
 			// 등급비율별로 root 기본요금에 등급별요금(double)을 곱해서  인트형으로 반환.
 		int ecoSeatPrice = (int) ((int) (e.get("baseFare"))*(double) (seatNum.get(0).get("seatPrice")));
 		int busSeatPrice = (int) ((int) (e.get("baseFare"))*(double) (seatNum.get(1).get("seatPrice")));
-		int firstSeatPrice = (int) ((int) (e.get("baseFare"))*(double) (seatNum.get(2).get("seatPrice")));	
+		int firstSeatPrice = (int) ((int) (e.get("baseFare"))*(double) (seatNum.get(2).get("seatPrice")));
+		int flight1Price = 0; 
+		if(selectedSeatGrade1.equals(seatNum.get(0).get("seatGrade"))){
+			flight1Price = ecoSeatPrice;
+		} else if (selectedSeatGrade1.equals(seatNum.get(1).get("seatGrade"))){
+			flight1Price = busSeatPrice;
+		} else if (selectedSeatGrade1.equals(seatNum.get(2).get("seatGrade"))){
+			flight1Price = firstSeatPrice;
+		}
 		%>
 		
 		<!-- if로 분기 왕복일때와 편도일때 form action을 다르게해서 분기함. -->
@@ -111,7 +120,7 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(arrivalLocatio
 						
 						<div class="flightTopBorder">
 							<label style="width: 100%" for="selectEconomy<%=i%>">
-							<input type="radio" style="opacity: 0" id="selectEconomy<%=i%>" name="flight_grade" value="<%=ecoSeatPrice%>" data-seat-grade="<%=(String) (seatNum.get(0).get("seatGrade"))%>">
+							<input type="radio" style="opacity: 0" id="selectEconomy<%=i%>" name="flight_grade" value="<%=ecoSeatPrice+flight1Price%>" data-seat-grade="<%=(String) (seatNum.get(0).get("seatGrade"))%>">
 								<div class="priceBorder" style="margin-top: 20px;">
 									<div>
 									<%=(String) (seatNum.get(0).get("seatGrade"))%> <!-- 좌석등급 -->
@@ -127,7 +136,7 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(arrivalLocatio
 					
 					<div class="flightTopBorder">
 						<label style="width: 100%" for="selectBusiness<%=i%>" >
-							<input type="radio" style="opacity: 0;" name="flight_grade" id="selectBusiness<%=i%>" value="<%=busSeatPrice%>"data-seat-grade="<%=(String) (seatNum.get(1).get("seatGrade"))%>">
+							<input type="radio" style="opacity: 0;" name="flight_grade" id="selectBusiness<%=i%>" value="<%=busSeatPrice+flight1Price%>"data-seat-grade="<%=(String) (seatNum.get(1).get("seatGrade"))%>">
 							<div class="priceBorder">
 								<div>
 								<%=(String) (seatNum.get(1).get("seatGrade"))%>
@@ -142,7 +151,7 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(arrivalLocatio
 					
 					<div class="flightRightBorder" >
 						<label style="width: 100%" for="selectFirst<%=i%>">
-							<input type="radio"  style="opacity: 0;" name="flight_grade" id="selectFirst<%=i%>" value="<%=firstSeatPrice%>"data-seat-grade="<%=(String) (seatNum.get(2).get("seatGrade"))%>">
+							<input type="radio"  style="opacity: 0;" name="flight_grade" id="selectFirst<%=i%>" value="<%=firstSeatPrice+flight1Price%>"data-seat-grade="<%=(String) (seatNum.get(2).get("seatGrade"))%>">
 							<div class="priceBorder">
 								<div>
 								<%=(String) (seatNum.get(2).get("seatGrade"))%>
@@ -186,7 +195,7 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(arrivalLocatio
 		    <a class="navbar-brand">Navbar</a>
 		    	<div></div>
 		      <div style="line-height:1.5; padding-top:12px;font-size:30px;color:#00256c;" id="selectedFlightName">항공편을 선택해주세요</div>
-		      <div style="line-height:1.5; padding:12px;font-size: 30px;color:#00256c;" id="selectedSeatPrice">0원</div>
+		      <div style="line-height:1.5; padding:12px;font-size: 30px;color:#00256c;" id="selectedSeatPrice">총액<%=flight_grade%>원</div>
 		      
 		      <div style="padding-top:10px;">
 		      <button type="submit" id="nextPageButton" class="btn btn-primary btn-lg" style="margin-right:200px; width: 175px; height:50px;background-color:#00256c;">다음여정</button>
