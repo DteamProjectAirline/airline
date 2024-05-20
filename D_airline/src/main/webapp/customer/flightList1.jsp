@@ -13,12 +13,19 @@ String arrivalLocation = request.getParameter("arrivalLocation"); // 도착지 o
 String departDate = request.getParameter("departDate");  //출발일
 String comeBackDate = request.getParameter("comeBackDate"); // 돌아오는날
 
-/* System.out.println(type+"왕복,편도");
+System.out.println(type+"왕복,편도");
 System.out.println(departureLocation+"출발지");
 System.out.println(arrivalLocation+"도착지");
 System.out.println(departDate+"출발일");
-System.out.println(comeBackDate+"복귀일 편도면 null임."); */ 
+System.out.println(comeBackDate+"복귀일 편도면 null임.");
+System.out.println(arrivalLocation.equals(""));
+if(type == "" || departureLocation == "" || arrivalLocation == "" || departDate == "" || type == null || departureLocation == null || arrivalLocation == null || departDate == null  
+	)
 
+{
+	response.sendRedirect("/D_airline/customer/flightMain.jsp?");
+}
+	
 // 항공편 리스트 불러오는 메소드;
 ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocation, arrivalLocation, departDate);
 
@@ -44,7 +51,8 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 		<%int i = 0; %>
 		<%for(HashMap<String,Object> e : list) {
 			i = i + 1 ;
-		System.out.println(i);
+		String flightNameId = "flightName"+i;
+		//System.out.println(i);
 		String departureTime = (String) (e.get("departureTime"));
 		String arrivalTime = (String) (e.get("arrivalTime"));
 		String flightDuration = (String) (e.get("flightDuration"));
@@ -58,7 +66,13 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 		int firstSeatPrice = (int) ((int) (e.get("baseFare"))*(double) (seatNum.get(2).get("seatPrice")));
 			
 		%>
+		<%if(type.equals("왕복")){%>
 		<form id="flightForm<%=i%>" method="POST" action="/D_airline/customer/flightList2.jsp">
+		<%} else{%>
+			<form id="flightForm<%=i%>" method="POST" action="/D_airline/customer/seatSelection.jsp">
+			<%
+			}
+			%>
 			<li style="display: flex ;margin: 32px 0 64px; border: 10px; border-radius: 2rem;height: 180px;">
 				<div class="flightBorder">
 					<div class="flightContent">
@@ -82,7 +96,7 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 							</div>
 									
 						</div>
-						<div style="margin-top: 5px;">
+						<div id="<%=flightNameId %>" style="margin-top: 5px;">
 						<%=(String) (e.get("planeName"     ))%>
 						<%=(String) (e.get("airLine"       ))%>
 						</div>
@@ -92,12 +106,11 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 				<div style="display:flex; border: 1px solid #d9dbe1; border-bottom-right-radius:20px;border-top-right-radius:20px; width: 100%; margin-right: 100px;">
 						
 						<div class="flightTopBorder">
-							<label style="width: 100%" for="selectEconomy" >
-							
-							<input type="radio" style="opacity: 0;" id="selectEconomy" name="flight_grade" value="<%=ecoSeatPrice%>">
+							<label style="width: 100%" for="selectEconomy<%=i%>">
+							<input type="radio" style="opacity: 0" id="selectEconomy<%=i%>" name="flight_grade" value="<%=ecoSeatPrice%>" data-seat-grade="<%=(String) (seatNum.get(0).get("seatGrade"))%>">
 								<div class="priceBorder" style="margin-top: 20px;">
 									<div>
-									일반석
+									<%=(String) (seatNum.get(0).get("seatGrade"))%>
 									</div>
 									<div style="font-size: 24px;line-height: 1.5;">
 									<%=ecoSeatPrice%>원	
@@ -109,11 +122,11 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 						
 					
 					<div class="flightTopBorder">
-						<label style="width: 100%" for="selectBusiness" >
-							<input type="radio" style="opacity: 0;" name="flight_grade" id="selectBusiness" value=<%=busSeatPrice%>>
+						<label style="width: 100%" for="selectBusiness<%=i%>" >
+							<input type="radio" style="opacity: 0;" name="flight_grade" id="selectBusiness<%=i%>" value="<%=busSeatPrice%>"data-seat-grade="<%=(String) (seatNum.get(1).get("seatGrade"))%>">
 							<div class="priceBorder">
 								<div>
-								비지니스
+								<%=(String) (seatNum.get(1).get("seatGrade"))%>
 								</div>
 								<div style="font-size: 24px;line-height: 1.5;">
 								<%=busSeatPrice%>원	
@@ -124,10 +137,12 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 					</div>
 					
 					<div class="flightRightBorder" >
-						<label style="width: 100%" for="selectFirst">
-							<input type="radio"  style="opacity: 0;" name="flight_grade" id="selectFirst" value=<%=firstSeatPrice%>>
+						<label style="width: 100%" for="selectFirst<%=i%>">
+							<input type="radio"  style="opacity: 0;" name="flight_grade" id="selectFirst<%=i%>" value="<%=firstSeatPrice%>"data-seat-grade="<%=(String) (seatNum.get(2).get("seatGrade"))%>">
 							<div class="priceBorder">
-								<div>퍼스트</div>
+								<div>
+								<%=(String) (seatNum.get(2).get("seatGrade"))%>
+								</div>
 								<div style="font-size: 24px;line-height: 1.5;">
 								<%=firstSeatPrice%>원
 								</div>
@@ -136,7 +151,16 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 						</label>
 					</div>
 				</div>
-				<input type="hidden" name="flightId" value=<%=flightId%>>
+				<input type="hidden" name="flightId" value="<%=flightId%>">
+				<input type="hidden" name="selectedSeatGrade" id="selectedSeatGrade<%=i%>">
+				<input type="hidden" name="type" value="<%=type%>">
+				<input type="hidden" name="departureLocation" value="<%=departureLocation%>">
+				<input type="hidden" name="arrivalLocation" value="<%=arrivalLocation%>">
+				<input type="hidden" name="comeBackDate" value="<%=departDate%>">
+				
+
+				
+				
 			</li>
 		</form>		
 		<%} %>
@@ -145,8 +169,10 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 <nav class="navbar bg-body-tertiary fixed-bottom shadow-lg  bg-body-tertiary rounded" style="height: 80px;">
 		  <div class="container-fluid">
 		    <a class="navbar-brand">Navbar</a>
-		      <div style="line-height:1.5; padding-top:12px;font-size:30px;color:#00256c;">총액</div>
+		    	<div></div>
+		      <div style="line-height:1.5; padding-top:12px;font-size:30px;color:#00256c;" id="selectedFlightName">항공편을 선택해주세요</div>
 		      <div style="line-height:1.5; padding:12px;font-size: 30px;color:#00256c;" id="selectedSeatPrice">0원</div>
+		      
 		      <div style="padding-top:10px;">
 		      <button type="submit" id="nextPageButton" class="btn btn-primary btn-lg" style="margin-right:200px; width: 175px; height:50px;background-color:#00256c;">다음여정</button>
 		      </div>	
@@ -155,26 +181,41 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 
 
  <script>
- let FormId = null;
- const labels = document.querySelectorAll('label[for^="select"]');
- labels.forEach((label, i) => {
-     label.addEventListener('click', function(event) {
+ let selectedForm = null;
+
+ const radioButtons = document.querySelectorAll('input[type=radio]');
+ radioButtons.forEach((radioButton) => {
+     radioButton.addEventListener('change', function(event) {
          // 선택된 라디오 버튼의 값을 가져옴
-         const selectedValue = document.querySelector('input[name="flight_grade"]:checked').value;
+         const selectedValue = radioButton.value;
+      	 // 선택된 좌석 등급을 가져옴
+         const selectedSeatGrade = radioButton.dataset.seatGrade;
+         
+         // 선택된 항공편 이름을 가져옴
+         const selectedFlightName = document.getElementById('flightName' + radioButton.id.match(/\d+$/)[0]).textContent;
          // 선택된 좌석의 가격을 표시할 요소를 찾음
          const priceDisplayElement = document.getElementById('selectedSeatPrice');
+         // 선택된 항공편 이름을 표시할 요소를 찾음
+         const flightNameDisplayElement = document.getElementById('selectedFlightName');
          // 선택된 좌석의 가격을 업데이트
-         priceDisplayElement.textContent =  selectedValue +"원";
-         // 선택된 좌석의 가격을 숨겨진 입력 필드에 저장
-         FormId = 'flightForm' + i;
+         priceDisplayElement.textContent =  "총액"+selectedValue + "원";
+         // 선택된 항공편 이름을 업데이트
+         flightNameDisplayElement.textContent = selectedFlightName;
+      	 // 선택된 좌석 등급을 폼에 저장
+         const seatGradeInput = document.getElementById('selectedSeatGrade' + radioButton.id.match(/\d+$/)[0]);
+      	 console.log(seatGradeInput);
+         seatGradeInput.value = selectedSeatGrade;
+         // 선택된 폼을 저장
+         selectedForm = document.getElementById('flightForm' + radioButton.id.match(/\d+$/)[0]);
      });
  });
+
  document.getElementById('nextPageButton').addEventListener('click', function() {
-	    // 폼 제출
-	    if(FormId){
-	    document.getElementById(FormId).submit();
-	    }
-	});
+     // 선택된 폼이 있으면 제출
+     if(selectedForm){
+         selectedForm.submit();
+     }
+ });
 </script>
 	
 </body>

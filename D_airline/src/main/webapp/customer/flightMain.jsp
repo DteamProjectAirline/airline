@@ -106,27 +106,27 @@
 				<button name="type" value="왕복" style=" margin-top: 16px; margin-bottom: 16px; color:white;border-radius:10px 10px 10px 10px;background-color:#00256c">왕복</button>
 				<button name="type" value="편도" style="color:white; border-radius:10px 10px 10px 10px; background-color:#00256c">편도</button>
 			</form>
-			<form action="/D_airline/customer/flightList1.jsp"> <!-- 항공편리스트 조회 -->
+			<form method="post" action="/D_airline/customer/flightList1.jsp"> <!-- 항공편리스트 조회 -->
 				<!-- 출발지 , 도착지 입력   -->
 				<input type="hidden" name="type" value="<%=type%>">
 			<div class="inputdiv">
 				<div>
-					<input class="wrap" style="margin-left:12px;" list="airport" name="departureLocation" placeholder="출발지">
+					<input class="wrap" style="margin-left:12px;" list="airport" name="departureLocation" placeholder="출발지" required="required">
 				</div>
 				
 				<div>
-					<input class="wrap" style=""list="airport" name="arrivalLocation" placeholder="도착지">
+					<input class="wrap" style=""list="airport" name="arrivalLocation" placeholder="도착지" required="required">
 				</div>
 				
 				<div>
-					<input class="wrap" type="date" name="departDate" min="<%=now%>">
+					<input class="wrap" type="date" name="departDate" min="<%=now%>" required="required">
 				</div>
 				
 				<div>
 					<%if( type != "왕복"){ %>
 						<input class="wrap" type="date" name="comeBackDate" disabled="disabled">
 					<%} else{%>
-						<input class="wrap" type="date" name="comeBackDate">
+						<input class="wrap" type="date" name="comeBackDate" required="required">
 						<%} %>
 						<%System.out.println(); %>
 						<button type="submit" style="margin-left:10px; margin-top:15px; background-color: #00256c "class="btn btn-primary">조회</button>
