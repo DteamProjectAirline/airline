@@ -6,7 +6,7 @@
 <%@ page import="java.net.*" %>
 
 <% 
-	System.out.println("----------seatSelection2.jsp----------");
+	System.out.println("----------seatSelection3.jsp----------");
 
 
 String msg = null;
@@ -17,7 +17,7 @@ String seatGrade = null;
 int seatNo = 0;
 double seatPrice = 0;
 String type = null;
-int seatIndex = 0;
+//int seatIndex = 0;
 
 
 
@@ -120,31 +120,31 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 						<tr>
 							<td>
 						<%
-							for(int i = 0; i <= 24; i++){
+							for(int i = 1; i <= 24; i++){
 								if((i-3) % 8 == 0){
 									
 									System.out.println("첫번째 공백 i : "+ i);
 									
 									int a = (i/8)+1; 
-									System.out.println("a : "+ a);
+									System.out.println("행(a) : "+ a);
 									
-								}
-								if((i-6) % 8 == 0){
+								}else if((i-6) % 8 == 0){
 									
 									System.out.println("두번째 공백 i : "+ i);
 									int a = (i/8)+1; 
-									System.out.println("a : "+ a);
+									System.out.println("행(a) : "+ a);
+							
 									
 									
 								}else{
 									
-									HashMap<String, Object> m = selectSeatNo.get(seatIndex);
+									HashMap<String, Object> m = selectSeatNo.get(i);
                                     seatNo = (int) m.get("seatNo");
                                     seatGrade = (String) m.get("seatGrade");
                                     seatState = (String) m.get("seatState");
-                                    System.out.println("seatIndex : " + seatIndex); 
-                                   	System.out.println("seatNo : " + seatNo + "//seatGrade : " + seatGrade + "//seatState : " + seatState);
-                                    seatIndex++;
+                                    System.out.println("i : " + i); 
+                                   	//System.out.println("seatNo : " + seatNo + "//seatGrade : " + seatGrade + "//seatState : " + seatState);
+                                    
                                     
 
 									
