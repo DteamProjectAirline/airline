@@ -37,10 +37,10 @@
 %>    
 <%
 	// 표시할 사용자명 받아오는코드
-	String empId = null;
+	String customerId = null;
 	if(session.getAttribute("loginCs") != null){
 	HashMap<String,Object> loginMember = (HashMap<String,Object>) (session.getAttribute("loginCs"));
-	empId = (String) loginMember.get("memberId"); 
+	customerId = (String) loginMember.get("memberId"); 
 	}
 %>    
     
@@ -67,7 +67,7 @@
 		    	<%if(session.getAttribute("loginCs") != null){	    	
 		    	%>
 		    	  		<!-- 세션에서 사용자  id 값 꺼내와서 표현할거임 -->
-		    	  		<%=empId%>
+		    	  		<%=customerId%>
 		    	<% 
 		    	} else{
 		    	%>
@@ -106,7 +106,11 @@
 				<button name="type" value="왕복" style=" margin-top: 16px; margin-bottom: 16px; color:white;border-radius:10px 10px 10px 10px;background-color:#00256c">왕복</button>
 				<button name="type" value="편도" style="color:white; border-radius:10px 10px 10px 10px; background-color:#00256c">편도</button>
 			</form>
-			<form method="post" action="/D_airline/customer/flightList1.jsp"> <!-- 항공편리스트 조회 -->
+			<%if(session.getAttribute("loginCs") != null){%>
+			<form method="post" action = "/D_airline/customer/flightList1.jsp" style="margin-left: 48px ; ">						
+			<%} else{%>
+			<form method="post" action = "/D_airline/customer/loginForm.jsp?err=ab" style="margin-left: 48px ; ">
+			<%} %>
 				<!-- 출발지 , 도착지 입력   -->
 				<input type="hidden" name="type" value="<%=type%>">
 			<div class="inputdiv">
@@ -128,7 +132,7 @@
 					<%} else{%>
 						<input class="wrap" type="date" name="comeBackDate" required="required">
 						<%} %>
-						<%System.out.println(); %>
+
 						<button type="submit" style="margin-left:10px; margin-top:15px; background-color: #00256c "class="btn btn-primary">조회</button>
 				</div>
 
