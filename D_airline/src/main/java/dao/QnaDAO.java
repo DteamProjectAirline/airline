@@ -175,7 +175,7 @@ public class QnaDAO {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-        String sql = "SELECT COUNT(*) FROM `q&a` WHERE title LIKE ?";
+        String sql = "SELECT COUNT(*) cnt FROM `q&a` WHERE title LIKE ?";
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1,"%"+searchWord+"%");
 		rs = stmt.executeQuery();
@@ -187,5 +187,6 @@ public class QnaDAO {
 		conn.close();
 		return totalRow;
 	}
+	
 
 }

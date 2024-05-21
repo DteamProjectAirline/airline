@@ -9,11 +9,17 @@
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	
-	int rowPerPage = 7; //한 페이지당 출력할 row개수
+	//검색기능
+	String searchWord = ""; 
+	if(request.getParameter("searchWord") != null){
+		searchWord = request.getParameter("searchWord");
+	}
+	
+	int rowPerPage = 12; //한 페이지당 출력할 row개수
 	int startRow = (currentPage-1)*rowPerPage; //행의 범위결정
 	System.out.println(startRow+"<--startRow");
 	
-	int totalRow = 0;
+	int totalRow = QnaDAO.totalRow(searchWord);
 	
 	//마지막 페이지 계산
 	int lastPage = totalRow / rowPerPage;
@@ -21,15 +27,19 @@
 		lastPage = lastPage +1;
 	}
 	
-	//검색기능
-	String searchWord = ""; 
-	if(request.getParameter("searchWord") != null){
-		searchWord = request.getParameter("searchWord");
-	}
+	
 %>
 <%
 	//QnaDAO에서 qaList불러오기(리스트 출력)
-	ArrayList<HashMap<String, Object>> qaList = QnaDAO.qaList(searchWord, startRow, rowPerPage);
+	ArrayList<HashMap<String, Object>> qaList = QnaDAO.qaList(searchWord, startRow, rowPerPage);	
+%>
+<%
+	// 표시할 사용자명 받아오는코드
+	String empId = null;
+	if(session.getAttribute("loginAd") != null){
+		HashMap<String,Object> loginMember = (HashMap<String,Object>) (session.getAttribute("loginAd"));
+		empId = (String) loginMember.get("adminId"); 
+	}   
 %>
 <!DOCTYPE html>
 <html>
@@ -40,6 +50,11 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <style>
+	 .content-container {
+           margin: 20px auto;
+           max-width: 1000px;
+      }
+     
 	/*첫 화면에서 비활성화된 accordion의 배경색을 나타냄*/
 	.accordion-button:not(.collapsed) {
     	background-color: white;
@@ -52,6 +67,9 @@
     .flex-container {
 	  display: flex;
 	  justify-content: center;
+	}
+	.fluid{
+		width: 100%;
 	}
 	 /* 검색 바 스타일링 */
     form {
@@ -71,6 +89,7 @@
         border: none;
         border-radius: 5px;
     }
+    
 </style>
 </head>
 <body>
@@ -81,10 +100,10 @@
 		  </div>
 		  <div>
 		    	<!-- 로그인 상태면 고객아이디 , 로그인상태가 아니면 로그인버튼 -->
-		    	<%if(session.getAttribute("loginCs") != null){	    	
+		    	<%if(session.getAttribute("loginAd") != null){	    	
 		    	%>
 		    	<!-- 세션에서 사용자  id 값 꺼내와서 표현할거임 -->
-		    	  		
+		    	  	<%=empId%>	
 		    	<% 
 		    	} else{
 		    	%>
@@ -100,15 +119,16 @@
 	<!-- QnA리스트 출력 -->
     <div class="container content-container">
 		<h2>자주 묻는 질문</h2>
+		<div class="container-fluid text-center">
 			<form method="get" action="/D_airline/customer/qnaList.jsp?searchWord=<%=request.getParameter(searchWord)%>">
 				<div>
-					검색:
 					<input type="text" name="searchWord" value="<%=searchWord%>">
 					<button type="submit">검색</button>
 				</div>
 			</form>
-		<div class="flex-container">
-			<div class="container-fluid text-center">
+		</div>	
+		
+		<div class="container-fluid text-center" style="width: 100%">
 			<div class="accordion" id="accordionExample">
 			
 				<%
@@ -132,14 +152,16 @@
 		     		 		<%=m.get("content")%>
 		      			</div>
 		    		</div>	
-		    	</div>	
+		   		</div>
+		    
 				<%
 					}
 				%>	
 				
-		</div>				
-		</div>
-		</div>
+		  </div>
+        </div>
+    </div>		
+	
 			
 	<nav aria-label="Page navigation example">
   	<ul class="pagination justify-content-center">
@@ -187,6 +209,6 @@
 		%>
 	</ul>
 	</nav>
-	</div>
+	
 </body>
 </html>
