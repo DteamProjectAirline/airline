@@ -71,7 +71,33 @@ public class TicketingDAO {
 			stmt.close();
 			return row;
 	}	
+	
+	public static int baseFare(String flightId1) throws Exception{
+			int baseFare = 0;
+			Connection conn = DBHelper.getConnection();
+			String sql = "SELECT route.basefare FROM flight INNER JOIN route ON flight.route_id = route.route_id WHERE flight.flight_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, flightId1);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				baseFare = rs.getInt("baseFare");
+			}
+		return baseFare;
+	}
+	
+	public static double grade(String seatGrade1) throws Exception{
+		Connection conn = DBHelper.getConnection();
+		double grade = 0;
+		String sql ="SELECT seat_price FROM seatprice WHERE seat_grade = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, seatGrade1);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			 grade = rs.getDouble("seat_price");
+		}
+		return grade;
 		
+	}
 }
 	
 

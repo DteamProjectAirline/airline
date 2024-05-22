@@ -193,7 +193,7 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(arrivalLocatio
 <nav class="navbar bg-body-tertiary fixed-bottom shadow-lg  bg-body-tertiary rounded" style="height: 80px;">
 		  <div class="container-fluid">
 		    <a class="navbar-brand">Navbar</a>
-		    	<div></div>
+		    	
 		      <div style="line-height:1.5; padding-top:12px;font-size:30px;color:#00256c;" id="selectedFlightName">항공편을 선택해주세요</div>
 		      <div style="line-height:1.5; padding:12px;font-size: 30px;color:#00256c;" id="selectedSeatPrice">총액<%=flight_grade%>원</div>
 		      

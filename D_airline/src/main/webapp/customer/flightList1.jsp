@@ -27,7 +27,7 @@ if(type == "" || departureLocation == "" || arrivalLocation == "" || departDate 
 	
 // 항공편 리스트 불러오는 메소드;
 ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocation, arrivalLocation, departDate);
-
+ System.out.println(list.isEmpty());
 %>    
     
 <!DOCTYPE html>
@@ -172,7 +172,12 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 		<%} %>
 	</ul>
 	</div>
-	
+	<%if(list.isEmpty()){ %>
+	<h1>검색하신 여정/날짜에는 현재 운항하고있는 항공편이 존재하지않습니다. 다시 선택해주세요</h1>
+	<a href="/D_airline/customer/flightMain.jsp">메인페이지로 이동하기</a>
+	<%
+	} 
+	%>
 	<!-- 하단 nav바 -->
 <nav class="navbar bg-body-tertiary fixed-bottom shadow-lg  bg-body-tertiary rounded" style="height: 80px;">
 		  <div class="container-fluid">
