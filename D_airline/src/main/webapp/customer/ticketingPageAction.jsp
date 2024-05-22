@@ -1,10 +1,11 @@
+<%@page import="sjwdao.TicketingDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 
-String seatId1 = request.getParameter("seatId1");
-String seatId2 = request.getParameter("seatId2");
-String flightId1 = request.getParameter("flightId1");
+int seatId1 = Integer.parseInt(request.getParameter("seatId1"));
+int seatId2 = Integer.parseInt(request.getParameter("seatId2"));
+int flightId1 = Integer.parseInt(request.getParameter("flightId1"));
 String flightId2 = request.getParameter("flightId2");
 String seatNo1 = request.getParameter("seatNo1"); 
 String seatNo2 = request.getParameter("seatNo2"); 
@@ -17,8 +18,16 @@ String customerPhone = request.getParameter("customerPhone");
 String customerNation = request.getParameter("customerNation");
 String birthDate = request.getParameter("birthDate");
 String customerId = request.getParameter("customerId");
-String mileage = request.getParameter("mileage");	
-
+String mileage = request.getParameter("mileage");
+String departureTime1 = request.getParameter("departureTime1");
+String departureTime2 = request.getParameter("departureTime2");
+String arrivalTime1 = request.getParameter("arrivalTime1");
+departureTime1 = departureTime1.substring(0,9);
+String arrivalTime2 = request.getParameter("arrivalTime2");
+String departPrice = request.getParameter("departPrice");
+String arrivalPrice = request.getParameter("arrivalPrice");
+String luggage = request.getParameter("luggage");
+/*
 System.out.println("seatId1: " + seatId1);
 System.out.println("seatId2: " + seatId2);
 System.out.println("flightId1: " + flightId1);
@@ -35,7 +44,13 @@ System.out.println("customerNation: " + customerNation);
 System.out.println("birthDate: " + birthDate);
 System.out.println("customerId: " + customerId);
 System.out.println("mileage: " + mileage);
-	
+*/
+// 출발지 예약
+int row = TicketingDAO.Ticketing(customerId, seatId1, departureTime1, departPrice, luggage);
+System.out.println(row + "1이면성공!");
+int row2 = TicketingDAO.seatState(seatId1);
+System.out.println(seatId1);
+System.out.println(row2 + "1이면성공!");
 %>
 <!DOCTYPE html>
 <html>

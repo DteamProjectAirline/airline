@@ -13,19 +13,17 @@ public class TicketingDAO {
 	// parameter : int memberId , int seatId , String refundPeriod , String bookingState , String paymentAmount , String luggage , String ticketType
 	// ticketingPage.jsp
 	// return row = 1 or 0 인서트 성공 1 실패 0
-	public static int Ticketing(int memberId , int seatId , String refundPeriod , String bookingState , String paymentAmount , String luggage , String ticketType  ) throws Exception{
+	public static int Ticketing(String customerId , int seatId , String refundPeriod , String paymentAmount , String luggage ) throws Exception{
 		Connection conn = DBHelper.getConnection();
-		String sql = "INSERT INTO(member_id,seat_id,refund_period,booking_date,booking_state,payment_amount,luggage,ticket_type)"
-				+ " VALUES(?,?,?,now(),?,?,?,?)";
+		String sql = "INSERT INTO booking(member_id ,seat_id , refund_period , booking_date , booking_state , payment_amount , luggage ,ticket_type )"
+				+ " VALUES(?,?,?,now(),'활성',?,?,'이륙전')";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, 0);  // 멤버아이디 
-		stmt.setInt(2, 0);  // 좌석번호
-		stmt.setString(3, sql); // 환불기간 = 탑승일 전날까지 당일에는 환불불가.
-		stmt.setString(4, sql); // 부킹날짜
-		stmt.setString(5, sql); // 예약상태
-		stmt.setInt(6, 0); // 요금
-		stmt.setString(7, sql); // 수화물 여부
-		stmt.setString(8, sql); //티켓타입
+		stmt.setString(1, customerId);  // 멤버아이디 
+		stmt.setInt(2, seatId);  // 좌석번호
+		stmt.setString(3, refundPeriod); // 환불기간 = 탑승일 전날까지 당일에는 환불불가.
+		stmt.setString(4, paymentAmount); // 요금
+		stmt.setString(5, luggage); // 요금
+		System.out.println(stmt);
 		int row = stmt.executeUpdate();
 		stmt.close();
 		conn.close();
@@ -66,6 +64,7 @@ public class TicketingDAO {
 			Connection conn = DBHelper.getConnection();
 			String sql = "UPDATE seat SET seat_state=0 WHERE seat_id=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, seatId);
 			int row = stmt.executeUpdate();
 			conn.close();
 			stmt.close();
@@ -98,6 +97,7 @@ public class TicketingDAO {
 		return grade;
 		
 	}
+	
 }
 	
 

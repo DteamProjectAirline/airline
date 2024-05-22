@@ -10,6 +10,8 @@
 	// 좌석번호1 , 좌석번호 2 , 좌석등급1 , 좌석등급 2 , 좌석가격1 , 좌석가격 2 , 출,도착지
 	String seatId1 = request.getParameter("seatId1");
 	String seatId2 = null;
+	System.out.println(request.getParameter("seatId2")+"ddd");
+	System.out.println(request.getParameter("flightId2")+"ddd");
 	if(request.getParameter("seatId2") != null && request.getParameter("seatId2") != ""){
 	seatId2 = request.getParameter("seatId2");
 	}
@@ -45,11 +47,10 @@
 	System.out.println(seatId1 + " 좌석정보");
 	System.out.println(flightId1 + "가는편정보");
 	System.out.println(seatNo1 + "시트번호");
-	System.out.println(seatPrice1 + "시트가격");
 	System.out.println(departureLocation);
 	System.out.println(arrivalLocation); 
 	System.out.println(seatGrade1);
-	
+	System.out.println(flightId2 + "오는편정보");
 	// 세션에서 값 꺼내옴
 	String customerId = null;
 	String customerName = null;
@@ -78,7 +79,11 @@
 	System.out.println(TicketingDAO.baseFare(flightId1));
 	System.out.println(TicketingDAO.grade(seatGrade1));
 	int arrivalPrice = (int) (TicketingDAO.baseFare(flightId2) * TicketingDAO.grade(seatGrade2)) ;
-	
+	// 출발시간 도착시간 
+	String departureTime1 = null;
+	String arrivalTime1 = null;
+	String departureTime2 = null;
+	String arrivalTime2 = null;
 %>    
 <!DOCTYPE html>
 <html>
@@ -101,6 +106,8 @@
 		<%=(String) (Id1.get("arrivalTime")) %>
 		<%=(String) (Id1.get("planeName")) %>
 		<%=(String) (Id1.get("airline")) %>
+		<% departureTime1 =  (String) (Id1.get("departureTime"));%>
+		<% arrivalTime1 = (String) (Id1.get("arrivalTime"));%>
 		</div>
 	</div>
 	<%
@@ -118,6 +125,8 @@
 		<%=(String) (Id2.get("arrivalTime")) %>
 		<%=(String) (Id2.get("planeName")) %>
 		<%=(String) (Id2.get("airline")) %>
+		<% departureTime2 =  (String) (Id2.get("departureTime"));%>
+		<% arrivalTime2 = (String) (Id2.get("arrivalTime"));%>
 		</div>
 	</div>
 	<%
@@ -152,6 +161,9 @@
 		 <%if(flightId2 != null) {%>
 		 오는편:<%=arrivalPrice%>
 		 <%} %>
+		 <span>수화물</span>
+		 <input type="radio" name="luggage" value="Y">yes
+		 <input type="radio" name="luggage" value="N">no
 		</div>
 		<input type="hidden" name="seatId1" value="<%=seatId1%>">
 		<input type="hidden" name="seatId2" value="<%=seatId2%>">
@@ -163,6 +175,12 @@
 		<input type="hidden" name="seatGrade2" value="<%=seatGrade2%>">
 		<input type="hidden" name="seatPrice1" value="<%=seatPrice1%>">
 		<input type="hidden" name="seatPrice2" value="<%=seatPrice2%>">
+		<input type="hidden" name="departureTime1" value="<%=departureTime1%>">
+		<input type="hidden" name="departureTime2" value="<%=departureTime2%>">
+		<input type="hidden" name="arrivalTime1" value="<%=arrivalTime1%>">
+		<input type="hidden" name="arrivalTime2" value="<%=arrivalTime2%>">
+		<input type="hidden" name="departPrice" value="<%=departPrice%>">
+		<input type="hidden" name="arrivalPrice" value="<%=arrivalPrice%>">
 		<button type="submit">예매하기</button>
 	</form>
 </body>
