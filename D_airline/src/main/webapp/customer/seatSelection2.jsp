@@ -99,7 +99,7 @@ System.out.println("seatNo1 : " + seatNo1);
 System.out.println("seatPrice1 : " + seatPrice1);
 System.out.println("type : " + type);
 
-ArrayList<HashMap<String, Object>> selectSeatNo = SeatDAO.selectSeatNo(flightId1);
+ArrayList<HashMap<String, Object>> selectSeatNo = SeatDAO.selectSeatNo(flightId2);
 
 if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 	System.out.println("해당 항공편 좌석조회 성공");

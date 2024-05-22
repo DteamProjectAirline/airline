@@ -21,7 +21,13 @@ public class SeatDAO {
 		conn = DBHelper.getConnection();
 		
 		
-		String sql = "INSERT INTO seat(flight_id, seat_grade, seat_no, update_date, create_date) VALUES( ? ,  ? , ?, NOW(), NOW())";
+		String sql = "INSERT INTO seat(flight_id, seat_grade, seat_no, seat_state, update_date, create_date)\r\n"
+				+ "VALUES(?, ?, ?, \r\n"
+				+ "	CASE \r\n"
+				+ "	WHEN RAND() < 0.5 THEN 0 \r\n"
+				+ "	ELSE 1 \r\n"
+				+ "END, \r\n"
+				+ "NOW(), NOW())\r\n";
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, flightId);
 		stmt.setString(2, seatGrade);
