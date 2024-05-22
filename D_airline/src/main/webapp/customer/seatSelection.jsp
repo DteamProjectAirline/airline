@@ -123,14 +123,14 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 						<table>
 							<thead>
 								<tr>
-									<td><%=(char) 65%></td>
-									<td><%=(char) 66%></td>
+									<td class="row"><%=(char) 65%></td>
+									<td class="row"><%=(char) 66%></td>
 									<td></td>
-									<td><%=(char) 67%></td>
-									<td><%=(char) 68%></td>
-									<td></td>
-									<td><%=(char) 69%></td>
-									<td><%=(char) 70%></td>
+									<td class="row"><%=(char) 67%></td>
+									<td class="row"><%=(char) 68%></td>
+									<td class="row"></td>
+									<td class="row"><%=(char) 69%></td>
+									<td class="row"><%=(char) 70%></td>
 		
 								</tr>
 							</thead>
@@ -277,6 +277,7 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 	%>
 													<td>
 														<input type="hidden" name ="flightId1" value="<%=flightId1 %>">
+														<input type="hidden" name ="flightId2" value="<%=flightId2 %>">
 														<input type="hidden" name ="seatId1" value="<%=seatId1 %>">
 														<input type="hidden" name ="seatNo1" value="<%=seatNo1%>">
 														<input type="hidden" name ="type" value="<%=type %>">
@@ -383,6 +384,7 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 													<td>
 															 
 															<input type="hidden" name ="flightId1" value="<%=flightId1 %>">
+															<input type="hidden" name ="flightId2" value="<%=flightId2 %>">
 														<input type="hidden" name ="seatId1" value="<%=seatId1 %>">
 														<input type="hidden" name ="seatNo1" value="<%=seatNo1%>">
 														<input type="hidden" name ="type" value="<%=type %>">
