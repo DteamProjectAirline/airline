@@ -184,7 +184,7 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 											//System.out.println("seatNo : " + seatNo + "//seatGrade : " + seatGrade + "//seatState : " + seatState);
 											
 											if (seatState.equals("1")) {
-												if(selectedSeatGrade1 .equals("퍼스트클래스")){
+												if(selectedSeatGrade2 .equals("퍼스트클래스")){
 													
 													%>
 													<td>
@@ -290,7 +290,7 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 											//System.out.println("seatNo : " + seatNo + "//seatGrade : " + seatGrade + "//seatState : " + seatState);
 											
 											if (seatState.equals("1")) {
-												if(selectedSeatGrade1 .equals("비지니스")){
+												if(selectedSeatGrade2 .equals("비지니스")){
 													
 	%>
 													<td>
@@ -400,7 +400,7 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 											
 											if (seatState.equals("1")) {
 											
-												if(selectedSeatGrade1 .equals("일반석")){
+												if(selectedSeatGrade2 .equals("일반석")){
 													
 	%>
 													<td>

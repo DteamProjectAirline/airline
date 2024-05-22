@@ -7,7 +7,7 @@
 <%@ page import="java.net.*"%>
 
 <%
-System.out.println("----------seatSelection3.jsp----------");
+System.out.println("----------seatSelection.jsp----------");
 
 
 int seatIndex = 0;
@@ -104,11 +104,11 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 	
 			
 					 
-					if (type != null || type.equals("편도")) {
+					if (type != null && type.equals("편도")) {
 	%>
 						<form action="/D_airline/customer/ticketingPage.jsp">
 	<%
-					}else if(type != null || type.equals("왕복")){
+					}else if(type != null && type.equals("왕복")){
 	%>
 			
 						<form action="/D_airline/customer/seatSelection2.jsp">
@@ -176,10 +176,12 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 													%>
 													<td>
 														<input type="hidden" name ="flightId1" value="<%=flightId1 %>">
+														<input type="hidden" name ="flightId2" value="<%=flightId2 %>">
 														<input type="hidden" name ="seatId1" value="<%=seatId1 %>">
 														<input type="hidden" name ="seatNo1" value="<%=seatNo1%>">
 														<input type="hidden" name ="type" value="<%=type %>">
-														<input type="hidden" name ="seatGrade1" value="<%=selectedSeatGrade1 %>">
+														<input type="hidden" name ="selectedSeatGrade1" value="<%=selectedSeatGrade1 %>">
+														<input type="hidden" name ="selectedSeatGrade2" value="<%=selectedSeatGrade2 %>">
 														<input type="hidden" name ="departureLocation" value="<%=departureLocation %>">
 														<input type="hidden" name ="arrivalLocation" value="<%=arrivalLocation %>">
 														<button class="firstActive"><%=seatNo1 %></button> <%
@@ -279,6 +281,7 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 														<input type="hidden" name ="seatNo1" value="<%=seatNo1%>">
 														<input type="hidden" name ="type" value="<%=type %>">
 													<input type="hidden" name ="selectedSeatGrade1" value="<%=selectedSeatGrade1 %>">
+													<input type="hidden" name ="selectedSeatGrade2" value="<%=selectedSeatGrade2 %>">
 														<input type="hidden" name ="departureLocation" value="<%=departureLocation %>">
 														<input type="hidden" name ="arrivalLocation" value="<%=arrivalLocation %>">
 														<button class="businessActive"><%=seatNo1 %></button> 
@@ -383,7 +386,8 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 														<input type="hidden" name ="seatId1" value="<%=seatId1 %>">
 														<input type="hidden" name ="seatNo1" value="<%=seatNo1%>">
 														<input type="hidden" name ="type" value="<%=type %>">
-														<input type="hidden" name ="seatGrade1" value="<%=selectedSeatGrade1 %>"> 
+														<input type="hidden" name ="selectedSeatGrade1" value="<%=selectedSeatGrade1 %>"> 
+														<input type="hidden" name ="selectedSeatGrade2" value="<%=selectedSeatGrade2 %>"> 
 														<input type="hidden" name ="departureLocation" value="<%=departureLocation %>">
 														<input type="hidden" name ="arrivalLocation" value="<%=arrivalLocation %>">
 												 
