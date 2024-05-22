@@ -163,7 +163,7 @@
 	
 	<!-- 예약번호 조회 -->
 		<div id="main2" class="subFlight" >
-			<form action="/d_airline/customer/ckReservation.jsp">	
+			<form action="/D_airline/customer/ckReservation.jsp">	
 				<span>예약번호</span>
 				<input type="text" name="bookingId">
 				<br>
@@ -177,7 +177,7 @@
 		</div>
 	
 		<div id ="main3" class="subFlight" >
-			<form action="/d_airline/customer/ckAirplane.jsp">
+			<form action="/D_airline/customer/ckAirplane.jsp">
 				<input list="airport" name="departureLocation" placeholder="출발지">
 				<input list="airport" name="arrivalLocation" placeholder="도착지">
 				<input type="date" name="departDate">

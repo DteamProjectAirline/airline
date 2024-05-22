@@ -162,7 +162,7 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 				<input type="hidden" name="type" value="<%=type%>">
 				<input type="hidden" name="departureLocation" value="<%=departureLocation%>">
 				<input type="hidden" name="arrivalLocation" value="<%=arrivalLocation%>">
-				<input type="hidden" name="comeBackDate" value="<%=departDate%>">
+				<input type="hidden" name="comeBackDate" value="<%=comeBackDate%>">
 				
 
 				
