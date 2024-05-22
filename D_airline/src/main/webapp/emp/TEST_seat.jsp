@@ -9,7 +9,9 @@
 
 	<form method="post" action="/D_airline/customer/seatSelection3.jsp">
 	<input type="text" name="flightId">
+	<input type="text" name="type">
 	<button type="submit">제출</button>
+	
 	</form>
 
 

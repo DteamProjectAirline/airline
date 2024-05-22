@@ -50,19 +50,19 @@ System.out.println("flightId : "+ flightId);
 
 int insertSeat = 0;
 
-for(int i = 1; i <=20; i++){
+for(int i = 1; i <=18; i++){
 	seatGrade = "퍼스트클래스";
 	seatNo = i;
 	insertSeat = SeatDAO.insertSeat(flightId, seatGrade, seatNo);
 }
 
-for(int i = 21; i <=50; i++){
+for(int i = 19; i <=72; i++){
 	seatGrade = "비지니스";
 	seatNo = i;
 	insertSeat = SeatDAO.insertSeat(flightId, seatGrade, seatNo);
 }
 
-for(int i = 51; i <=150; i++){
+for(int i = 73; i <=150; i++){
 	seatGrade = "일반석";
 	seatNo = i;
 	insertSeat = SeatDAO.insertSeat(flightId, seatGrade, seatNo);

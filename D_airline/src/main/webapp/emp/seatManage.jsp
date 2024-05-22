@@ -50,7 +50,7 @@
     String updateDate = null;
     int routeId = 0;
     String stringRouteId = null;
-    int seatPrice = 0;
+    double seatPrice = 0;
     String airline = null;
     String flightStatus = null;
    
@@ -260,7 +260,7 @@
 					routeId = (int)(m2.get("routeId"));
 					stringRouteId = (String)(m2.get("stringRouteId"));
 					flightStatus = (String)(m2.get("flightStatus"));
-					seatPrice = (int)(m2.get("seatPrice"));
+					seatPrice = (double)(m2.get("seatPrice"));
 					
 					
 					

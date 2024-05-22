@@ -7,29 +7,36 @@
 <%@ page import="java.net.*"%>
 
 <%
-System.out.println("----------seatSelection.jsp----------");
+System.out.println("----------seatSelection3.jsp----------");
 
+
+int seatIndex = 0;
 String msg = null;
 
 int flightId1 = 0;
 int flightId2 = 0;
+
 String selectedSeatGrade1 = null;
 String selectedSeatGrade2 = null;
-
 
 String type = null;
 String departureLocation = null;
 String arrivalLocation = null;
 
-int seatId1 = 0;
 String seatState = null;
+int seatId1 = 0;
 int seatNo1 = 0;
 double seatPrice1 = 0;
+String seatGrade1 = null;
 
 System.out.println("[param] selectedSeatGrade1 : " + request.getParameter("selectedSeatGrade1"));
 System.out.println("[param] selectedSeatGrade2 : " + request.getParameter("selectedSeatGrade2"));
 System.out.println("[param] flightId1 : " + request.getParameter("flightId1"));
 System.out.println("[param] flightId2 : " + request.getParameter("flightId2"));
+System.out.println("[param] departureLocation : " + request.getParameter("departureLocation"));
+System.out.println("[param] arrivalLocation : " + request.getParameter("arrivalLocation"));
+System.out.println("[param] type : " + request.getParameter("type"));
+
 
 if (request.getParameter("flightId1") != null) {
 	flightId1 = Integer.parseInt(request.getParameter("flightId1"));
@@ -86,73 +93,349 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 <head>
 <meta charset="UTF-8">
 <title>seatSelection.jsp</title>
+
+<link rel="stylesheet" type="text/css" href="/D_airline/css/css_seatSelection.css">
 </head>
-<body>
-
-	<div>
-		<%
-		if (request.getParameter("flightId1") != null) {
-
-			if (type != null || type.equals("편도")) {
-
-				for (HashMap<String, Object> m2 : selectSeatNo) {
-
-					if (selectedSeatGrade1.equals((String) (m2.get("seatGrade")))) {
-		
-						seatId1 = (int) (m2.get("seatId"));
-						flightId1 = (int) (m2.get("flightId"));
-						seatState = (String) (m2.get("seatState"));
-						seatNo1 = (int) (m2.get("seatNo"));
-						seatPrice1 = (double) (m2.get("seatPrice"));
-				%>
-		
-				<span>좌석 정보</span>
-				<div>
-					<a
-						href="/D_airline/customer/ticketingPage.jsp?seatId1=<%=seatId1%>&flightId1=<%=flightId1%>&seatNo1=<%=seatNo1%>&seatGrade1=<%=selectedSeatGrade1%>&seatPrice1=<%=seatPrice1%>&departureLocation=<%=departureLocation%>&arrivalLocation=<%=arrivalLocation%>"><%=selectedSeatGrade1%>/<%=seatNo1%>/<%=seatState%></a>
-				</div>
-		
-				<%
+		<body>
+			<div>
+				
+	<%
+				if (request.getParameter("flightId1") != null) {
+	
+			
+					 
+					if (type != null || type.equals("편도")) {
+	%>
+						<form action="/D_airline/customer/ticketingPage.jsp">
+	<%
+					}else if(type != null || type.equals("왕복")){
+	%>
+			
+						<form action="/D_airline/customer/seatSelection2.jsp">
+						
+	<%
 					}
-
-				}
-
-			}else if(type != null || type.equals("왕복")){
+	%>
+			
+			
 				
-				
-				for (HashMap<String, Object> m2 : selectSeatNo) {
-
-					if (selectedSeatGrade1.equals((String) (m2.get("seatGrade")))) {
+					<div>
+						<table>
+							<thead>
+								<tr>
+									<td><%=(char) 65%></td>
+									<td><%=(char) 66%></td>
+									<td></td>
+									<td><%=(char) 67%></td>
+									<td><%=(char) 68%></td>
+									<td></td>
+									<td><%=(char) 69%></td>
+									<td><%=(char) 70%></td>
 		
-						seatId1 = (int) (m2.get("seatId"));
-						flightId1 = (int) (m2.get("flightId"));
-						seatState = (String) (m2.get("seatState"));
-						seatNo1 = (int) (m2.get("seatNo"));
-						seatPrice1 = (double) (m2.get("seatPrice"));
-				%>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									
+	<%
+									for (int i = 1; i <= 24; i++) {
+										if ((i - 3) % 8 == 0) {
+	
+											System.out.println("첫번째 공백 i : " + i);
+			
+											int a = (i / 8) + 1;
+											System.out.println("행(a) : " + a);
+	%>
+											<td>
+												<button class="aisle" disabled><%=a %></button> <%
+										} else if ((i - 6) % 8 == 0) {
+											
+											System.out.println("두번째 공백 i : " + i);
+											int a = (i / 8) + 1;
+											System.out.println("행(a) : " + a);
+	%>
+											<td>
+												<button class="aisle" disabled><%=a %></button> <%
+										} else {
+											
+											HashMap<String, Object> m = selectSeatNo.get(seatIndex);
+											
+											
+											
+											seatId1 = (int) m.get("seatId");
+											seatNo1 = (int) m.get("seatNo");
+										
+											seatState = (String) m.get("seatState");
+											System.out.println("i : " + i);
+											seatIndex++;
+											//System.out.println("seatNo : " + seatNo + "//seatGrade : " + seatGrade + "//seatState : " + seatState);
+											
+											if (seatState.equals("1")) {
+												if(selectedSeatGrade1 .equals("퍼스트클래스")){
+													
+													%>
+													<td>
+														<input type="hidden" name ="flightId1" value="<%=flightId1 %>">
+														<input type="hidden" name ="seatId1" value="<%=seatId1 %>">
+														<input type="hidden" name ="seatNo1" value="<%=seatNo1%>">
+														<input type="hidden" name ="type" value="<%=type %>">
+														<input type="hidden" name ="seatGrade1" value="<%=selectedSeatGrade1 %>">
+														<input type="hidden" name ="departureLocation" value="<%=departureLocation %>">
+														<input type="hidden" name ="arrivalLocation" value="<%=arrivalLocation %>">
+														<button class="firstActive"><%=seatNo1 %></button> <%
+													
+												}else{
+													
+													%>
+													<td>
+														<button class="firstUnable" disabled><%=seatNo1 %></button> <%
+												}
+
+											} else {
+	%>
+												<td>
+													<button class="unableSeat" disabled><%=seatNo1 %></button> <%
+											}
+	%> 
+			
+	<%
+											if (seatNo1 % 6 == 0) {
+	%>
+												</td>
+								</tr>
+								<tr>
+									
+	<%
+											}
+	%> 
+	<%
+										}
+			
+									}
+	%>
+						
+								</tr>
+							</tbody>
 		
-				<span>좌석 정보</span>
-				<div>
-					<a
-						href="/D_airline/customer/seatSelection2.jsp?seatId1=<%=seatId1%>&flightId1=<%=flightId1%>&flightId2=<%=flightId2%>&seatNo1=<%=seatNo1%>&selectedSeatGrade1=<%=selectedSeatGrade1%>&selectedSeatGrade2=<%=selectedSeatGrade2%>&seatPrice1=<%=seatPrice1%>
-						&departureLocation=<%=departureLocation%>&arrivalLocation=<%=arrivalLocation%>&
-						"><%=selectedSeatGrade1%>/<%=seatNo1%>/<%=seatState%></a>
-				</div>
+						</table>
+	
 		
-				<%
-					}
+					</div>
+					
+					<div>
+						<table>
+							<thead>
+								<tr>
+									<td><%=(char) 65%></td>
+									<td><%=(char) 66%></td>
+									<td></td>
+									<td><%=(char) 67%></td>
+									<td><%=(char) 68%></td>
+									<td></td>
+									<td><%=(char) 69%></td>
+									<td><%=(char) 70%></td>
+		
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									
+	<%
+									for (int i = 25; i <= 96; i++) {
+										if ((i - 3) % 8 == 0) {
+	
+											System.out.println("첫번째 공백 i : " + i);
+			
+											int a = (i / 8) + 1;
+											System.out.println("행(a) : " + a);
+	%>
+											<td>
+												<button class="aisle" disabled><%=a %></button> <%
+										} else if ((i - 6) % 8 == 0) {
+											
+											System.out.println("두번째 공백 i : " + i);
+											int a = (i / 8) + 1;
+											System.out.println("행(a) : " + a);
+	%>
+											<td>
+												<button class="aisle" disabled><%=a %></button> <%
+										} else {
+											
+											HashMap<String, Object> m = selectSeatNo.get(seatIndex);
+											seatNo1 = (int) m.get("seatNo");
+											seatGrade1 = (String) m.get("seatGrade");
+											seatState = (String) m.get("seatState");
+											System.out.println("i : " + i);
+											seatIndex++;
+											//System.out.println("seatNo : " + seatNo + "//seatGrade : " + seatGrade + "//seatState : " + seatState);
+											
+											if (seatState.equals("1")) {
+												if(selectedSeatGrade1 .equals("비지니스")){
+													
+	%>
+													<td>
+														<input type="hidden" name ="flightId1" value="<%=flightId1 %>">
+														<input type="hidden" name ="seatId1" value="<%=seatId1 %>">
+														<input type="hidden" name ="seatNo1" value="<%=seatNo1%>">
+														<input type="hidden" name ="type" value="<%=type %>">
+													<input type="hidden" name ="selectedSeatGrade1" value="<%=selectedSeatGrade1 %>">
+														<input type="hidden" name ="departureLocation" value="<%=departureLocation %>">
+														<input type="hidden" name ="arrivalLocation" value="<%=arrivalLocation %>">
+														<button class="businessActive"><%=seatNo1 %></button> 
+	<%
+													
+												}else{
+													
+	%>
+													<td>
+														<button class="businessUnable" disabled><%=seatNo1 %></button>
+	<%
+												}
 
-				}
-				
-				
-				
-				
-			}
+											} else {
+	%>
+												<td>
+													<button class="unableSeat" disabled><%=seatNo1 %></button> <%
+											}
+	%> 
+			
+	<%
+											if (seatNo1 % 6 == 0) {
+	%>
+												</td>
+								</tr>
+								<tr>
+									
+	<%
+											}
+	%> 
+	<%
+										}
+			
+									}
+	%>
+						
+								</tr>
+							</tbody>
+		
+						</table>
+	
+		
+					</div>
+					
+										<div>
+						<table>
+							<thead>
+								<tr>
+									<td><%=(char) 65%></td>
+									<td><%=(char) 66%></td>
+									<td></td>
+									<td><%=(char) 67%></td>
+									<td><%=(char) 68%></td>
+									<td></td>
+									<td><%=(char) 69%></td>
+									<td><%=(char) 70%></td>
+		
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									
+	<%
+									for (int i = 97; i <= 200; i++) {
+										if ((i - 3) % 8 == 0) {
+	
+											System.out.println("첫번째 공백 i : " + i);
+			
+											int a = (i / 8) + 1;
+											System.out.println("행(a) : " + a);
+	%>
+											<td>
+												<button class="aisle" disabled><%=a %></button><%
+										} else if ((i - 6) % 8 == 0) {
+											
+											System.out.println("두번째 공백 i : " + i);
+											int a = (i / 8) + 1;
+											System.out.println("행(a) : " + a);
+	%>
+											<td>
+												<button class="aisle" disabled><%=a %></button> <%
+										} else {
+											
+											HashMap<String, Object> m = selectSeatNo.get(seatIndex);
+											seatNo1 = (int) m.get("seatNo");
+											seatGrade1 = (String) m.get("seatGrade");
+											seatState = (String) m.get("seatState");
+											System.out.println("i : " + i);
+											seatIndex++;
+											
+										
+											//System.out.println("seatNo : " + seatNo + "//seatGrade : " + seatGrade + "//seatState : " + seatState);
+											
+											if (seatState.equals("1")) {
+											
+												if(selectedSeatGrade1 .equals("일반석")){
+													
+	%>
+													<td>
+															 
+															<input type="hidden" name ="flightId1" value="<%=flightId1 %>">
+														<input type="hidden" name ="seatId1" value="<%=seatId1 %>">
+														<input type="hidden" name ="seatNo1" value="<%=seatNo1%>">
+														<input type="hidden" name ="type" value="<%=type %>">
+														<input type="hidden" name ="seatGrade1" value="<%=selectedSeatGrade1 %>"> 
+														<input type="hidden" name ="departureLocation" value="<%=departureLocation %>">
+														<input type="hidden" name ="arrivalLocation" value="<%=arrivalLocation %>">
+												 
+														 
+														
+														<button class="economyActive"><%=seatNo1 %></button> 
+	<%
+													
+												}else{
+													
+	%>
+													<td>
+														<button class="economyUnable" disabled><%=seatNo1 %></button> 
+	<%
+												}
 
-		}
-		%>
-	</div>
-
-
-</body>
+											
+											} else {
+	%>
+												<td>
+													<button class="unableSeat" disabled><%=seatNo1 %></button> <%
+											}
+	%> 
+			
+	<%
+											if (seatNo1 % 6 == 0) {
+	%>
+												</td>
+								</tr>
+								<tr>
+									
+	<%
+											}
+	%> 
+	<%
+										}
+			
+									}
+						}
+	%>
+						
+								</tr>
+							</tbody>
+		
+						</table>
+	
+		
+					</div>
+				
+					
+				</form>
+		
+			</div>
+		</body>
 </html>
