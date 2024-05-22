@@ -36,8 +36,9 @@
 	}
 %>    
 <%
-	// 표시할 사용자명 받아오는코드
+	// 표시할 사용자정보 받아오기
 	String customerId = null;
+	String customerName = null;
 	if(session.getAttribute("loginCs") != null){
 	HashMap<String,Object> loginMember = (HashMap<String,Object>) (session.getAttribute("loginCs"));
 	customerId = (String) loginMember.get("memberId"); 
