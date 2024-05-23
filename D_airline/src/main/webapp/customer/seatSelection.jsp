@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.time.*"%>
@@ -9,7 +9,7 @@
 <%
 System.out.println("----------seatSelection.jsp----------");
 
-
+// Initial setup
 int seatIndex = 0;
 String msg = null;
 
@@ -29,63 +29,56 @@ int seatNo1 = 0;
 double seatPrice1 = 0;
 String seatGrade1 = null;
 
-System.out.println("[param] selectedSeatGrade1 : " + request.getParameter("selectedSeatGrade1"));
-System.out.println("[param] selectedSeatGrade2 : " + request.getParameter("selectedSeatGrade2"));
-System.out.println("[param] flightId1 : " + request.getParameter("flightId1"));
-System.out.println("[param] flightId2 : " + request.getParameter("flightId2"));
-System.out.println("[param] departureLocation : " + request.getParameter("departureLocation"));
-System.out.println("[param] arrivalLocation : " + request.getParameter("arrivalLocation"));
-System.out.println("[param] type : " + request.getParameter("type"));
-
-
+// Reading parameters from the request
 if (request.getParameter("flightId1") != null) {
-	flightId1 = Integer.parseInt(request.getParameter("flightId1"));
+    flightId1 = Integer.parseInt(request.getParameter("flightId1"));
 }
 
 if (request.getParameter("flightId2") != null) {
-	flightId2 = Integer.parseInt(request.getParameter("flightId2"));
+    flightId2 = Integer.parseInt(request.getParameter("flightId2"));
 }
 
 if (request.getParameter("selectedSeatGrade1") != null) {
-	selectedSeatGrade1 = request.getParameter("selectedSeatGrade1");
+    selectedSeatGrade1 = request.getParameter("selectedSeatGrade1");
 }
 
 if (request.getParameter("selectedSeatGrade2") != null) {
-	selectedSeatGrade2 = request.getParameter("selectedSeatGrade2");
+    selectedSeatGrade2 = request.getParameter("selectedSeatGrade2");
 }
 
 if (request.getParameter("type") != null) {
-	type = request.getParameter("type");
+    type = request.getParameter("type");
 }
 
 if (request.getParameter("departureLocation") != null) {
-	departureLocation = request.getParameter("departureLocation");
+    departureLocation = request.getParameter("departureLocation");
 }
 
 if (request.getParameter("arrivalLocation") != null) {
-	arrivalLocation = request.getParameter("arrivalLocation");
+    arrivalLocation = request.getParameter("arrivalLocation");
 }
-
-System.out.println("type : " + type);
-System.out.println("flightId1 : " + flightId1);
-System.out.println("flightId2 : " + flightId2);
-System.out.println("selectedSeatGrade1 : " + selectedSeatGrade1);
-System.out.println("selectedSeatGrade2 : " + selectedSeatGrade2);
-System.out.println("departureLocation : " + departureLocation);
-System.out.println("arrivalLocation : " + arrivalLocation);
 
 ArrayList<HashMap<String, Object>> selectSeatNo = SeatDAO.selectSeatNo(flightId1);
+ArrayList<HashMap<String, Object>> selectSeatPageFlightInfo = FlightDAO.selectSeatPageFlightInfo(flightId1);
 
 if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
-	System.out.println("해당 항공편 좌석조회 성공");
-
+    System.out.println("해당 항공편 좌석조회 성공");
 } else {
-	System.out.println("해당 항공편 좌석조회 실패");
-	msg = URLEncoder.encode("해당 항공편 좌석조회에 실패하였습니다.", "UTF-8");
-	response.sendRedirect("/D_airline/customer/flightList1.jsp?msg=" + msg);
-	return;
+    System.out.println("해당 항공편 좌석조회 실패");
+    msg = URLEncoder.encode("해당 항공편 좌석조회에 실패하였습니다.", "UTF-8");
+    response.sendRedirect("/D_airline/customer/flightList1.jsp?msg=" + msg);
+    return;
+}
+
+String customerId = null;
+String name = null;
+if (session.getAttribute("loginCs") != null) {
+    HashMap<String, Object> loginMember = (HashMap<String, Object>) (session.getAttribute("loginCs"));
+    customerId = (String) loginMember.get("memberId");
+    name = (String) loginMember.get("name");
 }
 %>
+
 
 
 <!DOCTYPE html>
@@ -93,11 +86,68 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 <head>
 <meta charset="UTF-8">
 <title>seatSelection.jsp</title>
-
+<!-- Latest compiled and minified CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/D_airline/css/css_seatSelection.css">
 </head>
 		<body>
+		
+			<div class="nav">
+				<div>
+					코리아나 항공
+				</div>
+				<div style="margin-right: 20px;">
+				
+	<%			if(session.getAttribute("loginCs") != null){	    	
+	%>
+		    	  		<%=customerId%>/<%=name%>
+	<% 
+		    		} 
+	%>
+				
+				</div>
+			
+			</div>
 			<div>
+				<div class="seatbanner">좌석 선택	
+				</div>
+			</div>
+			<div  class="mainwrap" >
+			<div style="width: 1000px;">
+			
+	<%
+					for( HashMap<String, Object> m : selectSeatPageFlightInfo ){
+	%>
+			
+						<div class="containerwrap">
+							<div class="container p-5 my-5 round border">
+        						<div class="routeinfo">
+            						<div><%=(String)(m.get("depCity")) %>/<%=(String)(m.get("depCountryName")) %></div>
+          							<div class="planemark"></div>
+      								<div><%=(String)(m.get("arrCity")) %>/<%=(String)(m.get("arrCountryName")) %></div>
+  								</div>
+   								<div class="time-info">
+					<%=(String)(m.get("departureTimeDate")) %> <%=(String)(m.get("departureTimeTime")) %>
+        </div>
+    </div>
+    </div>
+    
+			
+			
+			
+			<%} %>
+		
+	
+		
+		
+		
+			
+			
+			<div class="row">
+			<div class="col container border round" style="height: 500px;"></div>
+			<div class="col">
 				
 	<%
 				if (request.getParameter("flightId1") != null) {
@@ -119,22 +169,16 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 			
 			
 				
-					<div>
+			
+			<div class="seattable">
 						<table>
-							<thead>
-								<tr>
-									<td class="row"><%=(char) 65%></td>
-									<td class="row"><%=(char) 66%></td>
-									<td></td>
-									<td class="row"><%=(char) 67%></td>
-									<td class="row"><%=(char) 68%></td>
-									<td class="row"></td>
-									<td class="row"><%=(char) 69%></td>
-									<td class="row"><%=(char) 70%></td>
-		
-								</tr>
-							</thead>
+							
+					
+							
 							<tbody>
+							
+				
+							
 								<tr>
 									
 	<%
@@ -224,21 +268,9 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 		
 					</div>
 					
-					<div>
+					<div class="seattable">
 						<table>
-							<thead>
-								<tr>
-									<td class="row"><%=(char) 65%></td>
-									<td class="row"><%=(char) 66%></td>
-									<td></td>
-									<td class="row"><%=(char) 67%></td>
-									<td class="row"><%=(char) 68%></td>
-									<td></td>
-									<td class="row"><%=(char) 69%></td>
-									<td class="row"><%=(char) 70%></td>
-		
-								</tr>
-							</thead>
+					
 							<tbody>
 								<tr>
 									
@@ -327,21 +359,9 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 		
 					</div>
 					
-										<div>
+										<div class="seattable">
 						<table>
-							<thead>
-								<tr>
-									<td class="row"><%=(char) 65%></td>
-									<td class="row"><%=(char) 66%></td>
-									<td></td>
-									<td class="row"><%=(char) 67%></td>
-									<td class="row"><%=(char) 68%></td>
-									<td></td>
-									<td class="row"><%=(char) 69%></td>
-									<td class="row"><%=(char) 70%></td>
-		
-								</tr>
-							</thead>
+			
 							<tbody>
 								<tr>
 									
@@ -395,14 +415,14 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 												 
 														 
 														
-														<button class="economyActive"><%=seatNo1 %></button> 
+														<button class="economyActive"><span><%=seatNo1 %></span></button> 
 	<%
 													
 												}else{
 													
 	%>
 													<td>
-														<button class="economyUnable" disabled><%=seatNo1 %></button> 
+														<button class="economyUnable "  disabled><span class="textcenter" ><%=seatNo1 %></span></button> 
 	<%
 												}
 
@@ -410,7 +430,7 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 											} else {
 	%>
 												<td>
-													<button class="unableSeat" disabled><%=seatNo1 %></button> <%
+													<button class="unableSeat" disabled><span class="textcenter" ><%=seatNo1 %></span></button> <%
 											}
 	%> 
 			
@@ -438,10 +458,14 @@ if (selectSeatNo != null || !(selectSeatNo.isEmpty())) {
 	
 		
 					</div>
-				
+		
 					
 				</form>
 		
 			</div>
+			
+
+			</div>
+		</div>
 		</body>
 </html>

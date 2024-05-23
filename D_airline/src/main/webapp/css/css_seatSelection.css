@@ -1,89 +1,167 @@
 @charset "UTF-8";
 
+.seattable {
+	display: flex;
+	justify-content: center;
+}
 
+.nav {
+	background-color: #D4F4FA;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 10px;
+}
+
+.seatbanner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	padding: 10px;
+	background-color: #6799FF;
+	text-align: center;
+	align-items: center;
+}
+
+.mainwrap{
+		display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.containerwrap {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 5px;
+	margin: 5px;
+	border: 1px solid black;
+	border-radius: 10px;
+}
+
+.routeinfo {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	padding: 10px;
+}
+
+.routeinfo > div {
+	flex: 1;
+	text-align: center;
+}
+
+.planemark {
+	background-image: url("/D_airline/img/flight.png");
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 45px;
+	width: 45px;
+}
+
+.time-info {
+	text-align: center;
+	margin-top: 10px;
+}
 
 .row {
-	
-	text-align: center; 
-    vertical-align: middle; 
-	
+	text-align: center;
+	vertical-align: middle;
 }
-
-
 
 .aisle {
-	
-	background-color: transparent; 
-	width : 50px;
-	height: 50px;
-	background-size: cover; 
+	background-color: transparent;
+	width: 45px;
+	height: 45px;
+	background-size: cover;
 	background-position: center;
 	border: none;
-
-	
 }
-
 
 .unableSeat {
 	background-image: url("/D_airline/img/unable.png");
-	background-size: cover; 
+	background-size: cover;
 	background-position: center;
-	border: none; 
-	height: 50px;
-	width: 50px;
-	
+	border: none;
+	height: 45px;
+	width: 45px;
 }
 
 .firstActive {
 	background-image: url("/D_airline/img/firstActive.png");
-	background-size: cover; 
+	background-size: cover;
 	background-position: center;
-	border: none; 
-	height: 50px;
-	width: 50px;
+	border: none;
+	height: 45px;
+	width: 45px;
 }
 
 .firstUnable {
 	background-image: url("/D_airline/img/firstUnable.png");
-	background-size: cover; 
+	background-size: cover;
 	background-position: center;
-	border: none; 
-	height: 50px;
-	width: 50px;
+	border: none;
+	height: 45px;
+	width: 45px;
 }
 
 .businessActive {
 	background-image: url("/D_airline/img/businessActive.png");
-	background-size: cover; 
+	background-size: cover;
 	background-position: center;
-	border: none; 
-	height: 50px;
-	width: 50px;
+	border: none;
+	height: 45px;
+	width: 45px;
 }
 
 .businessUnable {
 	background-image: url("/D_airline/img/businessUnable.png");
-	background-size: cover; 
+	background-size: cover;
 	background-position: center;
 	border: none;
-	height: 50px;
-	width: 50px;
+	height: 45px;
+	width: 45px;
 }
 
 .economyActive {
 	background-image: url("/D_airline/img/economyActive.png");
-	background-size: cover; 
+	background-size: cover;
 	background-position: center;
-	border: none; 
-	height: 50px;
-	width: 50px;
+	border: none;
+	height: 45px;
+	width: 45px;
+
+	text-align: center; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .economyUnable {
 	background-image: url("/D_airline/img/economyUnable.png");
-	background-size: cover; 
+	background-size: cover;
 	background-position: center;
-	border: none; 
-	height: 50px;
-	width: 50px;
+	border: none;
+	height: 45px;
+	width: 45px;
+
+	
+}
+
+.textcenter{
+	text-align: center; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
 }

@@ -56,6 +56,52 @@ public class FlightDAO {
 	}
 	
 	
+	public static ArrayList<HashMap<String, Object>> selectSeatPageFlightInfo(int flightId1)
+			throws Exception {
+
+		ArrayList<HashMap<String, Object>> selectSeatPageFlightInfo = new ArrayList<HashMap<String, Object>>();
+
+		Connection conn = DBHelper.getConnection();
+	
+		String sql = "SELECT date(fl.departure_time) departureTimeDate, TIME(fl.departure_time) departureTimeTime, date(fl.arrival_time) arrivalTimeDate, TIME(fl.arrival_time) arrivalTimeTime, \r\n"
+				+ "depCT.city_name depCity, arrCT.city_name arrCity, pl.plane_name planeName, depNA.country_name depCountryName, arrNA.country_name arrCountryName\r\n"
+				+ "FROM flight fl INNER JOIN route rt ON fl.route_id = rt.route_id\r\n"
+				+ "INNER JOIN plane pl ON pl.plane_id = fl.plane_id\r\n"
+				+ "LEFT JOIN city depCT ON depCT.city_name = rt.departure_city\r\n"
+				+ "LEFT JOIN city arrCT ON arrCT.city_name = rt.arrival_city\r\n"
+				+ "LEFT JOIN country depNA ON depNA.country_id = depCT.country_id\r\n"
+				+ "LEFT JOIN country arrNA ON arrNA.country_id = arrCT.country_id\r\n"
+				+ "WHERE fl.flight_id = 36";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, flightId1);
+
+
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+
+			   m.put("departureTimeDate", rs.getString("departureTimeDate"));
+		        m.put("departureTimeTime", rs.getString("departureTimeTime"));
+		        m.put("arrivalTimeDate", rs.getString("arrivalTimeDate"));
+		        m.put("arrivalTimeTime", rs.getString("arrivalTimeTime"));
+		        m.put("depCity", rs.getString("depCity"));
+		        m.put("arrCity", rs.getString("arrCity"));
+		        m.put("planeName", rs.getString("planeName"));
+		        m.put("depCountryName", rs.getString("depCountryName"));
+		        m.put("arrCountryName", rs.getString("arrCountryName"));
+
+			selectSeatPageFlightInfo.add(m);
+
+		}
+		System.out.println("selectSeatPageFlightInfo(좌석선택 페이지 항공편 정보) : " + selectSeatPageFlightInfo);
+		conn.close();
+
+		return selectSeatPageFlightInfo;
+	}
+	
+	
+	
+	
 	public static ArrayList<HashMap<String, Object>> selectAllFlightList()
 			throws Exception {
 
