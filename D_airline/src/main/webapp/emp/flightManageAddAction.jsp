@@ -3,7 +3,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.net.*"%>
-<%@ page import ="dao.*" %>
+<%@ page import ="kjwdao.*" %>
 
 
 
@@ -74,7 +74,11 @@ ArrayList<HashMap<String, Object>> selectInsertedFlightLatest = null;
 
 if (insertFlight == 1) {
 	System.out.println("항공편 신규등록에 성공하였습니다.");
+	
+	//직전에 입력(insert)된 항공편을 특정하기 위한 쿼리
 	selectInsertedFlightLatest = FlightDAO.selectInsertedFlightLatest();
+	
+	
 	for(HashMap<String, Object> m1 : selectInsertedFlightLatest ){
 		flightId = (int)(m1.get("flightId"));
 	}

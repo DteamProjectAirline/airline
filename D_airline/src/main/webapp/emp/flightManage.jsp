@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
-<%@ page import="dao.*" %>
+<%@ page import="kjwdao.*" %>
 <%@ page import="java.net.*" %>
 
 <%
@@ -360,7 +360,7 @@
         <% 
             } else { 
         %>
-        <input type="number" name="flightId" placeholder="search flight ID(FL)">
+        <input type=ㄸ"number" name="flightId" placeholder="search flight ID(FL)">
         <% 
             } 
         %>

@@ -1,4 +1,4 @@
-package dao;
+package kjwdao;
 
 public class ReviewDAO {
 

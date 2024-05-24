@@ -1,12 +1,10 @@
-package dao;
+package kjwdao;
 
 import java.sql.*;
 
 import java.util.*;
 
-//import org.mariadb.jdbc.message.client.ExecutePacket;
-
-import dao.DBHelper;
+import kjwdao.DBHelper;
 
 public class QnaDAO {
 	

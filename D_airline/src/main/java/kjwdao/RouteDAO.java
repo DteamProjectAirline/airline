@@ -1,26 +1,32 @@
-package dao;
+package kjwdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-import dao.DBHelper;
+
+import kjwdao.DBHelper;
 
 public class RouteDAO {
 	
 	
+	//SELECT문----------
 	
+	//모든 노선 정보 출력 - limit함수로 행수 제한  [param]- 시작페이지, 페이지당행수 변수값 받음
+	//해당하는 노선의 정보값 받아오는 쿼리
 	public static ArrayList<HashMap<String, Object>> selectRouteList(int startPage, int rowPerPage)
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectRouteList = new ArrayList<HashMap<String, Object>>();
 
 		Connection conn = DBHelper.getConnection();
-		// 긴 문자열 자동 줄바꿈 ctrl + enter
-
-		//
-		String sql1 = "SELECT concat('RT' ,route_id) as routeId, departure_city departureCity, arrival_city arrivalCity, format(basefare,0) as basefare, flight_duration flightDuration, update_date updateDate, create_date createDate from route order by route_id limit ?,?";
+		
+		String sql1 = "SELECT concat('RT' ,route_id) as routeId, departure_city departureCity, arrival_city arrivalCity, format(basefare,0) as basefare, "
+				+ "flight_duration flightDuration, update_date updateDate, create_date createDate "
+				+ "from route "
+				+ "order by route_id "
+				+ "limit ?,?";
 
 		PreparedStatement stmt = conn.prepareStatement(sql1);
 		stmt.setInt(1, startPage);
@@ -39,23 +45,26 @@ public class RouteDAO {
 			selectRouteList.add(m);
 
 		}
-		System.out.println("selectRouteList(route테이블 리스트) : " + selectRouteList);
+		System.out.println("selectRouteList(모든 노선 정보 출력-limit) : " + selectRouteList);
 		conn.close();
 
 		return selectRouteList;
 	}
 	
 	
+	//모든 노선 정보 출력 
+	//해당하는 노선의 정보값 받아오는 쿼리
 	public static ArrayList<HashMap<String, Object>> selectAllRouteList()
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectAllRouteList = new ArrayList<HashMap<String, Object>>();
 
 		Connection conn = DBHelper.getConnection();
-		// 긴 문자열 자동 줄바꿈 ctrl + enter
-
-		//
-		String sql = "SELECT concat('RT' ,route_id) as routeId, departure_city departureCity, arrival_city arrivalCity, format(basefare,0) as basefare, hour(flight_duration) hour, minute(flight_duration) minute , update_date updateDate, create_date createDate from route order by route_id";
+		
+		String sql = "SELECT concat('RT' ,route_id) as routeId, departure_city departureCity, arrival_city arrivalCity, format(basefare,0) as basefare, "
+				+ "hour(flight_duration) hour, minute(flight_duration) minute , update_date updateDate, create_date createDate "
+				+ "from route "
+				+ "order by route_id";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -75,23 +84,26 @@ public class RouteDAO {
 			selectAllRouteList.add(m);
 
 		}
-		System.out.println("selectAllRouteList(route테이블 전체도시 리스트) : " + selectAllRouteList);
+		System.out.println("selectAllRouteList(모든 노선 정보 출력) : " + selectAllRouteList);
 		conn.close();
 
 		return selectAllRouteList;
 	}
 	
-	
+	//노선id에 해당하는 특정 노선 정보 출력 [param] 노선id
 	public static ArrayList<HashMap<String, Object>> selectSearchRouteList(String intRouteId)
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectAllRouteList = new ArrayList<HashMap<String, Object>>();
 
 		Connection conn = DBHelper.getConnection();
-		// 긴 문자열 자동 줄바꿈 ctrl + enter
+		
 
-		//
-		String sql = "SELECT concat('RT' ,route_id) as routeId, departure_city departureCity, arrival_city arrivalCity, format(basefare,0) as basefare, flight_duration flightDuration, hour(flight_duration) hour, minute(flight_duration) minute , update_date updateDate, create_date createDate from route where route_id = ? order by route_id";
+		
+		String sql = "SELECT concat('RT' ,route_id) as routeId, departure_city departureCity, arrival_city arrivalCity, format(basefare,0) as basefare, flight_duration flightDuration, "
+				+ "hour(flight_duration) hour, minute(flight_duration) minute , update_date updateDate, create_date createDate "
+				+ "from route where route_id = ? "
+				+ "order by route_id";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, intRouteId);	
@@ -114,7 +126,7 @@ public class RouteDAO {
 			selectAllRouteList.add(m);
 
 		}
-		System.out.println("selectAllRouteList(route테이블 전체도시 리스트) : " + selectAllRouteList);
+		System.out.println("selectAllRouteList(노선id에 해당하는 특정 노선 정보) : " + selectAllRouteList);
 		conn.close();
 
 		return selectAllRouteList;
@@ -122,7 +134,8 @@ public class RouteDAO {
 	
 	
 	
-	
+	//모든 노선 정보 출력 - 해당 노선과 조인된 테이블의 관련정보까지 추출
+	//출발도시-출발국가-도착도시-도착국가-노선 조인테이블
 	public static ArrayList<HashMap<String, Object>> selectAllRouteCityCountryList()
 			throws Exception {
 
@@ -130,19 +143,20 @@ public class RouteDAO {
 
 		Connection conn = DBHelper.getConnection();
 		
-	
-		String sql ="SELECT CONCAT('NA',depNA.country_id) AS departureCountryId, CONCAT('NA',arrNA.country_id) AS arrivalCountryId, depCT.airport departureAirport, \r\n"
-				+ "arrCT.airport arrivalAirport, depNA.country_name departureCountryName, arrNA.country_name arrivalCountryName, ct.update_date cityUpdateDate, \r\n"
-				+ "ct.create_date cityCreateDate, CONCAT('RT', route_id) AS routeId, rt.route_id intRouteId, rt.departure_city departureCity, rt.arrival_city arrivalCity, \r\n"
-				+ "FORMAT(basefare, 0) AS basefare, HOUR(flight_duration) AS hour, MINUTE(flight_duration) AS minute, rt.update_date routeUpdateDate, rt.create_date routeCreateDate \r\n"
-				+ "FROM city ct INNER JOIN country na ON ct.country_id = na.country_id \r\n"
-				+ "LEFT OUTER JOIN route rt ON ct.city_name IN (rt.departure_city, rt.arrival_city) \r\n"
-				+ "LEFT JOIN city depCT ON rt.departure_city = depCT.city_name \r\n"
-				+ "LEFT JOIN country depNA ON depCT.country_id = depNA.country_id \r\n"
-				+ "LEFT JOIN city arrCT ON rt.arrival_city = arrCT.city_name \r\n"
-				+ "LEFT JOIN country arrNA ON arrCT.country_id = arrNA.country_id \r\n"
-				+ "GROUP BY rt.route_id \r\n"
-				+ "HAVING rt.route_id IS NOT NULL \r\n"
+		String sql ="SELECT CONCAT('NA',depNA.country_id) AS departureCountryId, CONCAT('NA',arrNA.country_id) AS arrivalCountryId, "
+				+ "depCT.airport departureAirport, arrCT.airport arrivalAirport, depNA.country_name departureCountryName, "
+				+ "arrNA.country_name arrivalCountryName, ct.update_date cityUpdateDate, ct.create_date cityCreateDate, "
+				+ "CONCAT('RT', route_id) AS routeId, rt.route_id intRouteId, rt.departure_city departureCity, rt.arrival_city arrivalCity, "
+				+ "FORMAT(basefare, 0) AS basefare, HOUR(flight_duration) AS hour, MINUTE(flight_duration) AS minute, "
+				+ "rt.update_date routeUpdateDate, rt.create_date routeCreateDate "
+				+ "FROM city ct INNER JOIN country na ON ct.country_id = na.country_id "
+				+ "LEFT OUTER JOIN route rt ON ct.city_name IN (rt.departure_city, rt.arrival_city) "
+				+ "LEFT JOIN city depCT ON rt.departure_city = depCT.city_name "
+				+ "LEFT JOIN country depNA ON depCT.country_id = depNA.country_id "
+				+ "LEFT JOIN city arrCT ON rt.arrival_city = arrCT.city_name "
+				+ "LEFT JOIN country arrNA ON arrCT.country_id = arrNA.country_id "
+				+ "GROUP BY rt.route_id "
+				+ "HAVING rt.route_id IS NOT NULL "
 				+ "ORDER BY rt.route_id";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -151,38 +165,46 @@ public class RouteDAO {
 		while (rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 			
+			//기본 int값 노선id
 			m.put("intRouteId", rs.getInt("intRouteId"));
+			//RT문자와 결합된 노선id
 			m.put("routeId", rs.getString("routeId"));
 			m.put("departureCity", rs.getString("departureCity"));
 			m.put("arrivalCity", rs.getString("arrivalCity"));
+			//노선에 책정된 기본 운임
 			m.put("basefare", rs.getString("basefare"));
+			//운항시간 시간값 추출
 			m.put("hour", rs.getString("hour"));
+			//운항시간 분 데이터 추출
 			m.put("minute", rs.getString("minute"));
 			m.put("updateDate", rs.getString("routeUpdateDate"));
 			m.put("createDate", rs.getString("routeCreateDate"));
+			//출발도시
 			m.put("departureCity", rs.getString("departureCity"));
+			//도착도시
 			m.put("arrivalCity", rs.getString("arrivalCity"));
 			m.put("departureAirport", rs.getString("departureAirport"));
 			m.put("arrivalAirport", rs.getString("arrivalAirport"));
+			//출발국가
 			m.put("departureCountry", rs.getString("departureCountryName"));
+			//도착국가
 			m.put("arrivalCountry", rs.getString("arrivalCountryName"));
 			m.put("departureCountryId", rs.getString("departureCountryId"));
 			m.put("arrivalCountryId", rs.getString("arrivalCountryId"));
 			
-			
-			
-
 			selectAllRouteCityCountryList.add(m);
 
 		}
-		System.out.println("selectAllRouteCityCountryList(route,city,country 조인 테이블 리스트) : " + selectAllRouteCityCountryList);
+		System.out.println("selectAllRouteCityCountryList(모든 노선 정보 출력) : " + selectAllRouteCityCountryList);
 		conn.close();
 
 		return selectAllRouteCityCountryList;
 	}
 	
 	
-	
+	//모든 노선 정보 출력
+	//case문을 통해 해당하는 항공편이 존재하는지 여부를 flightExists 변수에 담아 확인가능하도록함
+	//출발도시-출발국가-도착도시-도착국가-노선 조인테이블
 	public static ArrayList<HashMap<String, Object>> selectAllRouteCityCountryListSearchFirst(int flightId)
 			throws Exception {
 
@@ -190,28 +212,30 @@ public class RouteDAO {
 
 		Connection conn = DBHelper.getConnection();
 		
-	
-		String sql ="SELECT DISTINCT CONCAT('NA',depNA.country_id) AS departureCountryId, CONCAT('NA',arrNA.country_id) AS arrivalCountryId, depCT.airport departureAirport,\r\n"
-				+ "arrCT.airport arrivalAirport, depNA.country_name departureCountryName, arrNA.country_name arrivalCountryName, ct.update_date cityUpdateDate,\r\n"
-				+ "ct.create_date cityCreateDate, CONCAT('RT', rt.route_id) AS routeId, rt.route_id intRouteId, rt.departure_city departureCity, rt.arrival_city arrivalCity,\r\n"
-				+ "FORMAT(rt.basefare, 0) AS basefare, HOUR(flight_duration) AS hour, MINUTE(flight_duration) AS minute, rt.update_date routeUpdateDate, rt.create_date routeCreateDate,\r\n"
-				+ "fl.departure_time departureTime, rt.flight_duration flightDuration,\r\n"
-				+ "CASE\r\n"
-				+ "	WHEN EXISTS(SELECT 1 FROM flight WHERE flight_id = ?) \r\n"
-				+ "	THEN 'Y'\r\n"
-				+ "	ELSE 'N'\r\n"
-				+ "END AS flightExists\r\n"
-				+ "FROM city ct INNER JOIN country na ON ct.country_id = na.country_id\r\n"
-				+ "LEFT OUTER JOIN route rt ON ct.city_name IN (rt.departure_city, rt.arrival_city)\r\n"
-				+ "LEFT JOIN city depCT ON rt.departure_city = depCT.city_name\r\n"
-				+ "LEFT JOIN country depNA ON depCT.country_id = depNA.country_id\r\n"
-				+ "LEFT JOIN city arrCT ON rt.arrival_city = arrCT.city_name\r\n"
-				+ "LEFT JOIN country arrNA ON arrCT.country_id = arrNA.country_id\r\n"
-				+ "LEFT JOIN flight fl ON rt.route_id = fl.route_id\r\n"
-				+ "GROUP BY  depNA.country_id, arrNA.country_id, depCT.airport, arrCT.airport,depNA.country_name, arrNA.country_name, ct.update_date, ct.create_date, \r\n"
-				+ "rt.route_id, rt.departure_city, rt.arrival_city, rt.basefare, flight_duration, rt.update_date, rt.create_date, fl.departure_time, rt.flight_duration, flightExists\r\n"
-				+ "HAVING rt.route_id IS NOT NULL\r\n"
-				+ "ORDER BY (rt.route_id = (SELECT route_id FROM flight WHERE flight_id = ? )) DESC, rt.route_id";	
+		String sql = "SELECT DISTINCT CONCAT('NA',depNA.country_id) AS departureCountryId, "
+				+ "CONCAT('NA',arrNA.country_id) AS arrivalCountryId, depCT.airport departureAirport, "
+				+ "arrCT.airport arrivalAirport, depNA.country_name departureCountryName, arrNA.country_name arrivalCountryName, "
+				+ "ct.update_date cityUpdateDate, ct.create_date cityCreateDate, CONCAT('RT', rt.route_id) AS routeId, "
+				+ "rt.route_id intRouteId, rt.departure_city departureCity, rt.arrival_city arrivalCity, FORMAT(rt.basefare, 0) AS basefare, "
+				+ "HOUR(flight_duration) AS hour, MINUTE(flight_duration) AS minute, rt.update_date routeUpdateDate, "
+				+ "rt.create_date routeCreateDate, fl.departure_time departureTime, rt.flight_duration flightDuration, "
+				+ "CASE "
+				+ "	WHEN EXISTS(SELECT 1 FROM flight WHERE flight_id = ?) "
+				+ "	THEN 'Y' "
+				+ "	ELSE 'N' "
+				+ "END AS flightExists "
+				+ "FROM city ct INNER JOIN country na ON ct.country_id = na.country_id "
+				+ "LEFT OUTER JOIN route rt ON ct.city_name IN (rt.departure_city, rt.arrival_city) "
+				+ "LEFT JOIN city depCT ON rt.departure_city = depCT.city_name "
+				+ "LEFT JOIN country depNA ON depCT.country_id = depNA.country_id "
+				+ "LEFT JOIN city arrCT ON rt.arrival_city = arrCT.city_name "
+				+ "LEFT JOIN country arrNA ON arrCT.country_id = arrNA.country_id "
+				+ "LEFT JOIN flight fl ON rt.route_id = fl.route_id "
+				+ "GROUP BY  depNA.country_id, arrNA.country_id, depCT.airport, arrCT.airport,depNA.country_name, "
+				+ "arrNA.country_name, ct.update_date, ct.create_date, rt.route_id, rt.departure_city, rt.arrival_city, rt.basefare, "
+				+ "flight_duration, rt.update_date, rt.create_date, fl.departure_time, rt.flight_duration, flightExists "
+				+ "HAVING rt.route_id IS NOT NULL "
+				+ "ORDER BY (rt.route_id = (SELECT route_id FROM flight WHERE flight_id = ? )) DESC, rt.route_id ";
 				
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -262,10 +286,22 @@ public class RouteDAO {
 		ArrayList<HashMap<String, Object>> selectOneRouteCityCountryList = new ArrayList<HashMap<String, Object>>();
 
 		Connection conn = DBHelper.getConnection();
-		// 긴 문자열 자동 줄바꿈 ctrl + enter
+		
 
-		//
-		String sql =  "SELECT CONCAT('NA',depNA.country_id) AS departureCountryId, CONCAT('NA',arrNA.country_id) AS arrivalCountryId, depCT.airport departureAirport, arrCT.airport arrivalAirport, depNA.country_name departureCountryName, arrNA.country_name arrivalCountryName, ct.update_date cityUpdateDate, ct.create_date cityCreateDate, CONCAT('RT', route_id) AS routeId, rt.route_id intRouteId, rt.departure_city departureCity, rt.arrival_city arrivalCity, FORMAT(basefare, 0) AS basefare, HOUR(flight_duration) AS hour, MINUTE(flight_duration) AS minute, rt.update_date routeUpdateDate, rt.create_date routeCreateDate FROM city ct INNER JOIN country na ON ct.country_id = na.country_id LEFT OUTER JOIN route rt ON ct.city_name IN (rt.departure_city, rt.arrival_city) LEFT JOIN city depCT ON rt.departure_city = depCT.city_name LEFT JOIN country depNA ON depCT.country_id = depNA.country_id LEFT JOIN city arrCT ON rt.arrival_city = arrCT.city_name LEFT JOIN country arrNA ON arrCT.country_id = arrNA.country_id GROUP BY rt.route_id HAVING rt.route_id IS NOT null AND rt.route_id = ? ORDER BY rt.route_id";
+		
+		String sql =  "SELECT CONCAT('NA',depNA.country_id) AS departureCountryId, CONCAT('NA',arrNA.country_id) AS arrivalCountryId, depCT.airport departureAirport, "
+				+ "arrCT.airport arrivalAirport, depNA.country_name departureCountryName, arrNA.country_name arrivalCountryName, ct.update_date cityUpdateDate, "
+				+ "ct.create_date cityCreateDate, CONCAT('RT', route_id) AS routeId, rt.route_id intRouteId, rt.departure_city departureCity, rt.arrival_city arrivalCity, "
+				+ "FORMAT(basefare, 0) AS basefare, HOUR(flight_duration) AS hour, MINUTE(flight_duration) AS minute, rt.update_date routeUpdateDate, rt.create_date routeCreateDate "
+				+ "FROM city ct INNER JOIN country na ON ct.country_id = na.country_id "
+				+ "LEFT OUTER JOIN route rt ON ct.city_name IN (rt.departure_city, rt.arrival_city) "
+				+ "LEFT JOIN city depCT ON rt.departure_city = depCT.city_name "
+				+ "LEFT JOIN country depNA ON depCT.country_id = depNA.country_id "
+				+ "LEFT JOIN city arrCT ON rt.arrival_city = arrCT.city_name "
+				+ "LEFT JOIN country arrNA ON arrCT.country_id = arrNA.country_id "
+				+ "GROUP BY rt.route_id "
+				+ "HAVING rt.route_id IS NOT null AND rt.route_id = ? "
+				+ "ORDER BY rt.route_id";
 
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -316,7 +352,7 @@ public class RouteDAO {
 		Connection conn = DBHelper.getConnection();
 		
 
-		//
+		
 		String sql1 = "select count(*) cnt from route order by route_id";
 
 		PreparedStatement stmt = conn.prepareStatement(sql1);

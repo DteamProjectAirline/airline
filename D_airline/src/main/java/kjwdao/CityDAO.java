@@ -1,26 +1,30 @@
-package dao;
+package kjwdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-import dao.DBHelper;
+
+import kjwdao.DBHelper;
 
 public class CityDAO {
 	
+	//SELECT문----------
 	
-	
+	//도시 정보 출력(국가와 도시 inner조인) - limit함수로 행수 제한  [param]- 시작페이지, 페이지당행수 변수값 받음
 	public static ArrayList<HashMap<String, Object>> selectCityList(int startPage, int rowPerPage)
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectCityList = new ArrayList<HashMap<String, Object>>();
 
 		Connection conn = DBHelper.getConnection();
-		// 긴 문자열 자동 줄바꿈 ctrl + enter
+		
 
-		//
-		String sql1 = "SELECT ct.city_name cityName, ct.country_id countryId, ct.airport airport,  ct.update_date updateDate,  ct.create_date createDate, na.country_name countryName from city ct INNER JOIN country na ON ct.country_id = na.country_id limit ?,?";
+		String sql1 = "SELECT ct.city_name cityName, ct.country_id countryId, ct.airport airport,  ct.update_date updateDate,  "
+				+ "ct.create_date createDate, na.country_name countryName "
+				+ "from city ct INNER JOIN country na ON ct.country_id = na.country_id "
+				+ "limit ?,? ";
 
 		PreparedStatement stmt = conn.prepareStatement(sql1);
 		stmt.setInt(1, startPage);
@@ -40,23 +44,24 @@ public class CityDAO {
 			selectCityList.add(m);
 
 		}
-		System.out.println("selectCityList(city테이블 리스트) : " + selectCityList);
+		System.out.println("selectCityList(국가와 도시 inner조인 쿼림) : " + selectCityList);
 		conn.close();
 
 		return selectCityList;
 	}
 	
 	
+	//모든 도시 정보 출력(국가와 도시 inner조인) - 서울을 도시목록 맨 상단으로 배치
 	public static ArrayList<HashMap<String, Object>> selectAllCityList()
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectAllCityList = new ArrayList<HashMap<String, Object>>();
 
 		Connection conn = DBHelper.getConnection();
-		// 긴 문자열 자동 줄바꿈 ctrl + enter
-
-		//
-		String sql = "SELECT ct.city_name cityName, ct.country_id countryId, ct.airport airport, na.country_name countryName, ct.update_date updateDate, ct.create_date createDate from city ct INNER JOIN country na ON ct.country_id = na.country_id ORDER BY (ct.city_name = '서울') desc, ct.country_id";
+		
+		String sql = "SELECT ct.city_name cityName, ct.country_id countryId, ct.airport airport, na.country_name countryName, ct.update_date updateDate, ct.create_date createDate "
+				+ "from city ct INNER JOIN country na ON ct.country_id = na.country_id "
+				+ "ORDER BY (ct.city_name = '서울') desc, ct.country_id ";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -74,23 +79,22 @@ public class CityDAO {
 			selectAllCityList.add(m);
 
 		}
-		System.out.println("selectAllCityList(city테이블 전체도시 리스트) : " + selectAllCityList);
+		System.out.println("selectAllCityList(모든 도시 정보 출력-국가와 도시 inner조인) : " + selectAllCityList);
 		conn.close();
 
 		return selectAllCityList;
 	}
 	
 	
-	
+	//전체 도시 행수(count함수) 출력위한 쿼리  - 페이지네이션에 사용
 	public static ArrayList<HashMap<String, Object>> selectTotalCityList()
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectTotalCityList = new ArrayList<HashMap<String, Object>>();
 
 		Connection conn = DBHelper.getConnection();
-		// 긴 문자열 자동 줄바꿈 ctrl + enter
+		
 
-		//
 		String sql1 = "select count(*) cnt from city order by city_name";
 
 		PreparedStatement stmt = conn.prepareStatement(sql1);
@@ -104,22 +108,23 @@ public class CityDAO {
 			selectTotalCityList.add(m);
 
 		}
-		System.out.println("selectTotalCityList(city테이블 전체 리스트) : " + selectTotalCityList);
+		System.out.println("selectTotalCityList(전체 도시 행수(count함수) 출력위한 쿼리) : " + selectTotalCityList);
 		conn.close();
 
 		return selectTotalCityList;
 	}
 	
 	
+	//INSERT문----------
+	
+	//도시 DB에 입력(insert)실행 쿼리 - [param]- 도시명, 국가ID, 공항명 변수값 받음
 	public static int insertCity(String cityName, String countryId, String airport)
 			throws Exception {
 
 		int insertCity = 0;
 
 		Connection conn = DBHelper.getConnection();
-		// 긴 문자열 자동 줄바꿈 ctrl + enter
-
-		//
+		
 		String sql = "INSERT INTO city(city_name, country_id, airport, update_date, create_date) VALUES(?, ?, ?, now(), now())";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -140,8 +145,10 @@ public class CityDAO {
 		return insertCity;
 	}
 	
+	//UPDATE문----------
 	
-
+	
+	//도시 정보 변경(update) 쿼리  [param]- 도시명, 국가ID, 공항명, keyCityName(변경하려는 기존 도시명) 변수값 받음
 	public static int updateCity(String cityName, String countryId, String airport, String keyCityName)
 			throws Exception {
 
@@ -171,7 +178,11 @@ public class CityDAO {
 	}
 	
 	
-
+	//DELETE문----------
+	
+	
+	//도시 삭제(delete) 쿼리  [param]- 도시명 변수값 받음
+	
 	public static int deleteCity(String cityName)
 			throws Exception {
 

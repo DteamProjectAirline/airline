@@ -1,4 +1,4 @@
-package dao;
+package kjwdao;
 import java.io.FileReader;
 import java.sql.*;
 import java.util.Properties;

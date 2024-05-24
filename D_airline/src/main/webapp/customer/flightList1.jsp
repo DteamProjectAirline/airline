@@ -3,7 +3,7 @@
 <%@page import="javax.naming.spi.DirStateFactory.Result"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.util.*" %>
-<%@page import="dao.DBHelper"%>
+<%@page import="kjwdao.DBHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%

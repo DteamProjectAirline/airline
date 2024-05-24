@@ -3,7 +3,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.time.*"%>
-<%@ page import="dao.*"%>
+<%@ page import="kjwdao.*"%>
 <%@ page import="java.net.*"%>
 
 <%

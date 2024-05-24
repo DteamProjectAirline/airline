@@ -16,10 +16,6 @@ if(request.getParameter("msg")!=null){
 System.out.println("[param]msg값 : "+request.getParameter("msg"));
 
 
-
-
-
-
 %>
 
 <!DOCTYPE html>
