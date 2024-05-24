@@ -3,31 +3,29 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.net.*"%>
-<%@ page import ="kjwdao.*" %>
+<%@ page import="kjwdao.*"%>
 
 
-<!-- Controller Layer -->
 <%
 System.out.println("---------------countryManageDeleteAction.jsp---------------");
 System.out.println("세션 ID: " + session.getId());
 
+//변수 생성
 String msg = null;
 String countryId = null;
 
-
-
-if (session.getAttribute("loginAd") == null){
+//세션 분기
+if (session.getAttribute("loginAd") == null) {
 	System.out.println("관리자만 접근 가능한 페이지입니다.");
-	msg = URLEncoder.encode("관리자만 접근 가능한 페이지입니다.","UTF-8");
-		response.sendRedirect("/D_airline/customer/flightMain.jsp?msg="+msg);
+	msg = URLEncoder.encode("관리자만 접근 가능한 페이지입니다.", "UTF-8");
+	response.sendRedirect("/D_airline/customer/flightMain.jsp?msg=" + msg);
 	return;
 }
-%>
 
-<%
+
 HashMap<String, Object> m = new HashMap<>();
 
-//변수할당
+//세션에서 받은 정보 변수할당
 m = (HashMap<String, Object>) (session.getAttribute("loginAd"));
 
 String adminId = null;
@@ -35,22 +33,21 @@ String adminId = null;
 //해쉬맵 변수 스트링변수에 할당
 adminId = (String) (m.get("adminId"));
 
-System.out.println("[param]countryId : "+request.getParameter("countryId"));
-
-//
-
+//param값 디버깅
+System.out.println("[param]countryId : " + request.getParameter("countryId"));
 
 countryId = request.getParameter("countryId");
 
 System.out.println("countryId : " + countryId);
 
+//국가 삭제 위한 쿼리(delete)
 int deleteCountry = CountryDAO.deleteCountry(countryId);
 
+// deleteCountry 정상 실행 여부에 의한 분기
 if (deleteCountry == 1) {
 	System.out.println("국가 삭제에 성공하였습니다.");
 	msg = URLEncoder.encode("국가 삭제에 성공하였습니다.", "UTF-8");
 	response.sendRedirect("/D_airline/emp/countryManage.jsp?msg=" + msg);
-	
 
 } else {
 	System.out.println("국가 삭제에 실패하였습니다.");

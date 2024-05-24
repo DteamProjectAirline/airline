@@ -4,8 +4,6 @@
 <%
 	System.out.println("-----loginForm.jsp-----");
 
-
-
 //로그인 화면에서 받을 에러메세지 변수생성
 String msg = null;
 

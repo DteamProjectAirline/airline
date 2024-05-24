@@ -108,7 +108,7 @@ public class PlaneDAO {
 			selectTotalPlaneList.add(m);
 
 		}
-		System.out.println("selectTotalPlaneList(plane테이블 전체 리스트) : " + selectTotalPlaneList);
+		System.out.println("selectTotalPlaneList(전체 항공기 행수) : " + selectTotalPlaneList);
 		conn.close();
 
 		return selectTotalPlaneList;
