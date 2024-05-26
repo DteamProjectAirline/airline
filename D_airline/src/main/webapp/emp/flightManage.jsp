@@ -416,7 +416,7 @@ System.out.println("totalPage : " + totalPage);
 						value="<%=departureTimeLocal%>">
 					<button>항공기 조회</button>
 		
-	<%
+	<%				//항공기ID와 항공기명 출력
 					for (HashMap<String, Object> m4 : selectRouteInfo) {
 						String planeName = (String) (m4.get("planeName"));
 	%>				<input type="text" value="PL<%=flightId%>/<%=planeName%>" disabled>
@@ -428,13 +428,14 @@ System.out.println("totalPage : " + totalPage);
 				</form>
 		
 	<%
-				//항공기 조회 후 modifyPlaneList 값이 "1"인 경우
+				//항공기 조회 후 modifyPlaneList 값이 "1"인 경우(항공편 정보 수정탭에서 항공기를 조회했을때 쿼리가 실행되면 1 아니면 0)
 				} else if (request.getParameter("modifyPlaneList") != null && modifyPlaneList.equals("1")) {
 				%>
 				<input type="text" value="FL<%=flightId%>" disabled> <select
 					disabled>
 	<%
 					// 검색된 모든 항공편 정보를 select 옵션으로 제공
+					//항공편 수정탭에서 항공기가 성공적으로 조회되어 관련 항공편 정보(조인된 테이블까지)를 추출한다
 					for (HashMap<String, Object> m3 : selectOneRouteCityCountryList) {
 						String routeId = (String) m3.get("routeId");
 						String departureCity = (String) m3.get("departureCity");
@@ -452,13 +453,17 @@ System.out.println("totalPage : " + totalPage);
 	<%
 					}
 	%>
-				</select> <input type="datetime-local" value="<%=datetimeString%>" disabled>
+				</select> 
+				<!--  수정된 항공편의 출발시간이 정해져 disabled처리됨 -->
+				<input type="datetime-local" value="<%=datetimeString%>" disabled>
 		
+				<!-- 항공편 수정(modify) 액션 페이지로 이동 -->
 				<form method="post"
 					action="/D_airline/emp/flightManageModifyAction.jsp">
 					<select name="planeId">
 	<%
 						// 사용 가능한 항공기가 있는 경우 select 옵션으로 제공
+						//항공기 조횝 버튼을 눌렀을 때 selectAvailablePlaneList 쿼리가 실행된 경우
 						if (selectAvailablePlaneList != null && !selectAvailablePlaneList.isEmpty()
 								&& request.getParameter("modifyPlaneList") != null) {
 							for (HashMap<String, Object> m2 : selectAvailablePlaneList) {
@@ -488,7 +493,7 @@ System.out.println("totalPage : " + totalPage);
 			</div>
 		
 		
-			<!-- ////항공편 삭제///// -->
+			<!-- //////////////항공편 삭제////////////// -->
 			<form action="/D_airline/emp/flightManageDeleteAction.jsp"
 				method="post">
 				<div>

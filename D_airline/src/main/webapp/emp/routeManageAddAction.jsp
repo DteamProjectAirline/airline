@@ -3,7 +3,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.net.*"%>
-<%@ page import ="kjwdao.*" %>
+<%@ page import="kjwdao.*"%>
 
 
 
@@ -18,11 +18,10 @@ String basefare = null;
 String hour = null;
 String minute = null;
 
-
-if (session.getAttribute("loginAd") == null){
+if (session.getAttribute("loginAd") == null) {
 	System.out.println("관리자만 접근 가능한 페이지입니다.");
-	msg = URLEncoder.encode("관리자만 접근 가능한 페이지입니다.","UTF-8");
-		response.sendRedirect("/D_airline/customer/flightMain.jsp?msg="+msg);
+	msg = URLEncoder.encode("관리자만 접근 가능한 페이지입니다.", "UTF-8");
+	response.sendRedirect("/D_airline/customer/flightMain.jsp?msg=" + msg);
 	return;
 }
 %>
@@ -38,12 +37,11 @@ String adminId = null;
 //해쉬맵 변수 스트링변수에 할당
 adminId = (String) (m.get("adminId"));
 
-System.out.println("[param]departureCity : "+request.getParameter("departureCity"));
-System.out.println("[param]arrivalCity : "+request.getParameter("arrivalCity"));
-System.out.println("[param]basefare : "+request.getParameter("basefare"));
-System.out.println("[param]hour : "+request.getParameter("hour"));
-System.out.println("[param]minute : "+request.getParameter("minute"));
-
+System.out.println("[param]departureCity : " + request.getParameter("departureCity"));
+System.out.println("[param]arrivalCity : " + request.getParameter("arrivalCity"));
+System.out.println("[param]basefare : " + request.getParameter("basefare"));
+System.out.println("[param]hour : " + request.getParameter("hour"));
+System.out.println("[param]minute : " + request.getParameter("minute"));
 
 departureCity = request.getParameter("departureCity");
 arrivalCity = request.getParameter("arrivalCity");
@@ -63,7 +61,6 @@ if (insertRoute == 1) {
 	System.out.println("노선 신규등록에 성공하였습니다.");
 	msg = URLEncoder.encode("노선 신규등록에 성공하였습니다.", "UTF-8");
 	response.sendRedirect("/D_airline/emp/routeManage.jsp?msg=" + msg);
-	
 
 } else {
 	System.out.println("노선 신규등록에 실패하였습니다.");

@@ -82,7 +82,8 @@ for (HashMap<String, Object> a : selectSearchRouteList) {
 }
 
 // 사용 가능한 항공기 조회
-ArrayList<HashMap<String, Object>> selectAvailablePlaneList = FlightDAO.selectAvailablePlaneList(date, time, flightDuration);
+ArrayList<HashMap<String, Object>> selectAvailablePlaneList = FlightDAO.selectAvailablePlaneList(date, time,
+		flightDuration);
 
 if (selectAvailablePlaneList != null && !selectAvailablePlaneList.isEmpty()) {
 	System.out.println("사용가능한 항공기 조회에 성공하였습니다.");

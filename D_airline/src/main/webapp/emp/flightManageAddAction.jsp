@@ -3,7 +3,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.net.*"%>
-<%@ page import ="kjwdao.*" %>
+<%@ page import="kjwdao.*"%>
 
 
 
@@ -20,10 +20,10 @@ String date = null;
 String time = null;
 int flightId = 0;
 
-if (session.getAttribute("loginAd") == null){
+if (session.getAttribute("loginAd") == null) {
 	System.out.println("관리자만 접근 가능한 페이지입니다.");
-	msg = URLEncoder.encode("관리자만 접근 가능한 페이지입니다.","UTF-8");
-		response.sendRedirect("/D_airline/customer/flightMain.jsp?msg="+msg);
+	msg = URLEncoder.encode("관리자만 접근 가능한 페이지입니다.", "UTF-8");
+	response.sendRedirect("/D_airline/customer/flightMain.jsp?msg=" + msg);
 	return;
 }
 %>
@@ -39,23 +39,20 @@ String adminId = null;
 //해쉬맵 변수 스트링변수에 할당
 adminId = (String) (m.get("adminId"));
 
-System.out.println("[param]intRouteId : "+request.getParameter("intRouteId"));
-System.out.println("[param]datetimeString : "+request.getParameter("datetimeString"));
-System.out.println("[param]planeId : "+request.getParameter("planeId"));
-System.out.println("[param]flightDuration : "+request.getParameter("flightDuration"));
+System.out.println("[param]intRouteId : " + request.getParameter("intRouteId"));
+System.out.println("[param]datetimeString : " + request.getParameter("datetimeString"));
+System.out.println("[param]planeId : " + request.getParameter("planeId"));
+System.out.println("[param]flightDuration : " + request.getParameter("flightDuration"));
 
-if(request.getParameter("datetimeString")!=null){
+if (request.getParameter("datetimeString") != null) {
 	datetimeString = request.getParameter("datetimeString");
-	System.out.println("datetimeString : "+datetimeString);
-	
+	System.out.println("datetimeString : " + datetimeString);
+
 }
 
 String[] dateParts = datetimeString.split("T");
 date = dateParts[0];
 time = dateParts[1];
-
-
-
 
 intRouteId = Integer.parseInt(request.getParameter("intRouteId"));
 datetimeString = request.getParameter("datetimeString");
@@ -71,20 +68,17 @@ System.out.println("flightDuration : " + flightDuration);
 int insertFlight = FlightDAO.insertFlight(intRouteId, planeId, date, time, flightDuration);
 ArrayList<HashMap<String, Object>> selectInsertedFlightLatest = null;
 
-
 if (insertFlight == 1) {
 	System.out.println("항공편 신규등록에 성공하였습니다.");
-	
+
 	//직전에 입력(insert)된 항공편을 특정하기 위한 쿼리
 	selectInsertedFlightLatest = FlightDAO.selectInsertedFlightLatest();
-	
-	
-	for(HashMap<String, Object> m1 : selectInsertedFlightLatest ){
-		flightId = (int)(m1.get("flightId"));
+
+	for (HashMap<String, Object> m1 : selectInsertedFlightLatest) {
+		flightId = (int) (m1.get("flightId"));
 	}
-	
-	response.sendRedirect("/D_airline/emp/seatManageAddAction.jsp?flightId="+flightId);
-	
+
+	response.sendRedirect("/D_airline/emp/seatManageAddAction.jsp?flightId=" + flightId);
 
 } else {
 	System.out.println("항공편 신규등록에 실패하였습니다.");

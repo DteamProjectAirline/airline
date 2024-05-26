@@ -9,7 +9,8 @@
 
 <%
 System.out.println("---------------flightManagePlaneSearchAction.jsp---------------");
-System.out.println("flightManagePlaneSearchAction.jsp페이지는 flightMange에서 항공편을 입력하기위해 항공편을 검색했을때 조건에 부합하는 항공기가 존재하는지 확인하는 페이지입니다.");
+System.out.println(
+		"flightManagePlaneSearchAction.jsp페이지는 flightMange에서 항공편을 입력하기위해 항공편을 검색했을때 조건에 부합하는 항공기가 존재하는지 확인하는 페이지입니다.");
 System.out.println("세션 ID: " + session.getId());
 
 //변수 생성
@@ -28,7 +29,6 @@ if (session.getAttribute("loginAd") == null) {
 	response.sendRedirect("/D_airline/customer/flightMain.jsp?msg=" + msg);
 	return;
 }
-
 
 HashMap<String, Object> m = new HashMap<>();
 
@@ -85,7 +85,8 @@ for (HashMap<String, Object> a : selectSearchRouteList) {
 }
 
 //노선id를 선택했을때 해당하는 노선이 존재한다면 조건에 부합하는 항공기 리스트를 출력하는 쿼리
-ArrayList<HashMap<String, Object>> selectAvailablePlaneList = FlightDAO.selectAvailablePlaneList(date, time,flightDuration);
+ArrayList<HashMap<String, Object>> selectAvailablePlaneList = FlightDAO.selectAvailablePlaneList(date, time,
+		flightDuration);
 
 //selectAvailablePlaneList 실행 여부에 따른 분기 실행
 if (selectAvailablePlaneList != null && !(selectAvailablePlaneList.isEmpty())) {

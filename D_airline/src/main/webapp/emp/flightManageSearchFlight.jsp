@@ -42,7 +42,6 @@ adminId = (String) (m.get("adminId"));
 //param값 디버깅
 System.out.println("[param]flightId : " + request.getParameter("flightId"));
 
-
 if (request.getParameter("flightId") != null) {
 
 	flightId = Integer.parseInt(request.getParameter("flightId"));
@@ -51,7 +50,8 @@ if (request.getParameter("flightId") != null) {
 
 System.out.println("flightId : " + flightId);
 //항공편을 조회했을때 항공편에 해당하는 노선을 최상단에 위치+모든 노선조회 진행하는 쿼리
-ArrayList<HashMap<String, Object>> selectAllRouteCityCountryListSearchFirst = RouteDAO.selectAllRouteCityCountryListSearchFirst(flightId);
+ArrayList<HashMap<String, Object>> selectAllRouteCityCountryListSearchFirst = RouteDAO
+		.selectAllRouteCityCountryListSearchFirst(flightId);
 
 for (HashMap<String, Object> m2 : selectAllRouteCityCountryListSearchFirst) {
 	//해당하는 항공편이 존재하는지 유무 Y,N
@@ -76,7 +76,7 @@ if (selectAllRouteCityCountryListSearchFirst != null && !(selectAllRouteCityCoun
 	if (flightExists.equals("Y")) {
 		msg = URLEncoder.encode("노선 조회에 성공하였습니다.", "UTF-8");
 		checkRoute = "1";
-	//해당하는 항공편에 부여된 노선이 없다면
+		//해당하는 항공편에 부여된 노선이 없다면
 	} else if (flightExists.equals("N")) {
 		msg = URLEncoder.encode("해당 노선은 존재하지 않습니다.", "UTF-8");
 	}
