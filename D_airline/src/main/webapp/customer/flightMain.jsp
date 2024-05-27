@@ -5,6 +5,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.time.*" %>
+<%@ page import="java.net.*"%>
 <%
 
 %>
@@ -36,12 +37,13 @@
 	}
 %>    
 <%
+	String msg = null;
 	// 표시할 사용자정보 받아오기
 	String customerId = null;
 	String customerName = null;
 	if(session.getAttribute("loginCs") != null){
 	HashMap<String,Object> loginMember = (HashMap<String,Object>) (session.getAttribute("loginCs"));
-	customerId = (String) loginMember.get("memberId"); 
+	customerName = (String) loginMember.get("name"); 
 	}
 %>    
     
@@ -58,32 +60,42 @@
 <link rel="stylesheet" type="text/css" href="../css/css_main.css">
 </head>
 <body>
-	<nav class="navbar bg-body-tertiary">
+	<nav class="navbar bg-body-tertiary" style="padding-top:0px; padding-bottom: 0px; padding-left:0px; ">
 	  <div class="container-fluid">
-		  <div>
-		    <a class="navbar-brand">코리아나항공</a>
+		  <div>	
+		  	<a href="/D_airline/customer/flightMain.jsp">
+				<img src="/D_airline/img/KOREANA (3).png" style="height:75px; width: 400px;">
+			</a>		    
 		  </div>
-		  <div>
-		    	<!-- 로그인 상태면 고객아이디 , 로그인상태가 아니면 로그인버튼 -->
+		  <div style="padding-top: 20px; padding-right: 150px;">
+		  	<a href="/D_airline/customer/qnaList.jsp" style="font-size: 40px; line-height: 1.5;">q&a페이지</a>
+		  </div>
+		  <div style="padding-top: 40px;">
+		    	<!-- 로그인 상태면 고객아이디 , 로그인상태가 아니면 로그인버튼 표시-->
 		    	<%if(session.getAttribute("loginCs") != null){	    	
 		    	%>
-		    	  		<!-- 세션에서 사용자  id 값 꺼내와서 표현할거임 -->
-		    	  		<%=customerId%>
+		    	  		<!-- 세션에서 사용자 name 값 꺼내옴 -->
+		    	  		<div style="display: flex">
+		    	  			    	  		
+		    	  		 <a style="font-size: 20px; line-height: 1.5;" href="/D_airline/customer/myPage.jsp">myPage</a>
+		    	  		
+		    	  		</div>
 		    	<% 
 		    	} else{
 		    	%>
 				<a href="/D_airline/customer/loginForm.jsp">로그인</a>
+				<a href="/D_airline/customer/addMembership.jsp">회원가입</a>   
 				<%
 		    		}
 				%>
-				<a href="/D_airline/customer/addMembership.jsp">회원가입</a>   
-		  </div>	
+				
+	  	  </div>	
 	  </div>
 	</nav>
 
 	
-	<div style="width:100%; height:500px; background-image: url('/D_airline/img/mainImg.jpg');background-size: cover;">
-	<div  style=" width:1000px; margin-bottom:80px; margin-right:320px; ; margin-left:475px; margin-top: 48px; align-items: flex-start;  ">
+	<div style="width:100%; height:500px; background-image: url('/D_airline/img/mainImg.jpg');background-size: 100% 100%; background-repeat:no-repeat;">
+	<div  style=" width:1000px; margin-bottom:80px; margin-right:320px; ; margin-left:475px;  align-items: flex-start;  ">
 		
 		<div style="padding-left:0px; padding-right:0px;" >
 			<ul class="mainBtnUl">
@@ -109,8 +121,10 @@
 			</form>
 			<%if(session.getAttribute("loginCs") != null){%>
 			<form method="post" action = "/D_airline/customer/flightList1.jsp" style="margin-left: 48px ; ">						
-			<%} else{%>
-			<form method="post" action = "/D_airline/customer/loginForm.jsp?err=ab" style="margin-left: 48px ; ">
+			<%} else{
+			msg = URLEncoder.encode("로그인후 이용해주세요.", "UTF-8");
+			%>
+			<form method="post" action = "/D_airline/customer/loginForm.jsp?msg=<%=msg%>" style="margin-left: 48px ; ">
 			<%} %>
 				<!-- 출발지 , 도착지 입력   -->
 				<input type="hidden" name="type" value="<%=type%>">
@@ -142,7 +156,6 @@
 
 				<!-- 출,도착지에 나타날 리스트 데이터 뿌리기  -->
 				<datalist id="airport">
-					
 				<%for(HashMap<String,Object> b : list){ %>
 					<option value="<%=(String)(b.get("cityName"))%>" >
 					<%=(String) (b.get("countryName"))%>
@@ -150,40 +163,51 @@
 					</option>
 				<%} %>	
 				</datalist>
-				
-				<!-- 출발일 받아오는 값 -->
-				
-				
-				
-				<!--  타입에따라 왕복 , 편도 구분 -->
-				
 			</form>
 		</div>
 	
 	
 	<!-- 예약번호 조회 -->
-		<div id="main2" class="subFlight" >
-			<form action="/D_airline/customer/ckReservation.jsp">	
-				<span>예약번호</span>
-				<input type="text" name="bookingId">
-				<br>
-				<span>출발일</span>
-				<input type="date" name="departDate">
-				<br>
-				<span>email</span>
-				<input type="text" name="memberId">
-				<button type="submit"> 조회 </button>
+		<div id="main2" class="subFlight" style="padding-top:12px; padding-left: 48px;">
+			<form action="/D_airline/customer/ckReservation.jsp">
+			<h2>고객예약번호 조회</h2>
+				<div class="inputdiv">
+					<div>	
+						<input type="text" name="bookingId" class="wrap" placeholder="예약번호" required="required">
+					</div>
+					<div>
+						<input type="date" name="departDate" class="wrap" required="required">
+					</div>
+					<div>
+						<input type="text" name="memberId" class="wrap" placeholder="고객이메일" required="required">
+					</div>
+					<button type="submit" style="background-color: #00256c"class="btn btn-primary"> 조회 </button>
+				</div>	
 			</form>
 		</div>
 	
-		<div id ="main3" class="subFlight" >
-			<form action="/D_airline/customer/ckAirplane.jsp">
-				<input list="airport" name="departureLocation" placeholder="출발지">
-				<input list="airport" name="arrivalLocation" placeholder="도착지">
-				<input type="date" name="departDate">
-				<button type="submit"> 조회 </button>
-			</form>
+		<div id ="main3" class="subFlight" style="padding-top:12px; padding-left: 48px;">
+			
+				<form action="/D_airline/customer/ckAirplane.jsp">
+				<h2>출도착 조회</h2>
+				<div class="inputdiv">
+					<div>
+						<input class="wrap" list="airport" name="departureLocation" placeholder="출발지">
+					</div>
+					<div>
+						<input class="wrap" list="airport" name="arrivalLocation" placeholder="도착지">
+					</div>
+					<div>	
+						<input class="wrap" type="date" name="departDate">
+					</div>	
+					<button type="submit" style="background-color: #00256c"class="btn btn-primary"> 조회 </button>
+				</div>		
+				</form>
+			
 		</div>
+		
+		
+		
 	</div>
 	</div>
 	
