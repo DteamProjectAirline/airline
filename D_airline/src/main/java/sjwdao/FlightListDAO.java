@@ -73,7 +73,23 @@ public class FlightListDAO {
 		return list;
 	}
 	
-	
+	public static ArrayList<HashMap<String,Object>> cityListSelect () throws Exception{
+		Connection conn = DBHelper.getConnection() ;
+		ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>> ();
+		
+		String sql = "SELECT city.city_name , city.airport , country.country_name FROM city LEFT OUTER JOIN country ON city.country_id = country.country_id order by country.country_id asc";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		
+		while(rs.next()){
+			HashMap<String,Object> a = new HashMap<String,Object>();
+				a.put("cityName", rs.getString("city_name"));
+				a.put("airport" , rs.getString("airport"));
+				a.put("countryName" , rs.getString("country_name"));
+				list.add(a);
+		}
+		return list;
+	}
 	
 	
 }

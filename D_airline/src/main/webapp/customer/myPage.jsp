@@ -1,5 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import ="java.util.*" %>
+<%@ page import ="java.sql.*" %>    
+<%
+String customerName = null;
+String customerPhone = null;
+String customerId = null;
+String customerBirthDate = null;
+int mileage = 0;
+if(session.getAttribute("loginCs") != null){
+	HashMap<String,Object> loginMember = (HashMap<String,Object>) (session.getAttribute("loginCs"));
+	customerName = (String) loginMember.get("name");
+	customerId = (String) loginMember.get("memberId");
+	customerPhone = (String) loginMember.get("phone");
+	 mileage = (int) loginMember.get("mileage")	;
+	 customerBirthDate = (String) loginMember.get("birthDate");
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +34,7 @@
 			</a>		    
 		  </div>
 		  <div style="padding-top: 40px; padding-right: 150px;">
-		  	<a href="/D_airline/customer/qnaList.jsp" style="font-size: 1.6rem; line-height: 1.5;"> q&a페이지</a>
+		  	<a href="/D_airline/customer/qnaList.jsp" style="font-size: 1.6rem; line-height: 1.5;">자주묻는질문</a>
 		  </div>
 		  <div style="padding-top: 40px;">
 		    	<!-- 로그인 상태면 고객아이디 , 로그인상태가 아니면 로그인버튼 표시-->
@@ -41,9 +58,40 @@
 	  </div>
 	</nav>
 	
-	<div style="width:1000px;height:100px;display:block;margin: 0 auto;">
-		<div>
-		가나다라마바사
+	<div style="width:1000px;height:100px;display:block;margin: 0 auto; margin-top: 50px;">
+		<h1>회원정보</h1>
+		<div style="background-color: #f3f4f8 ;height: 150px; border-radius: 16px ">
+			<ul style="display:flex;list-style: none;justify-content: space-between;flex-direction: row;">
+				<li style="flex-basis: 20%;flex-shrink: 1; margin-left:25px;">
+					<Strong>성명</Strong>
+					<p><%=customerName %></p>
+				</li>
+				
+				<li style="flex-basis: 20%;flex-shrink: 1;">
+					<Strong>아이디</Strong>
+					<p><%=customerId %></p>
+				</li>
+				
+				<li style="flex-basis: 20%;flex-shrink: 1;">
+					<Strong>생년월일</Strong>
+					<p><%=customerName %></p>
+				</li>
+				
+				<li style="flex-basis: 20%;flex-shrink: 1;">
+					<Strong>전화번호</Strong>
+					<p><%=customerPhone%></p>
+				</li>
+				<li style="flex-basis: 20%;flex-shrink: 1;">
+					<Strong>마일리지</Strong>
+					<p><%=mileage%></p>
+				</li>
+				
+			</ul>
+			
+		</div>
+		<div style="padding: 40px 64px;margin-top:25px;border: 1px solid #d9dbe1;height: 100px;">
+			<p>예약정보 </p>
+			<span>가나다라마바사</span>
 		</div>
   	</div>
          

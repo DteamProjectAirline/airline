@@ -1,3 +1,5 @@
+<%@page import="sjwdao.FlightListDAO"%>
+<%@page import="kjwdao.FlightDAO"%>
 <%@page import="jakarta.security.auth.message.callback.PrivateKeyCallback.Request"%>
 <%@page import="kjwdao.DBHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -6,6 +8,7 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.time.*" %>
 <%@ page import="java.net.*"%>
+<%@ page import = "sjwdao.FlightListDAO.*" %>
 <%
 
 %>
@@ -14,20 +17,7 @@
 	LocalDate now = LocalDate.now();
 	//System.out.println(now);
 	//System.out.println("----------------------flightMain.jsp");
-    Connection conn = DBHelper.getConnection() ;
-	ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>> ();
-	
-	String sql = "SELECT city.city_name , city.airport , country.country_name FROM city LEFT OUTER JOIN country ON city.country_id = country.country_id order by country.country_id asc";
-	PreparedStatement stmt = conn.prepareStatement(sql);
-	ResultSet rs = stmt.executeQuery();
-	
-	while(rs.next()){
-		HashMap<String,Object> a = new HashMap<String,Object>();
-			a.put("cityName", rs.getString("city_name"));
-			a.put("airport" , rs.getString("airport"));
-			a.put("countryName" , rs.getString("country_name"));
-			list.add(a);
-	}
+    ArrayList<HashMap<String,Object>> cityList = FlightListDAO.cityListSelect();
 	
 	String type = null;
 	if(request.getParameter("type") == null || request.getParameter("type").equals("왕복")){
@@ -156,7 +146,7 @@
 
 				<!-- 출,도착지에 나타날 리스트 데이터 뿌리기  -->
 				<datalist id="airport">
-				<%for(HashMap<String,Object> b : list){ %>
+				<%for(HashMap<String,Object> b : cityList){ %>
 					<option value="<%=(String)(b.get("cityName"))%>" >
 					<%=(String) (b.get("countryName"))%>
 					<%=(String) (b.get("airport"))%>
