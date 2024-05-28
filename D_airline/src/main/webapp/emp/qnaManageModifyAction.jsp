@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="kjwdao.QnaDAO"%>
+<%@page import="pjhdao.QnaDAO"%>
 <%@ page import = "java.sql.*" %>
 <%@ page import="java.util.*"%>
 <%@ page import="java.net.*"%>

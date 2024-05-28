@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="kjwdao.QnaDAO"%>
+<%@page import="pjhdao.QnaDAO"%>
 <%@ page import = "java.sql.*" %>
 <%@ page import="java.util.*"%>
 <%
@@ -89,30 +89,42 @@
         border: none;
         border-radius: 5px;
     }
-    
+     a {
+	text-decoration-line: none;
+	}
 </style>
 </head>
 <body>
-	<nav class="navbar bg-body-tertiary">
+	<nav class="navbar bg-body-tertiary" style="padding-top:0px; padding-bottom: 0px; padding-left:0px; ">
 	  <div class="container-fluid">
-		  <div>
-		    <a class="navbar-brand">코리아나항공</a>
+		  <div>	
+		  	<a href="/D_airline/customer/flightMain.jsp">
+				<img src="/D_airline/img/KOREANA (3).png" style="height:75px; width: 400px;">
+			</a>		    
 		  </div>
-		  <div>
-		    	<!-- 로그인 상태면 고객아이디 , 로그인상태가 아니면 로그인버튼 -->
-		    	<%if(session.getAttribute("loginAd") != null){	    	
+		  <div style="padding-top: 20px; padding-right: 150px;">
+		  	<a href="/D_airline/customer/qnaList.jsp" style="font-size: 40px; line-height: 1.5;">q&a페이지</a>
+		  </div>
+		  <div style="padding-top: 40px;">
+		    	<!-- 로그인 상태면 고객아이디 , 로그인상태가 아니면 로그인버튼 표시-->
+		    	<%if(session.getAttribute("loginCs") != null){	    	
 		    	%>
-		    	<!-- 세션에서 사용자  id 값 꺼내와서 표현할거임 -->
-		    	  	<%=empId%>	
+		    	  		<!-- 세션에서 사용자 name 값 꺼내옴 -->
+		    	  		<div style="display: flex">
+		    	  			    	  		
+		    	  		 <a style="font-size: 20px; line-height: 1.5;" href="/D_airline/customer/myPage.jsp">myPage</a>
+		    	  		
+		    	  		</div>
 		    	<% 
 		    	} else{
 		    	%>
-					<a href="/D_airline/customer/loginForm.jsp">로그인</a>
+				<a href="/D_airline/customer/loginForm.jsp">로그인</a>
+				<a href="/D_airline/customer/addMembership.jsp">회원가입</a>   
 				<%
-		    	}
+		    		}
 				%>
-					<a href="/D_airline/customer/addMembership.jsp">회원가입</a>   
-		  </div>	
+				
+	  	  </div>	
 	  </div>
 	</nav>
 	

@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+.content-container {
+     margin: 20px auto;
+     max-width: 1200px;
+}
+     
+.flight-info-container {
+     width: 500px;
+     margin: auto;
+}
+
+.flight-info {
+     border: 1px solid #ccc;
+     border-radius: 10px;
+     padding: 20px;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     margin-bottom: 20px;
+}
+
+.flight-info div {
+     flex: 1;
+}
+
+.flight-info .flight-status {
+   	 text-align: center;
+}
+       
+.flight-info .flight-status::before {
+     content: "\2708"; /* Airplane symbol */
+     display: block;
+     margin-bottom: 10px;
+}
+
+.flight-info .flight-time {
+     font-size: 1.5em;
+     font-weight: bold;
+}
+
+.flight-info{
+	 margin-top: 10px;
+}
+         
+.terminal{
+	 margin-top: 10px;
+}        
+.flight-info{
+	 margin-top: 10px;
+} 
+
+.additional-info {
+     margin-top: 10px;
+}
+
+.info-title {
+     font-weight: bold;
+}

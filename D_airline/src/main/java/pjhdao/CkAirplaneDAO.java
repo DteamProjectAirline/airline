@@ -1,7 +1,9 @@
-package kjwdao;
+package pjhdao;
 
 import java.sql.*;
 import java.util.*;
+
+import kjwdao.DBHelper;
 
 public class CkAirplaneDAO {
 	//사용자가 입력한 출도착 조회

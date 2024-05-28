@@ -1,9 +1,12 @@
+<%@page import="java.time.LocalDate"%>
+<%@page import="pjhdao.CkAirplaneDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="kjwdao.*"%>
-<%@ page import = "java.sql.*" %>
-<%@ page import="java.util.*"%>
-<%@ page import="java.net.*"%>    
-<%@ page import = "java.time.*" %>
+<%@page import="sjwdao.FlightListDAO"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="javax.naming.spi.DirStateFactory.Result"%>
+<%@page import="java.sql.*"%>
+<%@page import="java.util.*" %>
+<%@page import="kjwdao.DBHelper"%>
 <%
 	// 표시할 사용자명 받아오는코드
 	String customerId = null;
@@ -60,7 +63,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-<link rel="stylesheet" type="text/css" href="../css/css_flightList.css">
+<link rel="stylesheet" type="text/css" href="../css/css_ckList.css">
 
 </head>
 <body>
@@ -87,10 +90,11 @@
 	  </div>
 	</nav>
 	
-	<h2>출도착 조회</h2>
+	<div class="container content-container">	
+		<h2>출도착 조회</h2>	
+	</div>
 	
-	
-				
+	<div class="container-fluid text-center">
 	<!-- 출도착 조회 -->
 		<div id="main3" class="subFlight" >
 			<form action="/D_airline/customer/ckAirplane.jsp">
@@ -99,39 +103,54 @@
 				<input type="date" name="departDate">
 				<button type="submit"> 조회 </button>
 			</form>
+		</div>	
+	</div>		
 			
-			<!-- 출,도착지에 나타날 리스트 데이터 뿌리기  -->
-			<datalist id="airport">
-				<%for(HashMap<String,Object> m : list){ %>
-					<option value="<%=(String)(m.get("cityName"))%>" >
-						<%=(String) (m.get("countryName"))%>
-						<%=(String) (m.get("airport"))%>
-					</option>
-				<%
-					} 
-				%>	
-			</datalist>
-		</div>
+	<div class="container content-container">			
+	<!-- 출,도착지에 나타날 리스트 데이터 뿌리기  -->
+		<datalist id="airport">
+			<%for(HashMap<String,Object> m : list){ %>
+				<option value="<%=(String)(m.get("cityName"))%>" >
+					<%=(String) (m.get("countryName"))%>
+					<%=(String) (m.get("airport"))%>
+				</option>
+			<%
+				} 
+			%>	
+		</datalist>
 		
 	<!-- 출도착 리스트 출력 -->
-		
-		
+		<%
+			int i = 0;
+		%>
 		<%
 			for(HashMap<String, Object> m : ckList){
+				i++;
+				String flightNameId = "flightName" + i;
+				String departureTime = (String) (m.get("departureTime"));
+				String arrivalTime = (String) (m.get("arrivalTime"));
+				String flightDuration = (String) (m.get("flightDuration"));
 		%>
-				<div>
-					항공기: <%=m.get("planeName")%>
-					항공사: <%=m.get("airline")%>
-					출발: <%=m.get("departureCity")%>
-					도착: <%=m.get("arrivalCity")%>
-					출발시간: <%=m.get("departureTime")%>
-					도착시간: <%=m.get("arrivalTime")%>
-					상태: <%=m.get("status")%>
-				</div>
-		<%
-			}
-		%>
+		
+		<div class="flight-info" id="<%= flightNameId %>">
+            <div class="flight-details">
+                <div class="flight-name">항공기: <%= m.get("planeName") %></div>
+                <div class="flight-time">항공사: <%= m.get("airline") %></div>
+                <div class="additional-info">
+                    출발: <%=departureTime.substring(10,16)%><br>
+                    도착: <%=arrivalTime.substring(10,16)%>
+                </div>
+            </div>
+            <div class="flight-status">상태: <%= m.get("status") %></div>
+            <div class="flight-details">
+                <div class="flight-time">출발시간: <%= m.get("departureTime") %></div>
+                <div class="additional-info">
+                    도착시간: <%= m.get("arrivalTime") %>
+                </div>
+            </div>
+        </div>
+        <% } %>
+	</div>		
 	
-
 </body>
 </html>
