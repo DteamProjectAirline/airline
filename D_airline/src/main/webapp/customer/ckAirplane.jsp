@@ -132,25 +132,65 @@
 				String flightDuration = (String) (m.get("flightDuration"));
 		%>
 		
-		<div class="flight-info" id="<%= flightNameId %>">
-            <div class="flight-details">
-                <div class="flight-name">항공기: <%= m.get("planeName") %></div>
-                <div class="flight-time">항공사: <%= m.get("airline") %></div>
-                <div class="additional-info">
-                    출발: <%=departureTime.substring(10,16)%><br>
-                    도착: <%=arrivalTime.substring(10,16)%>
-                </div>
-            </div>
-            <div class="flight-status">상태: <%= m.get("status") %></div>
-            <div class="flight-details">
-                <div class="flight-time">출발시간: <%= m.get("departureTime") %></div>
-                <div class="additional-info">
-                    도착시간: <%= m.get("arrivalTime") %>
-                </div>
-            </div>
-        </div>
-        <% } %>
-	</div>		
-	
+		
+			<div class="flight-info" id="<%= flightNameId %>">
+	            <div class="flight-details" style="border-right: 1px solid black; margin-left: 50px; margin-right: 50px;">
+	               	
+	                <div style="text-align: center; margin-right: 180px;">
+		                <div>
+		                	<%= m.get("airline")%>
+		                </div>
+		                	<%= m.get("planeName") %>
+		            	<img src="/D_airline/img/airpline_logo.png" class="planeLogo">
+	           		 </div>
+		          
+	           		
+	         	</div>
+	            <div style="text-align: center;">
+	            	<div style="flex:1; display: flex; flex-direction: column; align-items: center;">
+								<span style="font-size: 24px;line-height: 1.5;">
+									<%=departureTime.substring(10,16)%><!-- 출발시간 -->
+								</span>
+								<div>
+									<!-- 출발도시 -->
+									<%=(String) (m.get("departureCity" ))%>
+								</div>
+								<div>
+									<%=departureTime.substring(5,7)%>월<%=departureTime.substring(8,10)%>일
+								</div>	
+							</div>
+	            	
+				</div>
+					<div style="text-align: center;">
+						<div>
+							비행시간:<%=flightDuration.substring(0,2)%>시간<%=flightDuration.substring(3,5)%>분
+						</div>
+						<div>
+							------------------------>
+						</div>
+					</div>
+					
+						<div style="display: flex; ">
+							<div style="flex:1; display: flex; flex-direction: column; align-items: center;" >
+								<span style="font-size: 24px;line-height: 1.5;">
+									<!-- 도착시간  -->
+									<%=arrivalTime.substring(10,16)%>
+								</span> 
+								<div>
+									<!-- 도착도시 -->
+									<%=(String) (m.get("arrivalCity"))%>
+								</div>  
+								<div>
+									<%=arrivalTime.substring(5,7)%>월<%=arrivalTime.substring(8,10)%>일
+								</div>
+							</div>
+						</div>	
+					
+	        
+	        <% 
+	        	} 
+	        %>
+			</div>		
+	 	</div>
 </body>
 </html>
