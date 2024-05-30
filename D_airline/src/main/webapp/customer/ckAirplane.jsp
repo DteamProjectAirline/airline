@@ -45,10 +45,11 @@
 	System.out.println(departDate+"<--departDate");
 %>    
 <% 
+	String msg = null;
    //출도착지, 날짜 하나라도 입력안되면 메인페이지로 이동
    	if(departureLocation == "" || arrivalLocation == "" || departDate == "" || 
    		departureLocation == null || arrivalLocation == null || departDate == null ){
-			response.sendRedirect("/D_airline/customer/flightMain.jsp");
+   			msg = "다시 입력해 주세요";
 	} 
 %>  
 <%
@@ -64,31 +65,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" type="text/css" href="../css/css_ckList.css">
-
 </head>
 <body>
-	<nav class="navbar bg-body-tertiary">
-	  <div class="container-fluid">
-		  <div>
-		    <a class="navbar-brand">코리아나항공</a>
-		  </div>
-		  <div>
-		    	<!-- 로그인 상태면 고객아이디 , 로그인상태가 아니면 로그인버튼 -->
-		    	<%if(session.getAttribute("loginCs") != null){	    	
-		    	%>
-		    	  		<!-- 세션에서 사용자  id 값 꺼내와서 표현할거임 -->
-		    	  		<%=customerId%>
-		    	<% 
-		    	} else{
-		    	%>
-				<a href="/D_airline/customer/loginForm.jsp">로그인</a>
-				<%
-		    		}
-				%>
-				<a href="/D_airline/customer/addMembership.jsp">회원가입</a>   
-		  </div>	
-	  </div>
-	</nav>
+	
+	<jsp:include page="/inc/customerMenu.jsp"></jsp:include>
 	
 	<div class="container content-container">	
 		<h2>출도착 조회</h2>	
@@ -96,16 +76,18 @@
 	
 	<div class="container-fluid text-center">
 	<!-- 출도착 조회 -->
-		<div id="main3" class="subFlight" >
+		<div>
 			<form action="/D_airline/customer/ckAirplane.jsp">
-				<input list="airport" name="departureLocation" placeholder="출발지">
-				<input list="airport" name="arrivalLocation" placeholder="도착지">
-				<input type="date" name="departDate">
-				<button type="submit"> 조회 </button>
+				<div class="container content-container">			
+					<input list="airport" name="departureLocation" placeholder="출발지" style="border-radius : 3px; border: 1px solid #ccc;">
+					<input list="airport" name="arrivalLocation" placeholder="도착지" style="border-radius : 3px; border: 1px solid #ccc;">
+					<input type="date" name="departDate" style="border-radius : 3px; border: 1px solid #ccc;">
+					<button type="submit" style="background-color: #00256c; font-size: 12px; height: 30px;" class="btn btn-primary"> 조회 </button>
+				</div>
 			</form>
 		</div>	
 	</div>		
-			
+		
 	<div class="container content-container">			
 	<!-- 출,도착지에 나타날 리스트 데이터 뿌리기  -->
 		<datalist id="airport">
