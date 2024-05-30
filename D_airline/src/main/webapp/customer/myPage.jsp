@@ -1,14 +1,24 @@
+<%@page import="sjwdao.MyPageDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import ="java.util.*" %>
-<%@ page import ="java.sql.*" %>    
+<%@ page import ="java.sql.*" %>
+<%@ page import ="java.net.*" %>   
 <%
 String customerName = null;
 String customerPhone = null;
 String customerId = null;
 String customerBirthDate = null;
 int mileage = 0;
+
+if(session.getAttribute("loginCs") == null){
+	response.sendRedirect("/D_airline/customer/flightMain.jsp");
+	String msg = URLEncoder.encode("로그인후 이용해주세요.","UTF-8");
+	response.sendRedirect("/D_airline/customer/flightMain.jsp?msg="+msg);
+}
+
 if(session.getAttribute("loginCs") != null){
+	
 	HashMap<String,Object> loginMember = (HashMap<String,Object>) (session.getAttribute("loginCs"));
 	customerName = (String) loginMember.get("name");
 	customerId = (String) loginMember.get("memberId");
@@ -16,6 +26,9 @@ if(session.getAttribute("loginCs") != null){
 	 mileage = (int) loginMember.get("mileage")	;
 	 customerBirthDate = (String) loginMember.get("birthDate");
 }
+	
+	ArrayList<HashMap<String,Object>> list = MyPageDAO.CsReservationList(customerId);
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -27,7 +40,7 @@ if(session.getAttribute("loginCs") != null){
 </head>
 <body>
 	<nav class="navbar bg-body-tertiary" style="padding-top:0px; padding-bottom: 0px; padding-left:0px; ">
-	  <div class="container-fluid">
+	  <div style=""class="container-fluid">
 		  <div>	
 		  	<a href="/D_airline/customer/flightMain.jsp">
 				<img src="/D_airline/img/KOREANA (3).png" style="height:75px; width: 400px;">
@@ -62,26 +75,26 @@ if(session.getAttribute("loginCs") != null){
 		<h1>회원정보</h1>
 		<div style="background-color: #f3f4f8 ;height: 150px; border-radius: 16px ">
 			<ul style="display:flex;list-style: none;justify-content: space-between;flex-direction: row;">
-				<li style="flex-basis: 20%;flex-shrink: 1; margin-left:25px;">
+				<li style="height:100px;margin-top:20px;flex-basis: 20%;flex-shrink: 1;">
 					<Strong>성명</Strong>
 					<p><%=customerName %></p>
 				</li>
 				
-				<li style="flex-basis: 20%;flex-shrink: 1;">
+				<li style="border-left:1px solid #d9dbe1;padding-left:20px;margin-top:20px;flex-basis: 20%;flex-shrink: 1;">
 					<Strong>아이디</Strong>
 					<p><%=customerId %></p>
 				</li>
 				
-				<li style="flex-basis: 20%;flex-shrink: 1;">
+				<li style="border-left:1px solid #d9dbe1;padding-left:20px;margin-top:20px;flex-basis: 20%;flex-shrink: 1;">
 					<Strong>생년월일</Strong>
-					<p><%=customerName %></p>
+					<p><%=customerBirthDate%></p>
 				</li>
 				
-				<li style="flex-basis: 20%;flex-shrink: 1;">
+				<li style="border-left:1px solid #d9dbe1;padding-left:20px;margin-top:20px;flex-basis: 20%;flex-shrink: 1;">
 					<Strong>전화번호</Strong>
 					<p><%=customerPhone%></p>
 				</li>
-				<li style="flex-basis: 20%;flex-shrink: 1;">
+				<li style="border-left:1px solid #d9dbe1;padding-left:20px;margin-top:20px;flex-basis: 20%;flex-shrink: 1;">
 					<Strong>마일리지</Strong>
 					<p><%=mileage%></p>
 				</li>
@@ -89,10 +102,24 @@ if(session.getAttribute("loginCs") != null){
 			</ul>
 			
 		</div>
-		<div style="padding: 40px 64px;margin-top:25px;border: 1px solid #d9dbe1;height: 100px;">
-			<p>예약정보 </p>
-			<span>가나다라마바사</span>
+		<%for(HashMap<String,Object> a : list){%>
+		<div style="border-radius:15px;padding: 40px 64px;margin-top:25px;border: 1px solid #d9dbe1;height: 150px;">
+			<h3>예약정보</h3>
+			<%-- <span>예약자명:<%=(String) a.get("name") %></span>
+			<span>국적:<%=(String) a.get("nation") %></span>
+			<span>좌석등급:<%=(String) a.get("seatGrade") %></span>
+			<span>좌석번호:<%=(String) a.get("seatNo") %></span> --%>
+			<span><%=(String) a.get("departureCity") %></span>
+			<span><%=(String) a.get("arrivalTime") %></span>
+			<span><%=(String) a.get("airline")%></span>
+			<span><%=(String) a.get("planeName")%></span>
+			
+			<button>
+				예매취소
+			</button>
+			
 		</div>
+		<%} %>
   	</div>
          
 </body>

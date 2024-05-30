@@ -39,8 +39,8 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="../css/css_flightList.css">
 </head> 
-<body>
-<nav class="navbar bg-body-tertiary" style="padding-top:0px; padding-bottom: 0px; padding-left:0px; ">
+<body style="padding-bottom: 200px;">
+<nav class="navbar bg-body-tertiary" style="padding: 0px; ">
 	  <div class="container-fluid">
 		  <div>	
 		  	<a href="/D_airline/customer/flightMain.jsp">
@@ -76,9 +76,9 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 
 
 <!-- nav아래 -->
-<div>
+<h2>
 	가는 편 <%=departureLocation%> -> <%=arrivalLocation %> 
-</div>
+</h2>
 	
  	<div style="width: 1300px; margin-left:300px; ">	
 	<ul style="list-style: none; width: 100%; height: 160px;">
@@ -207,6 +207,7 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 		<%} %>
 	</ul>
 	</div>
+		
 	<%if(list.isEmpty()){ %>
 	<h1>검색하신 여정/날짜에는 현재 운항하고있는 항공편이 존재하지않습니다. 다시 선택해주세요</h1>
 	<a href="/D_airline/customer/flightMain.jsp">메인페이지로 이동하기</a>
@@ -214,7 +215,7 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(departureLocat
 	} 
 	%>
 	<!-- 하단 nav바 -->
-<nav class="navbar bg-body-tertiary fixed-bottom shadow-lg  bg-body-tertiary rounded" style="height: 80px;">
+<nav class="navbar bg-body-tertiary fixed-bottom shadow-lg  bg-body-tertiary rounded" style="height: 80px; margin-top: 100px;">
 		  <div class="container-fluid">
 		    <a class="navbar-brand">Navbar</a>
 		    	<div></div>

@@ -44,7 +44,38 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(arrivalLocatio
 <link rel="stylesheet" type="text/css" href="../css/css_flightList.css">
 </head> 
 <body>
-
+<nav class="navbar bg-body-tertiary" style="padding-top:0px; padding-bottom: 0px; padding-left:0px; ">
+	  <div class="container-fluid">
+		  <div>	
+		  	<a href="/D_airline/customer/flightMain.jsp">
+				<img src="/D_airline/img/KOREANA (3).png" style="height:75px; width: 400px;">
+			</a>		    
+		  </div>
+		  <div style="padding-top: 40px; padding-right: 150px;">
+		  	<a href="/D_airline/customer/qnaList.jsp" style="font-size: 1.6rem; line-height: 1.5;"> q&a페이지</a>
+		  </div>
+		  <div style="padding-top: 40px;">
+		    	<!-- 로그인 상태면 고객아이디 , 로그인상태가 아니면 로그인버튼 표시-->
+		    	<%if(session.getAttribute("loginCs") != null){	    	
+		    	%>
+		    	  		<!-- 세션에서 사용자 name 값 꺼내옴 -->
+		    	  		<div style="display: flex">
+		    	  			    	  		
+		    	  		 <a href="/D_airline/customer/myPage.jsp">myPage</a>
+		    	  		
+		    	  		</div>
+		    	<% 
+		    	} else{
+		    	%>
+				<a href="/D_airline/customer/loginForm.jsp">로그인</a>
+				<a href="/D_airline/customer/addMembership.jsp">회원가입</a>   
+				<%
+		    		}
+				%>
+				
+	  	  </div>	
+	  </div>
+	</nav>
 <div>
 	가는 편 <%=departureLocation%> -> <%=arrivalLocation %> 
 </div>
@@ -188,7 +219,7 @@ ArrayList<HashMap<String,Object>> list = FlightListDAO.flightList(arrivalLocatio
 		<%} %>
 	</ul>
 	</div>
-	
+
 	<!-- 하단 nav바 -->
 <nav class="navbar bg-body-tertiary fixed-bottom shadow-lg  bg-body-tertiary rounded" style="height: 80px;">
 		  <div class="container-fluid">
