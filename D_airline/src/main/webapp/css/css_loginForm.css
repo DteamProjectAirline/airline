@@ -1,0 +1,87 @@
+@charset "UTF-8";
+
+body {
+	font-family: 'Arial', sans-serif;
+	background-color: #f3f4f6;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0;
+}
+
+
+.login-container {
+	width: 100%;
+	max-width: 400px;
+	background-color: #ffffff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	overflow: hidden;
+	text-align: center;
+}
+
+
+.login-box {
+	padding: 20px;
+}
+
+.login-box h1 {
+	margin: 0;
+	font-size: 24px;
+	color: #333333;
+}
+
+.membership {
+	font-size: 16px;
+	color: #333333;
+	margin: 20px 0;
+}
+
+.join-button {
+	background-color: #005bac;
+	color: #ffffff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-bottom: 20px;
+	
+}
+
+.join-button:hover {
+	background-color: #004080;
+}
+
+.form-group {
+	text-align: left;
+	margin-bottom: 15px;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+.form-group input {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #cccccc;
+	border-radius: 5px;
+}
+
+.login-button {
+	background-color: #002f6c;
+	color: #ffffff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 100%;
+	margin-top: 20px;
+}
+
+.login-button:hover {
+	background-color: #001f4c;
+}

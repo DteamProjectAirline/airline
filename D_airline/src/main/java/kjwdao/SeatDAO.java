@@ -30,15 +30,15 @@ public class SeatDAO {
 				+ "rt.basefare basefare, rt.flight_duration flightDuration,"
 				+ "depCT.city_name depCityName, arrCt.city_name arrCityName, depCT.airport depAirport, arrCT.airport arrairport,"
 				+ "depNA.country_id depCountryId, CONCAT('NA', depNA.country_id) StringDepCountryId, arrNa.country_id arrCountryId, CONCAT('NA',arrNA.country_id) StringArrCountryId,"
-				+ "depNA.country_name depCountryName, arrNA.country_name arrCountryName"
-				+ "FROM seat st INNER JOIN flight fl ON st.flight_id = fl.flight_id"
-				+ "LEFT OUTER JOIN seatprice sp ON st.seat_grade = sp.seat_grade"
-				+ "LEFT OUTER JOIN plane pl ON fl.plane_id = pl.plane_id"
-				+ "LEFT OUTER JOIN route rt ON rt.route_id = fl.route_id"
-				+ "LEFT OUTER JOIN city depCT ON depCT.city_name = rt.departure_city"
-				+ "LEFT OUTER JOIN city arrCT ON arrCT.city_name = rt.arrival_city"
-				+ "LEFT OUTER JOIN country depNA ON depNA.country_id = depCT.country_id"
-				+ "LEFT OUTER JOIN country arrNA ON arrNA.country_id = arrCT.country_id"
+				+ "depNA.country_name depCountryName, arrNA.country_name arrCountryName "
+				+ "FROM seat st INNER JOIN flight fl ON st.flight_id = fl.flight_id "
+				+ "LEFT OUTER JOIN seatprice sp ON st.seat_grade = sp.seat_grade "
+				+ "LEFT OUTER JOIN plane pl ON fl.plane_id = pl.plane_id "
+				+ "LEFT OUTER JOIN route rt ON rt.route_id = fl.route_id "
+				+ "LEFT OUTER JOIN city depCT ON depCT.city_name = rt.departure_city "
+				+ "LEFT OUTER JOIN city arrCT ON arrCT.city_name = rt.arrival_city "
+				+ "LEFT OUTER JOIN country depNA ON depNA.country_id = depCT.country_id "
+				+ "LEFT OUTER JOIN country arrNA ON arrNA.country_id = arrCT.country_id "
 				+ "WHERE fl.flight_id = ? "
 				+ "ORDER BY st.seat_id";
 		
@@ -107,10 +107,10 @@ public class SeatDAO {
 		String sql = "SELECT st.seat_id seatId, CONCAT('ST', st.seat_id) stringSeatId, fl.flight_id flightId, CONCAT('FL', fl.flight_id) stringFlightId, st.seat_grade seatGrade, "
 				+ "st.seat_no seatNo, st.seat_state seatState, st.update_date updateDate, st.create_date createDate, "
 				+ "fl.route_id routeId, CONCAT('RT', fl.route_id) stringRouteId, fl.plane_id planeId, CONCAT('PL', fl.plane_id) stringPlaneId, fl.departure_time departureTime, "
-				+ "fl.arrival_time arrivalTime, fl.status flightStatus, sp.seat_price seatPrice"
-				+ "FROM seat st INNER JOIN flight fl on st.flight_id = fl.flight_id"
+				+ "fl.arrival_time arrivalTime, fl.status flightStatus, sp.seat_price seatPrice "
+				+ "FROM seat st INNER JOIN flight fl on st.flight_id = fl.flight_id "
 				+ "INNER JOIN seatprice sp ON sp.seat_grade = st.seat_grade "
-				+ "WHERE fl.flight_id = ?"
+				+ "WHERE fl.flight_id = ? "
 				+ "ORDER BY st.seat_id";
 		
 		
