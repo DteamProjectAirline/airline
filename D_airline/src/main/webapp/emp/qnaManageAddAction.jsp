@@ -2,7 +2,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.net.*"%>
-<%@ page import ="kjwdao.*" %>
+<%@ page import ="pjhdao.*" %>
 <%
 	System.out.println("----------qnaManageAddAction.jsp----------");
 	System.out.println("세션 ID: " + session.getId());
